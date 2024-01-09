@@ -1,16 +1,13 @@
 import React from "react";
-import styles from "./Footer.module.scss";
+import styles from "./footer.module.scss";
+import logo from "../images/MAP_logo.png";
 
 const Footer = () => {
   return (
     <div className={styles.footer}>
       <div className={styles.flexWrapperOne}>
         <div className={styles.logo}>
-          <img
-            alt=""
-            className={styles.mapRemovebgPreview2}
-            src="https://static.overlay-tech.com/assets/7a1a2f5b-6dd1-4b0f-8314-6b05af3f7880.png"
-          />
+          <img alt="" className={styles.mapRemovebgPreview2} src={logo} />
           <p className={styles.mapMju}>MAP MJU</p>
         </div>
         <div className={styles.links}>

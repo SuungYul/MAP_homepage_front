@@ -1,7 +1,10 @@
-import React from "react";
-import logo from "../MAP_logo.png"; // 로고 이미지 경로
+import React, { useState } from "react";
+import logo from "../images/MAP_logo.png";
+import Login from "./login"; // 로그인 모달 컴포넌트 불러오기
 
 const Header = () => {
+  const [modalOpen, setModalOpen] = useState(false); // 로그인 모달 상태 관리
+
   const headerStyle = {
     position: "fixed",
     width: "100%",
@@ -64,12 +67,15 @@ const Header = () => {
         <div style={textStyle}>MAP MJU</div>
       </div>
       <div style={groupStyle}>
-        <div style={menuStyle}>Start</div>
+        <div style={menuStyle} onClick={() => setModalOpen(true)}>
+          Start
+        </div>
         <div style={menuStyle}>Notice</div>
         <div style={menuStyle}>Calendar</div>
         <div style={menuStyle}>Photo</div>
         <div style={menuStyle}>MyPage</div>
       </div>
+      {modalOpen && <Login setModalOpen={setModalOpen} />}
     </header>
   );
 };
