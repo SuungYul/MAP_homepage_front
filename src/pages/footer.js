@@ -1,143 +1,28 @@
 import React from "react";
-import logo from "../MAP_logo.png"; // 로고 이미지 경로
+import styles from "./Footer.module.scss";
 
 const Footer = () => {
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-        minHeight: "400px",
-        background: "#FFFFFF",
-      }}
-    >
-      <div
-        style={{
-          position: "absolute",
-          width: "10%",
-          minHeight: "24px",
-          left: "78%",
-          top: "30%",
-          fontFamily: "Montserrat",
-          fontStyle: "normal",
-          fontWeight: "700",
-          fontSize: "1.5vw",
-          lineHeight: "24px",
-          letterSpacing: "-0.015em",
-          color: "#000000",
-        }}
-      >
-        Community
+    <div className={styles.footer}>
+      <div className={styles.flexWrapperOne}>
+        <div className={styles.logo}>
+          <img
+            alt=""
+            className={styles.mapRemovebgPreview2}
+            src="https://static.overlay-tech.com/assets/7a1a2f5b-6dd1-4b0f-8314-6b05af3f7880.png"
+          />
+          <p className={styles.mapMju}>MAP MJU</p>
+        </div>
+        <div className={styles.links}>
+          <p className={styles.helpDesk}>Help desk</p>
+          <p className={styles.community}>Community</p>
+          <p className={styles.resources}>Resources</p>
+        </div>
       </div>
-      <div
-        style={{
-          position: "absolute",
-          width: "10%",
-          minHeight: "24px",
-          left: "62%",
-          top: "30%",
-          fontFamily: "Montserrat",
-          fontStyle: "normal",
-          fontWeight: "700",
-          fontSize: "1.5vw",
-          lineHeight: "24px",
-          textAlign: "right",
-          letterSpacing: "-0.015em",
-          color: "#000000",
-        }}
-      >
-        Help desk
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          width: "10%",
-          minHeight: "24px",
-          left: "85%",
-          top: "30%",
-          fontFamily: "Montserrat",
-          fontStyle: "normal",
-          fontWeight: "700",
-          fontSize: "1.5vw",
-          lineHeight: "24px",
-          textAlign: "right",
-          letterSpacing: "-0.015em",
-          color: "#000000",
-        }}
-      >
-        Resources
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          width: "90%",
-          minHeight: "1px",
-          left: "5%",
-          top: "50%",
-          background: "rgba(0, 0, 0, 0.5)",
-          transform: "matrix(1, 0, 0, -1, 0, 0)",
-        }}
-      ></div>
-      <div
-        style={{
-          position: "absolute",
-          width: "10%",
-          height: "50px",
-          left: "45%",
-          top: "26.75%",
-        }}
-      ></div>
-      <div
-        style={{
-          position: "absolute",
-          width: "7.6%",
-          height: "10.5%",
-          left: "46.2%",
-          top: "27.75%",
-          fontFamily: "Montserrat",
-          fontStyle: "normal",
-          fontWeight: "400",
-          fontSize: "3% ",
-          lineHeight: "37px",
-          display: "flex",
-          alignItems: "center",
-          textAlign: "center",
-          letterSpacing: "-0.015em",
-          color: "#000000",
-          border: "2px solid #000000",
-        }}
-      >
-        MAP MJU
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          width: "2.6%",
-          height: "12.5%",
-          left: "45%",
-          top: "26.75%",
-          background: `url(${logo})`,
-        }}
-      ></div>
-      <div
-        style={{
-          position: "absolute",
-          width: "15.7%",
-          minHeight: "6%",
-          left: "42.15%",
-          top: "69.5%",
-          fontFamily: "Montserrat",
-          fontStyle: "normal",
-          fontWeight: "400",
-          fontSize: "1.5vw",
-          lineHeight: "24px",
-          textAlign: "center",
-          letterSpacing: "-0.015em",
-          color: "rgba(0, 0, 0, 0.8)",
-        }}
-      >
+      <div className={styles.rectangle} />
+      <p className={styles.map2023MjuComputerEnginnering}>
         MAP, 2023. MJU computer enginnering
-      </div>
+      </p>
     </div>
   );
 };
