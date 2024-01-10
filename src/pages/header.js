@@ -14,6 +14,7 @@ const Header = () => {
     justifyContent: "space-around",
     alignItems: "center",
     padding: "0px 10px", // 좌우 패딩 추가
+    zIndex: 10, //메인에서 헤더 가리는거 방지
   };
 
   const groupStyle = {
