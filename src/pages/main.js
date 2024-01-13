@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import myimage from "../MAP_image.png";
 import altimage1 from "../altimage1.jpg";
@@ -7,98 +8,110 @@ import altimage3 from "../altimage3.jpg";
 const Main = () => {
   const navigate = useNavigate();
 
+  const [introductionIndex, setIntroductionIndex] = useState(0);
+
   const fullscreensection = {
     height: "100vh",
-    backgroundColor: '#000000',
+    backgroundColor: "#000000",
   };
 
   const ellipseStyle = {
-    position: 'absolute',
-    width: '25px',
-    height: '22px',
-    left: '780px',
-    top: '730px',
-    background: '#FF5050',
-    borderRadius: '50%', // 원 모양으로 만들기 위해
+    width: "10px",
+    height: "10px",
+    background: "#FF5050",
+    borderRadius: "50%",
+    display: "inline-block",
+    marginLeft: "5px",  // Adj
   };
+  
 
-  const introductionstyle = {
-    position: "absolute",
-    top: "381px",
-    left: "600px",
-    textAlign: "left",
-    fontFamily: 'Montserrat',
-    fontStyle: 'normal',
-    fontWeight: 800,
-    fontSize: '60px',
-    lineHeight: '30px',
-    letterSpacing: '-0.015em',
-    color: '#FFFFFF',
-  };
+  const introductionStyles = [
+    {
+      position: "absolute",
+      top: "29%",
+      left: "25%",
+      textAlign: "left",
+      fontFamily: "Montserrat",
+      fontStyle: "normal",
+      fontWeight: 800,
+      fontSize: "60px",
+      lineHeight: "30px",
+      letterSpacing: "-0.015em",
+      color: "#FFFFFF",
+      zIndex: 1,
+    },
+    // 추가된 Introduction 스타일들을 여기에 계속 추가할 수 있습니다.
+  ];
 
   const photostyle = {
     position: "relative",
-    height: '1200px',
-    width: '900px',
-    left: '1300px',
-    top: '80px',
+    height: "90%",
+    width: "100%",
+    marginLeft: "55%",
+    top: "10%",
     backgroundImage: `url(${myimage})`,
-    backgroundRepeat: 'no-repeat',
+    backgroundRepeat: "no-repeat",
   };
 
   const scrollsection = {
-    backgroundColor: '#000000',
+    backgroundColor: "#000000",
     height: "50vh",
   };
 
   const imageStyle = {
     position: "absolute",
-    bottom: "-500px",
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    padding: '0px',
-    width: '100%',
+    bottom: "-40%",
+    display: "flex",
+    justifyContent: "space-evenly",
+    padding: "0px",
+    width: "100%",
   };
 
   const altImageStyle = {
-    width: '30%', // 조절 가능한 이미지 크기
+    width: "30%", // 조절 가능한 이미지 크기
   };
 
   const signInButtonStyle = {
-    position: 'absolute',
-    width:'150px',
-    left: '1100px', // 조절 가능한 위치
-    top: '800px', // 조절 가능한 위치
-    backgroundColor: '#000000',
-    color: 'white',
-    padding: '10px 15px',
-    border: '1px solid #18A0FB',
-    borderRadius: '6px',
+    position: "absolute",
+    width: "7%",
+    left: "42%", // 조절 가능한 위치
+    top: "60%", // 조절 가능한 위치
+    backgroundColor: "#000000",
+    color: "white",
+    padding: "10px 15px",
+    border: "1px solid #18A0FB",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontFamily: "Montserrat",
+    fontStyle: "normal",
+    fontWeight: 700,
+    fontSize: "15px",
+    lineHeight: "18px",
+    alignItems: "center",
+    textAlign: "center",
+    letterSpacing: "-0.015em",
+    color: "#18A0FB",
+  };
 
-    cursor: 'pointer',
-    fontFamily: 'Montserrat',
-  fontStyle: 'normal',
-  fontWeight: 700,
-  fontSize: '15px',
-  lineHeight: '18px',
-  alignItems: 'center',
-  textAlign: 'center',
-  letterSpacing: '-0.015em',
-  color: '#18A0FB',
-    
+  const handleForwardIntroduction = () => {
+    if (introductionIndex < introductionStyles.length - 1) {
+      setIntroductionIndex(introductionIndex + 1);
+    }
   };
 
   return (
     <div style={fullscreensection}>
       Main
       <button onClick={() => navigate("/notice")}>notice</button>
-      <button style={signInButtonStyle} onClick={() => navigate("/login")}>Sign In</button>
+      <button style={signInButtonStyle} onClick={() => navigate("/login")}>
+        Sign In
+      </button>
 
-      <div style={introductionstyle}>
+      <div style={introductionStyles[introductionIndex]}>
         <p>M J U</p>
         <p>Computer Engineering</p>
         <p>S T U D Y -</p>
-        <p>M A P</p>
+        <p>M A P <span style={ellipseStyle}></span></p>
       </div>
 
       <div style={photostyle}></div>
@@ -111,7 +124,7 @@ const Main = () => {
         </div>
       </div>
 
-      <div style={ellipseStyle}>.</div>
+  
     </div>
   );
 };
