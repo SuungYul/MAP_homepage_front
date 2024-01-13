@@ -5,6 +5,7 @@ import Calender from "../pages/calender";
 import Gallery from "../pages/gallery";
 import Header from "../pages/header";
 import Footer from "../pages/footer";
+import CallbackPage from "../pages/callback";
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/notice" element={<Notice />} />
         <Route path="/calender" element={<Calender />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/login/oauth2/code/naver" element={<CallbackPage />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
