@@ -3,6 +3,8 @@ import "./login.css";
 import kakao from "../images/kakao.png";
 import google from "../images/google.png";
 import naver from "../images/naver.png";
+import axios from "axios";
+
 const Login = ({ setModalOpen }) => {
   //   const [modalOpen, setModalOpen] = useState(false);
 
@@ -12,6 +14,17 @@ const Login = ({ setModalOpen }) => {
 
   const closeModal = () => {
     setModalOpen(false);
+  };
+
+  const getNaverOAuth = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/oauth2/authorize/naver"
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error during API call", error);
+    }
   };
 
   return (
@@ -36,6 +49,7 @@ const Login = ({ setModalOpen }) => {
               <img src={naver} />
               <p className="textStyle">네이버로 시작하기</p>
             </div>
+            <button onClick={() => getNaverOAuth()}>test</button>
           </div>
         </div>
       </div>
