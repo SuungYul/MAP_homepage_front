@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+//import { useLocation, useNavigate } from "react-router-dom";
 import "./login.css";
 import kakao from "../images/kakao.png";
 import google from "../images/google.png";
 import naver from "../images/naver.png";
-import axios from "axios";
+//import axios from "axios";
 
 function redirectToNaverLogin() {
   const clientId = "vozrxRMxgtKeDqpZvkfO"; // 네이버 개발자 센터에서 받은 클라이언트 ID
