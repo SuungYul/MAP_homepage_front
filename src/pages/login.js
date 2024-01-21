@@ -4,6 +4,7 @@ import "./login.css";
 import kakao from "../images/kakao.png";
 import google from "../images/google.png";
 import naver from "../images/naver.png";
+import axios from "axios";
 //import axios from "axios";
 
 function redirectToNaverLogin() {
@@ -30,6 +31,19 @@ function redirectToKakaoLogin() {
   const url = `${apiURL}?response_type=code&client_id=${clientId}&redirect_uri=${redirectURI}`;
 
   window.location.href = url; // 네이버 로그인 페이지로 리다이렉트
+}
+
+function test() {
+  const accessToken = localStorage.getItem("access_token");
+  axios
+    .get("http://localhost:8080/test", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => {
+      console.log(response);
+    });
 }
 
 const Login = ({ setModalOpen }) => {
@@ -92,6 +106,7 @@ const Login = ({ setModalOpen }) => {
             </div>
             <button onClick={redirectToNaverLogin}>test</button>
             <button onClick={redirectToKakaoLogin}>kakaotest</button>
+            <button onClick={test}>servertest</button>
           </div>
         </div>
       </div>
