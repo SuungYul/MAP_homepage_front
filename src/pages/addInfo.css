@@ -1,0 +1,94 @@
+.info {
+  position: fixed;
+}
+
+.info-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-modal-content {
+  position: relative;
+  width: 500px;
+  height: 300px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 30px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.add-modal-content h1 {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 24px;
+  color: #000000;
+  margin-bottom: 50px;
+  letter-spacing: -0.6px;
+}
+
+.addTextStyle {
+  font-family: "Montserrat";
+  text-align: center;
+  font-size: 25px;
+}
+
+.forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info .forms .nickname,
+.info .forms .number {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.nickname {
+  margin-left: 30px;
+  margin-right: auto;
+}
+
+.number {
+  margin-left: 55px;
+  margin-right: auto;
+}
+
+.info .forms .nickname input,
+.info .forms .number input {
+  margin-left: 10px;
+  border: 1px solid #18a0fb;
+  border-radius: 5px;
+  width: 250px;
+  height: 30px;
+}
+
+.finishBtn {
+  width: 80px;
+  margin-top: 20px;
+  margin-right: -350px;
+  background-color: transparent;
+  color: #18a0fb;
+  padding: 8px 15px;
+  border: 1px solid #18a0fb;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  letter-spacing: -0.015em;
+}

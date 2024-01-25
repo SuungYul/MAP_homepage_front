@@ -5,7 +5,6 @@ import kakao from "../images/kakao.png";
 import google from "../images/google.png";
 import naver from "../images/naver.png";
 import axios from "axios";
-//import axios from "axios";
 
 function redirectToNaverLogin() {
   const clientId = "vozrxRMxgtKeDqpZvkfO"; // 네이버 개발자 센터에서 받은 클라이언트 ID
@@ -43,6 +42,9 @@ function test() {
     })
     .then((response) => {
       console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
     });
 }
 
@@ -84,28 +86,24 @@ const Login = ({ setModalOpen }) => {
 
   return (
     <div className="login">
-      {/* <button className="login-button" onClick={openModal}>
-        로그인
-      </button> */}
-
       <div className="login-modal" onClick={closeModal}>
         <div className="modal-content" onClick={(e) => e.stopPropagation()}>
           <h1>로그인</h1>
           <div className="social-buttons">
-            <div className="kakao">
+            <div className="kakao" onClick={redirectToKakaoLogin}>
               <img src={kakao} />
               <p className="textStyle">카카오로 시작하기</p>
             </div>
             <div className="google">
               <img src={google} />
-              <p className="textStyle">구글로 시작하기</p>
+              <p className="textStyle">구글로 시작하기(미구현)</p>
             </div>
             <div className="naver">
               <img src={naver} />
-              <p className="textStyle">네이버로 시작하기</p>
+              <p className="textStyle">네이버로 시작하기(미구현)</p>
             </div>
-            <button onClick={redirectToNaverLogin}>test</button>
-            <button onClick={redirectToKakaoLogin}>kakaotest</button>
+            {/* <button onClick={redirectToNaverLogin}>test</button> */}
+            {/* <button onClick={redirectToKakaoLogin}>kakaotest</button> */}
             <button onClick={test}>servertest</button>
           </div>
         </div>

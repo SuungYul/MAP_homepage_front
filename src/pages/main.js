@@ -11,40 +11,43 @@ const Main = () => {
   const [introductionIndex, setIntroductionIndex] = useState(0);
 
   const fullscreensection = {
-    // height: "100vh", // 이거때문에 중간에 흰 여백 생기는듯
+    height: "100vh",
     backgroundColor: "#000000",
   };
 
   const ellipseStyle = {
-    position: "absolute",
-    width: "25px",
-    height: "22px",
-    left: "780px",
-    top: "730px",
+    width: "10px",
+    height: "10px",
     background: "#FF5050",
-    borderRadius: "50%", // 원 모양으로 만들기 위해
+    borderRadius: "50%",
+    display: "inline-block",
+    marginLeft: "5px", // Adj
   };
 
-  const introductionstyle = {
-    position: "absolute",
-    top: "381px",
-    left: "600px",
-    textAlign: "left",
-    fontFamily: "Montserrat",
-    fontStyle: "normal",
-    fontWeight: 800,
-    fontSize: "60px",
-    lineHeight: "30px",
-    letterSpacing: "-0.015em",
-    color: "#FFFFFF",
-  };
+  const introductionStyles = [
+    {
+      position: "absolute",
+      top: "29%",
+      left: "25%",
+      textAlign: "left",
+      fontFamily: "Montserrat",
+      fontStyle: "normal",
+      fontWeight: 800,
+      fontSize: "60px",
+      lineHeight: "30px",
+      letterSpacing: "-0.015em",
+      color: "#FFFFFF",
+      zIndex: 1,
+    },
+    // 추가된 Introduction 스타일들을 여기에 계속 추가할 수 있습니다.
+  ];
 
   const photostyle = {
     position: "relative",
-    height: "1200px",
-    width: "900px",
-    left: "1300px",
-    top: "80px",
+    height: "90%",
+    // width: "100%", 우측 여백 생김
+    marginLeft: "55%",
+    top: "10%",
     backgroundImage: `url(${myimage})`,
     backgroundRepeat: "no-repeat",
   };
@@ -56,7 +59,7 @@ const Main = () => {
 
   const imageStyle = {
     position: "absolute",
-    bottom: "-500px",
+    bottom: "-40%",
     display: "flex",
     justifyContent: "space-evenly",
     padding: "0px",
@@ -69,15 +72,14 @@ const Main = () => {
 
   const signInButtonStyle = {
     position: "absolute",
-    width: "150px",
-    left: "1100px", // 조절 가능한 위치
-    top: "800px", // 조절 가능한 위치
+    width: "7%",
+    left: "42%", // 조절 가능한 위치
+    top: "60%", // 조절 가능한 위치
     backgroundColor: "#000000",
     color: "white",
     padding: "10px 15px",
     border: "1px solid #18A0FB",
     borderRadius: "6px",
-
     cursor: "pointer",
     fontFamily: "Montserrat",
     fontStyle: "normal",
@@ -88,6 +90,13 @@ const Main = () => {
     textAlign: "center",
     letterSpacing: "-0.015em",
     color: "#18A0FB",
+    zIndex: 2,
+  };
+
+  const handleForwardIntroduction = () => {
+    if (introductionIndex < introductionStyles.length - 1) {
+      setIntroductionIndex(introductionIndex + 1);
+    }
   };
 
   return (
@@ -95,7 +104,8 @@ const Main = () => {
       <button style={signInButtonStyle} onClick={() => navigate("/login")}>
         Sign In
       </button>
-      <div style={introductionstyle}>
+
+      <div style={introductionStyles[introductionIndex]}>
         <p>M J U</p>
         <p>Computer Engineering</p>
         <p>S T U D Y -</p>
@@ -111,7 +121,6 @@ const Main = () => {
           <img src={altimage3} alt="맵 사진 3" style={altImageStyle} />
         </div>
       </div>
-      <div style={ellipseStyle}>.</div>
     </div>
   );
 };
