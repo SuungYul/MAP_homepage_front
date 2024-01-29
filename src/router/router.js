@@ -5,6 +5,8 @@ import Calendar from "../pages/calendar";
 import Gallery from "../pages/gallery";
 import Header from "../pages/header";
 import Footer from "../pages/footer";
+import Write from "../pages/write";
+import Read from "../pages/read";
 import CallbackPage from "../pages/callback";
 import CallbackKakao from "../pages/callbackKakao";
 
