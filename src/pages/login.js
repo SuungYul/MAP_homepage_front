@@ -9,7 +9,7 @@ import axios from "axios";
 function redirectToNaverLogin() {
   const clientId = "vozrxRMxgtKeDqpZvkfO"; // 네이버 개발자 센터에서 받은 클라이언트 ID
   const redirectURI = encodeURIComponent(
-    "http://localhost:3000/login/oauth2/code/naver"
+    "http://localhost:3000/oauth2/login/naver"
   ); // 네이버로부터 인증 코드를 받을 리다이렉트 URI
   const state = "RANDOM_STATE"; // CSRF 공격 방지를 위한 랜덤 문자열
   const apiURL = "https://nid.naver.com/oauth2.0/authorize";
@@ -49,23 +49,6 @@ function test() {
 }
 
 const Login = ({ setModalOpen }) => {
-  //   const [modalOpen, setModalOpen] = useState(false);
-
-  // const navigate = useNavigate();
-  // let location = useLocation();
-
-  // useEffect(() => {
-  //   if (location.pathname === "/login/oauth2/code/naver") {
-  //     // 네이버 로그인 후 리다이렉트되었을 때 수행할 동작을 여기에 작성합니다.
-  //     navigate("/notice");
-  //   }
-  //   console.log(location);
-  // }, [location]);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -100,10 +83,10 @@ const Login = ({ setModalOpen }) => {
             </div>
             <div className="naver">
               <img src={naver} />
-              <p className="textStyle">네이버로 시작하기(미구현)</p>
+              <p className="textStyle" onClick={redirectToNaverLogin}>
+                네이버로 시작하기
+              </p>
             </div>
-            {/* <button onClick={redirectToNaverLogin}>test</button> */}
-            {/* <button onClick={redirectToKakaoLogin}>kakaotest</button> */}
             <button onClick={test}>servertest</button>
           </div>
         </div>
