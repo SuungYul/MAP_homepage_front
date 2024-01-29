@@ -5,6 +5,8 @@ import Calendar from "../pages/calendar";
 import Gallery from "../pages/gallery";
 import Header from "../pages/header";
 import Footer from "../pages/footer";
+import Write from "../pages/write";
+import Read from "../pages/read";
 import CallbackPage from "../pages/callback";
 import CallbackKakao from "../pages/callbackKakao";
 
@@ -16,6 +18,8 @@ const Router = () => {
         <Route path="/" element={<Main />} />
         <Route path="/notice" element={<Notice />} />
         <Route path="/calendar" element={<Calendar />} />
+        <Route path="/write" element={<Write />} />
+        <Route path="/read" element={<Read />} />
         <Route path="/photo" element={<Gallery />} />
         <Route path="/login/oauth2/code/naver" element={<CallbackPage />} />
         <Route path="/oauth2/login/kakao" element={<CallbackKakao />} />

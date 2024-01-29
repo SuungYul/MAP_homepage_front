@@ -90,29 +90,30 @@ const Main = () => {
     textAlign: "center",
     letterSpacing: "-0.015em",
     color: "#18A0FB",
+    marginBottom: '20px', 
     zIndex: 2,
   };
 
-  const handleForwardIntroduction = () => {
-    if (introductionIndex < introductionStyles.length - 1) {
-      setIntroductionIndex(introductionIndex + 1);
-    }
-  };
+  
 
   return (
     <div style={fullscreensection}>
-      <button style={signInButtonStyle} onClick={() => navigate("/login")}>
-        Sign In
-      </button>
-
-      <div style={introductionStyles[introductionIndex]}>
-        <p>M J U</p>
-        <p>Computer Engineering</p>
-        <p>S T U D Y -</p>
-        <p>
-          M A P <span style={ellipseStyle}></span>
-        </p>
+      <div>
+        <div>
+        <button style={signInButtonStyle} onClick={() => navigate("/login")}>
+          Sign Up
+        </button>
+        </div>
+        <div style={introductionStyles[introductionIndex]}>
+          <p>M J U</p>
+          <p>Computer Engineering</p>
+          <p>S T U D Y -</p>
+          <p>
+            M A P <span style={ellipseStyle}></span>
+          </p>
+        </div>
       </div>
+
       <div style={photostyle}></div>
       <div style={scrollsection}>
         <div style={imageStyle}>
@@ -123,6 +124,7 @@ const Main = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Main;
