@@ -7,8 +7,11 @@ import Header from "../pages/header";
 import Footer from "../pages/footer";
 import CallbackNaver from "../pages/callbackNaver";
 import CallbackKakao from "../pages/callbackKakao";
+import Login from "../pages/login";
+import { useState } from "react";
 
 const Router = () => {
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <BrowserRouter>
       <Header />
@@ -19,6 +22,7 @@ const Router = () => {
         <Route path="/photo" element={<Gallery />} />
         <Route path="/oauth2/login/naver" element={<CallbackNaver />} />
         <Route path="/oauth2/login/kakao" element={<CallbackKakao />} />
+        <Route path="/login" element={<Login setModalOpen={setModalOpen} />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>

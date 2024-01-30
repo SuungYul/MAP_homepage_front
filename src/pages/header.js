@@ -11,7 +11,14 @@ const Header = () => {
     <header className="header">
       <div className="group">
         <div className="logo" />
-        <div className="text" onClick={() => navigate("/")}>
+        <div
+          className="text"
+          onClick={() => {
+            localStorage.getItem("access_token")
+              ? navigate("/notice")
+              : navigate("/");
+          }}
+        >
           MAP MJU
         </div>
       </div>

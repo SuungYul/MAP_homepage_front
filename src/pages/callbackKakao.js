@@ -7,7 +7,7 @@ function CallbackKakao() {
   const location = useLocation();
   const navigate = useNavigate();
   const [modalIsOpen, setIsOpen] = useState(false);
-
+  const { from } = location.state || { from: "/" }; // 기본값 설정
   function openModal() {
     setIsOpen(true);
   }
@@ -26,6 +26,7 @@ function CallbackKakao() {
           localStorage.setItem("access_token", accessToken);
           localStorage.setItem("refresh_token", refreshToken);
           console.log(localStorage.getItem("access_token"));
+          console.log(from);
           if (response.data.result.infoSet) {
             //추가 정보를 입력해야하는지 여부
             navigate("/notice");
@@ -37,6 +38,7 @@ function CallbackKakao() {
           console.log(error);
         });
     }
+    navigate(from);
   }, [location]);
 
   return (

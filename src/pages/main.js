@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import myimage from "../MAP_image.png";
 import altimage1 from "../altimage1.jpg";
@@ -7,6 +7,10 @@ import altimage3 from "../altimage3.jpg";
 
 const Main = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.removeItem("access_token");
+  }, []);
 
   const [introductionIndex, setIntroductionIndex] = useState(0);
 

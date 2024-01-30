@@ -1,8 +1,20 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Login from "./login";
 
 const Notice = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!localStorage.getItem("access_token")) {
+      alert("로그인 필요");
+      console.log(location.pathname);
+      navigate("/login", {
+        state: { from: location.pathname }, // 원래 접근하려던 경로를 저장
+      });
+    }
+  }, []);
 
   const writeButtonStyle = {
     position: "absolute",
