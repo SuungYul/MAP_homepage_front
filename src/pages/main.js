@@ -4,12 +4,14 @@ import myimage from "../MAP_image.png";
 import altimage1 from "../altimage1.jpg";
 import altimage2 from "../altimage2.jpg";
 import altimage3 from "../altimage3.jpg";
-
+import { useDispatch } from "react-redux";
+import { logIn, logOut } from "../redux/actions";
 const Main = () => {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     localStorage.removeItem("access_token");
+    dispatch(logOut());
   }, []);
 
   const [introductionIndex, setIntroductionIndex] = useState(0);
@@ -94,19 +96,17 @@ const Main = () => {
     textAlign: "center",
     letterSpacing: "-0.015em",
     color: "#18A0FB",
-    marginBottom: '20px', 
+    marginBottom: "20px",
     zIndex: 2,
   };
-
-  
 
   return (
     <div style={fullscreensection}>
       <div>
         <div>
-        <button style={signInButtonStyle} onClick={() => navigate("/login")}>
-          Sign Up
-        </button>
+          <button style={signInButtonStyle} onClick={() => navigate("/login")}>
+            Sign Up
+          </button>
         </div>
         <div style={introductionStyles[introductionIndex]}>
           <p>M J U</p>
@@ -128,7 +128,6 @@ const Main = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Main;

@@ -2,12 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddInfo from "./addInfo";
-import LocationContext from "../locationContext";
+import { useDispatch } from "react-redux";
+import { logIn, logOut } from "../redux/actions";
 
 function CallbackKakao() {
   const loc = useLocation();
   const navigate = useNavigate();
-  const { location, setLocation } = useContext(LocationContext);
+  const dispatch = useDispatch();
   const [modalIsOpen, setIsOpen] = useState(false);
   function openModal() {
     setIsOpen(true);
@@ -21,8 +22,6 @@ function CallbackKakao() {
       axios
         .get(serverUrl)
         .then((response) => {
-          console.log("CallbackKakao:", location); // 콘솔 출력
-
           const accessToken = response.headers["access-token"];
           const refreshToken = response.headers["refresh-token"];
 
@@ -35,10 +34,16 @@ function CallbackKakao() {
           // } else {
           //   openModal();
           // }
+          dispatch(logIn());
+          const location = localStorage.getItem("prevPath"); // 로컬 스토리지에서 location 불러오기
           if (location) {
             navigate(location);
-            setLocation(null);
+            localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제
           }
+          // if (location) {
+          //   navigate(location);
+          //   dispatch(setLocation(null));
+          // }
         })
         .catch((error) => {
           console.log(error);

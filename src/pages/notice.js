@@ -1,25 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Login from "./login";
-import LocationContext from "../locationContext";
+import Footer from "./footer";
+import { useAuth } from "../redux/useAuth";
 
 const Notice = () => {
+  useAuth();
   const navigate = useNavigate();
-  const loc = useLocation();
-  const { location, setLocation } = useContext(LocationContext);
-  useEffect(() => {
-    if (!localStorage.getItem("access_token")) {
-      alert("로그인 필요");
-      console.log("Before setLocation:", location); // setLocation 호출 전
-      setLocation(loc.pathname);
-      console.log("After setLocation:", location); // setLocation 호출 후
-      navigate("/login");
-    }
-  }, []);
-
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
 
   const container = {
     position: "absolute",
@@ -182,7 +169,7 @@ const Notice = () => {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: "100vh" }}>
       <div style={container}>
         <div style={noticeStyle}>N O T I C E</div>
 

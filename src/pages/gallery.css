@@ -1,0 +1,95 @@
+
+.notice {
+    
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 72px; /* or '150%' */
+    letter-spacing: -0.015em;
+    color: #000000;
+}
+
+.nbcontainer{
+    display: flex;
+    position: absolute;
+    width:50%;
+    left: 10%; /* 조절 가능한 위치 418 */
+    top: 18%; /* 조절 가능한 위치 177 */
+}
+
+.photoimages1{
+    position: absolute;
+    top: 500px;
+    left: 450px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png");
+    cursor: pointer;
+
+
+}
+
+
+.photoimages2{
+    position: absolute;
+    top: 500px;
+    left:1100px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png");
+    cursor: pointer;
+
+}
+
+.photoimages3{
+    position: absolute;
+    top: 500px;
+    left:1800px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png"); 
+    cursor: pointer;
+
+
+
+}
+
+.photoimages4{
+    position: absolute;
+    top: 900px;
+    left: 550px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png");
+    cursor: pointer;
+
+}
+
+.photoimages5{
+    position: absolute;
+    top: 900px;
+    left: 1000px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png");
+    cursor: pointer;
+
+}
+
+.photoimages6{
+    position: absolute;
+    top: 900px;
+    left: 1450px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png");
+    cursor: pointer;
+
+}

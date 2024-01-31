@@ -13,11 +13,12 @@ const Header = () => {
         <div className="logo" />
         <div
           className="text"
-          onClick={() => {
-            localStorage.getItem("access_token")
-              ? navigate("/notice")
-              : navigate("/");
-          }}
+          // onClick={() => {
+          //   localStorage.getItem("access_token")
+          //     ? navigate("/notice")
+          //     : navigate("/");
+          // }}
+          onClick={() => navigate("/")}
         >
           MAP MJU
         </div>
@@ -32,10 +33,12 @@ const Header = () => {
         <div className="menu" onClick={() => navigate("/calendar")}>
           Calendar
         </div>
-        <div className="menu" onClick={() => navigate("/photo")}>
+        <div className="menu" onClick={() => navigate("/gallery")}>
           Photo
         </div>
-        <div className="menu">MyPage</div>
+        <div className="menu" onClick={() => navigate("/mypages")}>
+          MyPage
+        </div>
       </div>
       {modalOpen && <Login setModalOpen={setModalOpen} />}
     </header>

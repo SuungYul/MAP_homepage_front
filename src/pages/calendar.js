@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Calendar as MyCalendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./calendar.css";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../redux/useAuth";
 const localizer = momentLocalizer(moment);
 const Calendar = () => {
+  useAuth();
+  const navigate = useNavigate();
+
   const events = [
     {
       start: new Date(),

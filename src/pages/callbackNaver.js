@@ -2,11 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddInfo from "./addInfo";
+import { useDispatch } from "react-redux";
+import { logIn, logOut } from "../redux/actions";
 
 function CallbackNaver() {
   const location = useLocation();
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [modalIsOpen, setIsOpen] = useState(false);
 
   function openModal() {
@@ -30,11 +34,17 @@ function CallbackNaver() {
           localStorage.setItem("access_token", accessToken);
           localStorage.setItem("refresh_token", refreshToken);
           console.log(localStorage.getItem("access_token"));
-          if (response.data.result.infoSet) {
-            //추가 정보를 입력해야하는지 여부
-            navigate("/notice");
-          } else {
-            openModal();
+          // if (response.data.result.infoSet) {
+          //   //추가 정보를 입력해야하는지 여부
+          //   navigate("/notice");
+          // } else {
+          //   openModal();
+          // }
+          dispatch(logIn());
+          const location = localStorage.getItem("prevPath"); // 로컬 스토리지에서 location 불러오기
+          if (location) {
+            navigate(location);
+            localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제
           }
         })
         .catch((error) => {
