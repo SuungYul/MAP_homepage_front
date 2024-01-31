@@ -53,20 +53,6 @@ const Login = ({ setModalOpen }) => {
     setModalOpen(false);
   };
 
-  // const getNaverOAuth = () => {
-  //   // try {
-  //   //   const response = await axios.get(
-  //   //     "http://localhost:8080/oauth2/authorize/naver"
-  //   //   );
-  //   //   console.log(response);
-  //   // } catch (error) {
-  //   //   console.error("Error during API call", error);
-  //   // }
-  //   const url =
-  //     "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=vozrxRMxgtKeDqpZvkfO&scope=name%20email%20profile_image&state=7qmSMT5VR3I296xndzleCGbGqpSz48gS9Ne5kh4sQX0%3D&redirect_uri=http://localhost:3000";
-  //   window.location.href = url;
-  // };
-
   return (
     <div className="login">
       <div className="login-modal" onClick={closeModal}>
@@ -81,11 +67,9 @@ const Login = ({ setModalOpen }) => {
               <img src={google} />
               <p className="textStyle">구글로 시작하기(미구현)</p>
             </div>
-            <div className="naver">
+            <div className="naver" onClick={redirectToNaverLogin}>
               <img src={naver} />
-              <p className="textStyle" onClick={redirectToNaverLogin}>
-                네이버로 시작하기
-              </p>
+              <p className="textStyle">네이버로 시작하기</p>
             </div>
             <button onClick={test}>servertest</button>
           </div>

@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import AddInfo from "./addInfo";
+import LocationContext from "../locationContext";
 
 function CallbackKakao() {
-  const location = useLocation();
+  const loc = useLocation();
   const navigate = useNavigate();
+  const { location, setLocation } = useContext(LocationContext);
   const [modalIsOpen, setIsOpen] = useState(false);
-  const { from } = location.state || { from: "/" }; // 기본값 설정
   function openModal() {
     setIsOpen(true);
   }
@@ -20,26 +21,30 @@ function CallbackKakao() {
       axios
         .get(serverUrl)
         .then((response) => {
+          console.log("CallbackKakao:", location); // 콘솔 출력
+
           const accessToken = response.headers["access-token"];
           const refreshToken = response.headers["refresh-token"];
 
           localStorage.setItem("access_token", accessToken);
           localStorage.setItem("refresh_token", refreshToken);
           console.log(localStorage.getItem("access_token"));
-          console.log(from);
-          if (response.data.result.infoSet) {
-            //추가 정보를 입력해야하는지 여부
-            navigate("/notice");
-          } else {
-            openModal();
+          // if (response.data.result.infoSet) {
+          //   //추가 정보를 입력해야하는지 여부
+          //   navigate("/notice");
+          // } else {
+          //   openModal();
+          // }
+          if (location) {
+            navigate(location);
+            setLocation(null);
           }
         })
         .catch((error) => {
           console.log(error);
         });
     }
-    navigate(from);
-  }, [location]);
+  }, []);
 
   return (
     <div
