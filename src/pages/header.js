@@ -28,7 +28,9 @@ const Header = () => {
         <div className="menu" onClick={() => navigate("/gallery")}>
           Photo
         </div>
-        <div className="menu">MyPage</div>
+        <div className="menu" onClick={() => navigate("/mypages")}>
+          MyPage
+          </div>
       </div>
       {modalOpen && <Login setModalOpen={setModalOpen} />}
     </header>

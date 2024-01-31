@@ -51,9 +51,7 @@
     width:416px;    
     height: 270px;
     border:1px solid black;
-    background-image: url("../images/MAP_logo.png");
-    background-repeat: no-repeat;
-    object-fit: contain;
+    background-image: url("../images/MAP_logo.png"); 
     cursor: pointer;
 
 
@@ -62,8 +60,8 @@
 
 .photoimages4{
     position: absolute;
-    top: 850px;
-    left: 450px;
+    top: 900px;
+    left: 550px;
     width:416px;    
     height: 270px;
     border:1px solid black;
@@ -74,8 +72,8 @@
 
 .photoimages5{
     position: absolute;
-    top: 850px;
-    left: 1100px;
+    top: 900px;
+    left: 1000px;
     width:416px;    
     height: 270px;
     border:1px solid black;
@@ -86,8 +84,8 @@
 
 .photoimages6{
     position: absolute;
-    top: 850px;
-    left: 1800px;
+    top: 900px;
+    left: 1450px;
     width:416px;    
     height: 270px;
     border:1px solid black;

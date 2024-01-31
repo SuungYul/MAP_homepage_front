@@ -9,6 +9,8 @@ import Header from "../pages/header";
 import Footer from "../pages/footer";
 import Write from "../pages/write";
 import Read from "../pages/read";
+import MyPages from "../pages/mypages";
+import MasterPages from "../pages/masterpages";
 //import CallbackPage from "../pages/callback";
 import CallbackKakao from "../pages/callbackKakao";
 
@@ -26,6 +28,8 @@ const Router = () => {
         <Route path="/gallerywrite" element={<GalleryWrite />} />
         <Route path="/galleryread" element={<GalleryRead />} />        
         <Route path="/oauth2/login/kakao" element={<CallbackKakao />} />
+        <Route path="/mypages" element={<MyPages />} />
+        <Route path="/masterpages" element={<MasterPages />} />
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>
