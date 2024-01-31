@@ -25,7 +25,7 @@ const Header = () => {
         <div className="menu" onClick={() => navigate("/calendar")}>
           Calendar
         </div>
-        <div className="menu" onClick={() => navigate("/photo")}>
+        <div className="menu" onClick={() => navigate("/gallery")}>
           Photo
         </div>
         <div className="menu">MyPage</div>

@@ -1,0 +1,120 @@
+.notice {
+    
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 72px; /* or '150%' */
+    letter-spacing: -0.015em;
+    color: #000000;
+}
+
+.nbcontainer{
+    display: flex;
+    position: absolute;
+    width:50%;
+    left: 10%; /* 조절 가능한 위치 418 */
+    top: 18%; /* 조절 가능한 위치 177 */
+}
+
+.hr-solid {
+    position: absolute;
+top:450px;
+margin-left: 500px;
+width : 1500px;
+    border : 0px;
+    border-top: 1px solid black;
+
+}
+.hr-solid2 {
+    position: absolute;
+    top: 980px;
+    margin-left: 500px;
+width : 1500px;
+    border : 0px;
+    border-top: 1px solid black;
+
+
+}
+.hr-solid3 {
+    position: absolute;
+    top: 1030px;
+    margin-left: 500px;
+width : 1500px;
+    border : 0px;
+    border-top: 1px solid black;
+
+}
+
+
+
+.title{
+    position: absolute;
+    top:420px;
+    margin-left: 500px;
+    
+font-family: 'Montserrat';
+font-style: normal;
+font-weight: 400;
+font-size: 25px;
+line-height: 30px;
+/* identical to box height, or 120% */
+letter-spacing: -0.015em;
+
+color: #000000;
+}
+.photoimages1{
+    position: absolute;
+    top: 600px;
+    left: 550px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png");
+    cursor: pointer;
+
+}
+.photoimages2{
+    position: absolute;
+    top: 600px;
+    left: 1000px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png");
+    cursor: pointer;
+
+}
+.photoimages3{
+    position: absolute;
+    top: 600px;
+    left: 1450px;
+    width:416px;    
+    height: 270px;
+    border:1px solid black;
+    background-image: url("../images/MAP_logo.png");
+    cursor: pointer;
+
+}
+.filename{
+    position: absolute;
+    top:1000px;
+
+    margin-left: 500px;
+    
+font-family: 'Montserrat';
+font-style: normal;
+font-weight: 400;
+font-size: 25px;
+line-height: 30px;
+/* identical to box height, or 120% */
+letter-spacing: -0.015em;
+
+color: #000000;
+
+}
+
+#addfile{
+    
+    top: 1000px;
+}
