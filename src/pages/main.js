@@ -100,6 +100,7 @@ const Main = () => {
     zIndex: 2,
   };
 
+  
   return (
     <div style={fullscreensection}>
       <div>
