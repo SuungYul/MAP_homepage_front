@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./write.css";
 import plus from "../images/plus.png";
+import axios from "axios";
+import { SERVER_URL } from "../config";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -20,8 +22,30 @@ const Write = () => {
   };
 
   const FinishForm = () => {
+    const accessToken = localStorage.getItem("access_token");
     if (titleRef.current.value === "" || bodyRef.current.value === "") {
       alert("제목 또는 내용을 입력하세요");
+    } else {
+      axios
+        .post(
+          `${SERVER_URL}/posts`,
+          {
+            title: titleRef.current.value,
+            dtype: "general",
+            content: bodyRef.current.value,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
     console.log(titleRef.current.value);
   };

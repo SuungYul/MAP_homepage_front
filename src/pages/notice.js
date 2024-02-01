@@ -3,10 +3,48 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Login from "./login";
 import Footer from "./footer";
 import { useAuth } from "../redux/useAuth";
+import axios from "axios";
+import { SERVER_URL } from "../config";
 
 const Notice = () => {
   useAuth();
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem("access_token");
+  const [notices, setNotices] = useState([]);
+
+  const showNotice = () => {
+    const result = [];
+    console.log(notices);
+    notices.forEach((element, index) => {
+      console.log(element, index);
+      result.push(
+        <div
+          style={contentTitleStyle}
+          onClick={() => navigate(`/read/${element.postId}`)}
+        >
+          {element.title}
+        </div>
+      );
+    });
+    return result;
+  };
+
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/posts`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log("response");
+        console.log(response.data);
+        setNotices(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const container = {
     position: "absolute",
@@ -192,7 +230,8 @@ const Notice = () => {
         </div>
         <div>
           <div style={contentTitleContainer}>
-            <div style={contentTitleStyle} onClick={() => navigate("/read")}>
+            {showNotice()}
+            {/* <div style={contentTitleStyle} onClick={() => navigate("/read")}>
               Nemo enim ipsam voluptatem quia voluptas sit asp
             </div>
             <div style={contentTitleStyle} onClick={() => navigate("/read")}>
@@ -203,7 +242,7 @@ const Notice = () => {
             </div>
             <div style={contentTitleStyle} onClick={() => navigate("/read")}>
               Nemo enim ipsam voluptatem quia voluptas sit asp
-            </div>
+            </div> */}
           </div>
         </div>
 

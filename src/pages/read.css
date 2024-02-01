@@ -1,104 +1,94 @@
 .notice {
-    
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 48px;
-    line-height: 72px; /* or '150%' */
-    letter-spacing: -0.015em;
-    color: #000000;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 72px; /* or '150%' */
+  letter-spacing: -0.015em;
+  color: #000000;
 }
 
-.nbcontainer{
-    display: flex;
-    position: absolute;
-    width:50%;
-    left: 10%; /* 조절 가능한 위치 418 */
-    top: 18%; /* 조절 가능한 위치 177 */
+.nbcontainer {
+  display: flex;
+  position: absolute;
+  width: 50%;
+  left: 10%; /* 조절 가능한 위치 418 */
+  top: 18%; /* 조절 가능한 위치 177 */
 }
 
 .hr-solid {
-    position: absolute;
-top:450px;
-margin-left: 500px;
-width : 1500px;
-    border : 0px;
-    border-top: 1px solid black;
-
+  position: absolute;
+  top: 450px;
+  margin-left: 500px;
+  width: 1500px;
+  border: 0px;
+  border-top: 1px solid black;
 }
 .hr-solid2 {
-    position: absolute;
-    top: 980px;
-    margin-left: 500px;
-width : 1500px;
-    border : 0px;
-    border-top: 1px solid black;
-
-
+  position: absolute;
+  top: 980px;
+  margin-left: 500px;
+  width: 1500px;
+  border: 0px;
+  border-top: 1px solid black;
 }
 .hr-solid3 {
-    position: absolute;
-    top: 1030px;
-    margin-left: 500px;
-width : 1500px;
-    border : 0px;
-    border-top: 1px solid black;
-
+  position: absolute;
+  top: 1030px;
+  margin-left: 500px;
+  width: 1500px;
+  border: 0px;
+  border-top: 1px solid black;
 }
 
+.title {
+  position: absolute;
+  top: 420px;
+  margin-left: 500px;
 
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  /* identical to box height, or 120% */
+  letter-spacing: -0.015em;
 
-.title{
-    position: absolute;
-    top:420px;
-    margin-left: 500px;
-    
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 25px;
-line-height: 30px;
-/* identical to box height, or 120% */
-letter-spacing: -0.015em;
-
-color: #000000;
+  color: #000000;
 }
-.content{
-    top:700px;
-    position: absolute;
+.content {
+  top: 700px;
+  position: absolute;
 
-    margin-left: 500px;
-    
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 25px;
-line-height: 30px;
-/* identical to box height, or 120% */
-letter-spacing: -0.015em;
+  margin-left: 500px;
 
-color: #000000;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  /* identical to box height, or 120% */
+  letter-spacing: -0.015em;
 
+  color: #000000;
 }
-.filename{
-    position: absolute;
-    top:1000px;
+.filename {
+  position: absolute;
+  top: 1000px;
 
-    margin-left: 500px;
-    
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 25px;
-line-height: 30px;
-/* identical to box height, or 120% */
-letter-spacing: -0.015em;
+  margin-left: 500px;
 
-color: #000000;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  /* identical to box height, or 120% */
+  letter-spacing: -0.015em;
 
+  color: #000000;
 }
 
-#addfile{
-    
-    top: 1000px;
+#addfile {
+  top: 1000px;
 }

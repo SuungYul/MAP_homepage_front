@@ -38,7 +38,7 @@ function CallbackNaver() {
           if (response.data.result.infoSet) {
             //추가 정보를 입력해야하는지 여부
             dispatch(logIn());
-            const location = localStorage.getItem("prevPath"); // 로컬 스토리지에서 location 불러오기
+            const location = localStorage.getItem("prevPath") || "/notice"; // 로컬 스토리지에서 location 불러오기
             if (location) {
               navigate(location);
               localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제

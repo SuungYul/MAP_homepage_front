@@ -17,7 +17,8 @@ const Main = () => {
   const [introductionIndex, setIntroductionIndex] = useState(0);
 
   const fullscreensection = {
-    height: "100vh",
+    height: "150vh",
+    width: "auto",
     backgroundColor: "#000000",
   };
 
@@ -32,15 +33,12 @@ const Main = () => {
 
   const introductionStyles = [
     {
-      position: "absolute",
-      top: "29%",
-      left: "25%",
       textAlign: "left",
       fontFamily: "Montserrat",
       fontStyle: "normal",
       fontWeight: 800,
-      fontSize: "60px",
-      lineHeight: "30px",
+      fontSize: "40px",
+      lineHeight: "60%",
       letterSpacing: "-0.015em",
       color: "#FFFFFF",
       zIndex: 1,
@@ -49,14 +47,11 @@ const Main = () => {
   ];
 
   const photostyle = {
-    position: "relative",
+    position: "absolute",
     height: "90%",
-    // width: "100%", 우측 여백 생김
-    marginLeft: "55%",
+    left: "50%",
     top: "10%",
-    backgroundImage: `url(${myimage})`,
-    backgroundRepeat: "no-repeat",
-  };
+    };
 
   const scrollsection = {
     backgroundColor: "#000000",
@@ -78,9 +73,9 @@ const Main = () => {
 
   const signInButtonStyle = {
     position: "absolute",
-    width: "7%",
-    left: "42%", // 조절 가능한 위치
-    top: "60%", // 조절 가능한 위치
+    width: "30%",
+    left: "70%", // 조절 가능한 위치
+    top: "100%", // 조절 가능한 위치
     backgroundColor: "#000000",
     color: "white",
     padding: "10px 15px",
@@ -99,27 +94,35 @@ const Main = () => {
     marginBottom: "20px",
     zIndex: 2,
   };
-
+  const introbox = {
+    display:"flex",
+    position:"absolute",
+    top:"29%",
+    left: "20%",
+    minWidth:"500px",
+  };
   
+
   return (
     <div style={fullscreensection}>
-      <div>
-        <div>
+      <div >
+        <div style={introbox}>
+        <div style={introductionStyles[introductionIndex]}>
+          
+            <p>M J U</p> 
+            <p>Computer Engineering</p>
+            <p>S T U D Y</p> 
+            <p>- M A P <div style={ellipseStyle}></div></p>
+        </div>
           <button style={signInButtonStyle} onClick={() => navigate("/login")}>
             Sign Up
           </button>
+          
         </div>
-        <div style={introductionStyles[introductionIndex]}>
-          <p>M J U</p>
-          <p>Computer Engineering</p>
-          <p>S T U D Y -</p>
-          <p>
-            M A P <span style={ellipseStyle}></span>
-          </p>
-        </div>
+        <img src={myimage} style={photostyle}></img>
       </div>
 
-      <div style={photostyle}></div>
+      
       <div style={scrollsection}>
         <div style={imageStyle}>
           <img src={altimage1} alt="맵 사진 1" style={altImageStyle} />
