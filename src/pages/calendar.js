@@ -21,7 +21,7 @@ const Calendar = () => {
   return (
     <div className="Calendar">
       <div className="Header">
-        <div className="CALENDAR">C A L E N D A R</div>
+        <div className="pageTitle">C A L E N D A R</div>
         <button className="addButton">일정추가</button>
       </div>
       <div>

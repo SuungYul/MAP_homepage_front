@@ -1,18 +1,69 @@
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./mypages.css";
 import { useAuth } from "../redux/useAuth";
+import axios from "axios";
+import { SERVER_URL } from "../config";
 
 const MyPages = () => {
   useAuth();
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem("access_token");
+  const [myInfo, setMyInfo] = useState({
+    studentId: 1,
+    name: "홍길동",
+    nickname: "엄태성",
+    grade: 1,
+  });
 
+  const deleteUser = () => {
+    //회원탈퇴 처리
+    axios
+      .delete(`${SERVER_URL}/members/me`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/members/me/preview`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        const myData = {
+          studentId: response.data.result.studentId,
+          name: response.data.result.name,
+          nickname: response.data.result.nickname,
+          grade: response.data.result.grade,
+        };
+        setMyInfo(myData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="nbcontainer">
         <div className="notice">M Y P A G E</div>
+        <button className="addButton" onClick={deleteUser}>
+          회원탈퇴
+        </button>
+        <img alt="" src="../images/MAP_logo.png" />
       </div>
       <div id="name">이름</div>
+
       <div id="bolt1">
         <div onClick={() => navigate("/")}>설정</div>
       </div>
@@ -30,12 +81,14 @@ const MyPages = () => {
       </button>
 
       <div></div>
-      <div id="namedata">윤동주</div>
-      <div id="fakenamedata">윤동주</div>
+      <div id="namedata">{myInfo.name}</div>
+      <div id="fakenamedata">{myInfo.nickname}</div>
       <div id="birthdata">2004.01.28</div>
       <div id="emaildata">antdny2280@naver.com</div>
       <div id="phonenumberdata">010-6659-2280</div>
-      <div id="schoolnumberdata">60232851</div>
+      <div id="schoolnumberdata">
+        {myInfo.studentId} {myInfo.grade}
+      </div>
       <div id="mytitledata">1.djlkasdklmasklsadnk</div>
     </div>
   );

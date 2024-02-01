@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import Login from "./login";
 import { useNavigate } from "react-router-dom";
 import "./header.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const Header = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
 
   return (
     <header className="header">
@@ -24,9 +28,23 @@ const Header = () => {
         </div>
       </div>
       <div className="group">
-        <div className="menu" onClick={() => setModalOpen(true)}>
-          Start
-        </div>
+        {isLoggedIn ? (
+          <div
+            className="menu"
+            onClick={() => {
+              localStorage.removeItem("access_token");
+              localStorage.removeItem("prevPath");
+              dispatch(logOut());
+              navigate("/");
+            }}
+          >
+            Logout
+          </div>
+        ) : (
+          <div className="menu" onClick={() => setModalOpen(true)}>
+            Login
+          </div>
+        )}
         <div className="menu" onClick={() => navigate("/notice")}>
           Notice
         </div>

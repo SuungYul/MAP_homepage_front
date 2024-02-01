@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import AddInfo from "./addInfo";
 import { useDispatch } from "react-redux";
 import { logIn, logOut } from "../redux/actions";
+import { SERVER_URL } from "../config";
 
 function CallbackNaver() {
   const location = useLocation();
@@ -21,7 +22,7 @@ function CallbackNaver() {
     const url = new URL(window.location.href);
     const authorizationCode = url.searchParams.get("code"); // 인증 코드 받기
     const state = url.searchParams.get("state"); // state 값 받기
-    const serverUrl = `http://localhost:8080/oauth2/login/naver?code=${authorizationCode}&state=${state}`;
+    const serverUrl = `${SERVER_URL}/oauth2/login/naver?code=${authorizationCode}&state=${state}`;
 
     if (authorizationCode && state) {
       // 서버로 인증 코드 보내기
@@ -34,17 +35,16 @@ function CallbackNaver() {
           localStorage.setItem("access_token", accessToken);
           localStorage.setItem("refresh_token", refreshToken);
           console.log(localStorage.getItem("access_token"));
-          // if (response.data.result.infoSet) {
-          //   //추가 정보를 입력해야하는지 여부
-          //   navigate("/notice");
-          // } else {
-          //   openModal();
-          // }
-          dispatch(logIn());
-          const location = localStorage.getItem("prevPath"); // 로컬 스토리지에서 location 불러오기
-          if (location) {
-            navigate(location);
-            localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제
+          if (response.data.result.infoSet) {
+            //추가 정보를 입력해야하는지 여부
+            dispatch(logIn());
+            const location = localStorage.getItem("prevPath"); // 로컬 스토리지에서 location 불러오기
+            if (location) {
+              navigate(location);
+              localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제
+            }
+          } else {
+            openModal();
           }
         })
         .catch((error) => {

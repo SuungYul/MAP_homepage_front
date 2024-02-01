@@ -1,320 +1,302 @@
-
 .notice {
-    
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 48px;
-    line-height: 72px; /* or '150%' */
-    letter-spacing: -0.015em;
-    color: #000000;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 72px; /* or '150%' */
+  letter-spacing: -0.015em;
+  color: #000000;
 }
 
-.nbcontainer{
-    display: flex;
-    position: absolute;
-    width:50%;
-    left: 10%; /* 조절 가능한 위치 418 */
-    top: 18%; /* 조절 가능한 위치 177 */
+.nbcontainer {
+  display: flex;
+  position: absolute;
+  width: 50%;
+  left: 10%; /* 조절 가능한 위치 418 */
+  top: 18%; /* 조절 가능한 위치 177 */
 }
 
 .writeButton {
-    position: absolute;
+  position: absolute;
 
-    height: 60px; /* 높이를 자동으로 설정하거나 적절한 크기로 조정합니다. */
-    width: 220px; /* 너비를 자동으로 설정하거나 적절한 크기로 조정합니다. */    
-    top: 670px;
-    left: 1600px;
-    background-color: white;
-    color: #18A0FB;
-    border: 1px solid #18A0FB;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 15px;
-    line-height: 18px;
-    align-items: center;
-    text-align: center;
-    letter-spacing: -0.015em;
+  height: 60px; /* 높이를 자동으로 설정하거나 적절한 크기로 조정합니다. */
+  width: 220px; /* 너비를 자동으로 설정하거나 적절한 크기로 조정합니다. */
+  top: 670px;
+  left: 1600px;
+  background-color: white;
+  color: #18a0fb;
+  border: 1px solid #18a0fb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: -0.015em;
 }
 
-#name{
-    position: absolute;
-    top:500px;
-    left: 700px;
-height: 36px;
+#name {
+  position: absolute;
+  top: 500px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 36px;
-/* identical to box height, or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  /* identical to box height, or 150% */
+  letter-spacing: -0.015em;
 
-color: #000000;
-
-
+  color: #000000;
 }
 
-#fakename{
-    position: absolute;
-    top:650px;
-    left: 700px;
-height: 36px;
+#fakename {
+  position: absolute;
+  top: 650px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 36px;
-/* identical to box height, or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  /* identical to box height, or 150% */
+  letter-spacing: -0.015em;
 
-color: #000000;
-
+  color: #000000;
 }
 
-#birth{
-    position: absolute;
-    top:800px;
-    left: 700px;
-height: 36px;
+#birth {
+  position: absolute;
+  top: 800px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 36px;
-/* identical to box height, or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  /* identical to box height, or 150% */
+  letter-spacing: -0.015em;
 
-color: #000000;
-
+  color: #000000;
 }
 
-#email{
-    position: absolute;
-    top:950px;
-    left: 700px;
-height: 36px;
+#email {
+  position: absolute;
+  top: 950px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 36px;
-/* identical to box height, or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  /* identical to box height, or 150% */
+  letter-spacing: -0.015em;
 
-color: #000000;
-
+  color: #000000;
 }
 
-#phonenumber{
-    position: absolute;
-    top:1100px;
-    left: 700px;
-height: 36px;
+#phonenumber {
+  position: absolute;
+  top: 1100px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 36px;
-/* identical to box height, or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  /* identical to box height, or 150% */
+  letter-spacing: -0.015em;
 
-color: #000000;
-
-
+  color: #000000;
 }
 
-#shcoolnumber{
-    position: absolute;
-    top:500px;
-    left: 1500px;
-height: 36px;
+#shcoolnumber {
+  position: absolute;
+  top: 500px;
+  left: 1500px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 36px;
-/* identical to box height, or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  /* identical to box height, or 150% */
+  letter-spacing: -0.015em;
 
-color: #000000;
+  color: #000000;
 }
 
-#mytitle{
-    position: absolute;
-    top:700px;
-    left: 1500px;
-height: 36px;
+#mytitle {
+  position: absolute;
+  top: 700px;
+  left: 1500px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 700;
-font-size: 24px;
-line-height: 36px;
-/* identical to box height, or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 36px;
+  /* identical to box height, or 150% */
+  letter-spacing: -0.015em;
 
-color: #000000;
-
+  color: #000000;
 }
 
-#namedata{
-    position: absolute;
-    top:550px;
-    left: 700px;
-height: 36px;
+#namedata {
+  position: absolute;
+  top: 550px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-/* or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+  letter-spacing: -0.015em;
 
-color: rgba(0, 0, 0, 0.8);
-
+  color: rgba(0, 0, 0, 0.8);
 }
-#fakenamedata{
-    position: absolute;
-    top:700px;
-    left: 700px;
-height: 36px;
+#fakenamedata {
+  position: absolute;
+  top: 700px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-/* or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+  letter-spacing: -0.015em;
 
-color: rgba(0, 0, 0, 0.8);
-
+  color: rgba(0, 0, 0, 0.8);
 }
-#birthdata{
-    position: absolute;
-    top:850px;
-    left: 700px;
-height: 36px;
+#birthdata {
+  position: absolute;
+  top: 850px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-/* or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+  letter-spacing: -0.015em;
 
-color: rgba(0, 0, 0, 0.8);
-
+  color: rgba(0, 0, 0, 0.8);
 }
-#emaildata{
-    position: absolute;
-    top:1000px;
-    left: 700px;
-height: 36px;
+#emaildata {
+  position: absolute;
+  top: 1000px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-/* or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+  letter-spacing: -0.015em;
 
-color: rgba(0, 0, 0, 0.8);
-
-
+  color: rgba(0, 0, 0, 0.8);
 }
-#phonenumberdata{
-    position: absolute;
-    top:1150px;
-    left: 700px;
-height: 36px;
+#phonenumberdata {
+  position: absolute;
+  top: 1150px;
+  left: 700px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-/* or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+  letter-spacing: -0.015em;
 
-color: rgba(0, 0, 0, 0.8);
-
+  color: rgba(0, 0, 0, 0.8);
 }
-#schoolnumberdata{
-    position: absolute;
-    top:550px;
-    left: 1500px;
-height: 36px;
+#schoolnumberdata {
+  position: absolute;
+  top: 550px;
+  left: 1500px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-/* or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+  letter-spacing: -0.015em;
 
-color: rgba(0, 0, 0, 0.8);
-
+  color: rgba(0, 0, 0, 0.8);
 }
-#mytitledata{
-    position: absolute;
-    top:750px;
-    left: 1500px;
-height: 36px;
+#mytitledata {
+  position: absolute;
+  top: 750px;
+  left: 1500px;
+  height: 36px;
 
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 30px;
-/* or 150% */
-letter-spacing: -0.015em;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+  letter-spacing: -0.015em;
 
-color: rgba(0, 0, 0, 0.8);
+  color: rgba(0, 0, 0, 0.8);
 }
 
-#bolt1{
-    position: absolute;
-    top:500px;
-    left: 750px;
-    background-image: url("../images/bolt.png");
-    cursor: pointer;
-
+#bolt1 {
+  position: absolute;
+  top: 500px;
+  left: 750px;
+  background-image: url("../images/bolt.png");
+  cursor: pointer;
 }
 
-#bolt2{
-    position: absolute;
-    top:500px;
-    left: 750px;
-    background-image: url("../images/bolt.png");
+#bolt2 {
+  position: absolute;
+  top: 500px;
+  left: 750px;
+  background-image: url("../images/bolt.png");
 }
 
-#bolt3{
-    position: absolute;
-    top:500px;
-    left: 750px;
-    background-image: url("../images/bolt.png");
+#bolt3 {
+  position: absolute;
+  top: 500px;
+  left: 750px;
+  background-image: url("../images/bolt.png");
 }
 
-#bolt4{
-    position: absolute;
-    top:500px;
-    left: 750px;
-    background-image: url("../images/bolt.png");
+#bolt4 {
+  position: absolute;
+  top: 500px;
+  left: 750px;
+  background-image: url("../images/bolt.png");
 }
 
 /*이미지 넣는게 안됨*/
