@@ -4,7 +4,7 @@ import "./read.css";
 
 const Read = () =>{
     return(
-<div>
+<div style={{minHeight:"100vh"}}>
 <div className="nbcontainer">
         <div className="notice">N O T I C E</div>
         </div>
