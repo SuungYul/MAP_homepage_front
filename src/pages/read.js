@@ -11,6 +11,7 @@ const Read = () => {
   const submitComment = () => {
     axios
       .post(`${SERVER_URL}/comments/${id}`, commentRef.current.value, {
+        // 댓글 작성
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "text/plain",
@@ -27,7 +28,26 @@ const Read = () => {
   useEffect(() => {
     axios
       .get(`${SERVER_URL}/posts/${id}`, {
+        //게시글 내용 조회
         // id를 URL에 포함해서 요청
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response); //응답성공 여기서 꺼내쓰기
+        // 응답을 상태에 저장하거나 화면에 표시
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios
+      .get(`${SERVER_URL}/comments/`, {
+        //댓글 조회
+        params: {
+          postId: id,
+        },
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
