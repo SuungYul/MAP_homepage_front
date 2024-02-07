@@ -8,8 +8,8 @@ const Gallery = () => {
   useAuth();
   return (
     <div style={{ minHeight: "100vh" }}>
-      <div className="nbcontainer">
-        <div className="notice">P H O T O</div>
+      <div className="Header">
+        <div className="pageTitle">P H O T O</div>
         <button className="addButton" onClick={() => navigate("/gallerywrite")}>
           글쓰기
         </button>

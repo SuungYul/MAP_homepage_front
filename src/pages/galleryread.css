@@ -1,24 +1,5 @@
-.notice {
-    
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 48px;
-    line-height: 72px; /* or '150%' */
-    letter-spacing: -0.015em;
-    color: #000000;
-}
-
-.nbcontainer{
-    display: flex;
-    position: absolute;
-    width:50%;
-    left: 10%; /* 조절 가능한 위치 418 */
-    top: 18%; /* 조절 가능한 위치 177 */
-}
 
 .hr-solid {
-    position: absolute;
 top:450px;
 margin-left: 500px;
 width : 1500px;
@@ -28,7 +9,7 @@ width : 1500px;
 }
 .hr-solid2 {
     position: absolute;
-    top: 980px;
+    margib-top: 50%;
     margin-left: 500px;
 width : 1500px;
     border : 0px;
