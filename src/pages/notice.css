@@ -1,0 +1,17 @@
+.menustyle{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 400; /* 400px가 아닌 400으로 수정 */
+    font-size: 25px;
+    line-height: 30px;
+    letter-spacing: -0.015em;
+    color: #000000;
+}
+
+.menucontainer{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 6%;
+    margin-left: 70%;
+    width:20%;
+}

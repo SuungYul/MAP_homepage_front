@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   width: auto;
-  border: 1px solid black;
   overflow: auto;
 }
 
@@ -68,17 +67,16 @@
   margin-left: 15%;
 }
 .commentcontainer {
-  margin-top: 5%;
+  margin-top: 12%;
   display: flex;
   flex-direction: column;
   width: auto;
-  border: 1px solid black;
   overflow: auto;
 }
 .commentline {
-  width: 70%;
-  border: 1px solid #000000;
-  margin-left: 15%;
+  width: 80%;
+  border: 0.5px solid #000000;
+  margin-left: 10%;
 }
 .commentname {
   margin-right: 40%;
@@ -102,15 +100,14 @@
 }
 .commentline2 {
   margin-top: 1%;
-  width: 70%;
-  border: 1px solid #000000;
-  margin-left: 15%;
+  width: 80%;
+  border: 0.5px solid #000000;
+  margin-left: 10%;
 }
 .commentwritecontainer {
   margin-top: 5%;
   display: flex;
   width: auto;
-  border: 1px solid black;
   overflow: auto;
 }
 .profilephoto2 {
@@ -125,15 +122,35 @@
 .NameUploadContainer {
   display: flex;
   width: auto;
-  border: 1px solid black;
   overflow: auto;
 }
 .commentname2 {
-  margin-left: 27%;
+  margin-left: 26%;
+  margin-top: 1%;
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
-  font-size: 10px;
+  font-size: 20px;
   line-height: 30px;
   letter-spacing: -0.015em;
+}
+
+.commentwritebutton{
+  margin-left: 48.5%;
+  background-color: white;
+color: #18A0FB;
+padding: 0.5% 2%;
+border: 1px solid #18A0FB;
+border-radius: 6px;
+cursor: pointer;
+font-family: Montserrat;
+font-style: normal;
+font-weight: 700;
+font-size: 15px;
+line-height: 18px;
+align-items: center;
+text-align: center;
+letter-spacing: -0.015em;
+white-space: nowrap;
+
 }
