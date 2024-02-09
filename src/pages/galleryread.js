@@ -31,18 +31,13 @@ const GalleryRead = () => {
       </div>
       <div className="commentwritecontainer">
         <img className="profilephoto2" alt="프로필사진"></img>
-        <input  className="commentInput" type="text"></input>
+        <input className="commentInput" type="text"></input>
       </div>
       <div className="NameUploadContainer">
         <div className="commentname2">윤동주</div>
-        <button className="commentwritebutton" >
-          {" "}
-          등록{" "}
-        </button>
+        <button className="commentwritebutton"> 등록 </button>
       </div>
     </div>
-
-    
   );
 };
 export default GalleryRead;

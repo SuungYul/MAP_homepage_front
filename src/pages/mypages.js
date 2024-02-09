@@ -55,8 +55,8 @@ const MyPages = () => {
   }, []);
   return (
     <div style={{ minHeight: "100vh" }}>
-      <div className="nbcontainer">
-        <div className="notice">M Y P A G E</div>
+      <div className="Header">
+        <div className="pageTitle">M Y P A G E</div>
         <button className="addButton" onClick={deleteUser}>
           회원탈퇴
         </button>
