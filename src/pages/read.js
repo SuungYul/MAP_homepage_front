@@ -7,6 +7,7 @@ import { SERVER_URL } from "../config";
 const Read = () => {
   const { id } = useParams();
   const commentRef = useRef();
+  const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
   const submitComment = () => {
     axios
@@ -26,6 +27,7 @@ const Read = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios
       .get(`${SERVER_URL}/posts/${id}`, {
         //게시글 내용 조회
@@ -64,6 +66,9 @@ const Read = () => {
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
         <div className="pageTitle">N O T I C E</div>
+        <button className="addButton" onClick={() => navigate("/notice")}>
+          목록으로
+        </button>
       </div>
 
       <div className="readcontentcontainer">

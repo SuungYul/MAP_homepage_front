@@ -42,6 +42,10 @@ const Write = () => {
         )
         .then((response) => {
           console.log(response);
+          if (response.status === 200) {
+            alert("등록되었습니다.");
+            navigate("/notice");
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -101,7 +105,25 @@ const Write = () => {
             alt="Upload"
             onClick={handleUploadButtonClick}
           />
-          {/* {파일 존재? <div>{filename}, 삭제36버튼</div> : null} */}
+          {filename ? (
+            <div
+              className="textStyle"
+              style={{ marginTop: "10px", marginLeft: "20px" }}
+            >
+              {filename}{" "}
+              <button
+                style={{
+                  border: "none",
+                  backgroundColor: "transparent",
+                  color: "red",
+                  fontSize: "20px",
+                }}
+                onClick={() => setFilename(null)}
+              >
+                X
+              </button>
+            </div>
+          ) : null}
         </div>
       </form>
     </div>

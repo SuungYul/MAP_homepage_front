@@ -17,12 +17,11 @@ const Header = () => {
         <div className="logo" />
         <div
           className="text"
-          // onClick={() => {
-          //   localStorage.getItem("access_token")
-          //     ? navigate("/notice")
-          //     : navigate("/");
-          // }}
-          onClick={() => navigate("/")}
+          onClick={() => {
+            localStorage.getItem("access_token")
+              ? navigate("/notice")
+              : navigate("/");
+          }}
         >
           MAP MJU
         </div>

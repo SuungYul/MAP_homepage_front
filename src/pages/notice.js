@@ -18,23 +18,21 @@ const Notice = () => {
     console.log(notices);
     notices.forEach((element, index) => {
       console.log(element, index);
-      
+
       result.push(
         <div>
-        <div style={noticeContainerStyle}>
-          <div style={TitleStyle}> 공지</div>
-        <div
-          style={contentTitleStyle}
-          onClick={() => navigate(`/read/${element.postId}`)}
-        >
-          
-          {element.title}
-        </div>
-        <div style={dataStyle1}>{element.views}</div>
-        <div style={dataStyle2}>{element.dtype}</div>
-        <div style={dataStyle3}>{element.role}</div>
-
-        </div>
+          <div style={noticeContainerStyle}>
+            <div style={TitleStyle}> 공지</div>
+            <div
+              style={contentTitleStyle}
+              onClick={() => navigate(`/read/${element.postId}`)}
+            >
+              {element.title}
+            </div>
+            <div style={dataStyle1}>{element.views}</div>
+            <div style={dataStyle2}>{element.dtype}</div>
+            <div style={dataStyle3}>{element.role}</div>
+          </div>
         </div>
       );
     });
@@ -59,11 +57,10 @@ const Notice = () => {
   }, []);
 
   const noticeContainerStyle = {
-    display: 'flex', // 가로 정렬
-    alignItems: 'center', // 세로 가운데 
-    justifyContent: 'space-between', // 요소들 사이의 간격을 균등하게 유지
+    display: "flex", // 가로 정렬
+    alignItems: "center", // 세로 가운데
+    justifyContent: "space-between", // 요소들 사이의 간격을 균등하게 유지
   };
-  
 
   const contentTitleStyle = {
     cursor: "pointer",
@@ -111,42 +108,37 @@ const Notice = () => {
     marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.]
     marginRight: "-18%",
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
-  };const dataStyle3 = {
+  };
+  const dataStyle3 = {
     fontFamily: "Montserrat",
     fontStyle: "normal",
     fontWeight: 400,
     fontSize: "25px",
     lineHeight: "30px",
     letterSpacing: "-0.015em",
-    marginRight:"12%",
+    marginRight: "12%",
     marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
   };
 
-  
-
   return (
     <div style={{ minHeight: "100vh" }}>
-        <div className="Header">
+      <div className="Header">
         <div className="pageTitle">N O T I C E</div>
 
         <button className="addButton" onClick={() => navigate("/write")}>
           글쓰기
         </button>
-        </div>
+      </div>
 
-        <div className="menucontainer">
-          <div className="menustyle">조회</div>
-          <div className="menustyle">첨부파일</div>
-          <div className="menustyle">작성자</div>
-        </div>
+      <div className="menucontainer">
+        <div className="menustyle">조회</div>
+        <div className="menustyle">첨부파일</div>
+        <div className="menustyle">작성자</div>
+      </div>
 
-        
-          
-
-            
-            {showNotice()}
-            {/* <div style={contentTitleStyle} onClick={() => navigate("/read")}>
+      {showNotice()}
+      {/* <div style={contentTitleStyle} onClick={() => navigate("/read")}>
               Nemo enim ipsam voluptatem quia voluptas sit asp
             </div>
             <div style={contentTitleStyle} onClick={() => navigate("/read")}>
@@ -158,12 +150,6 @@ const Notice = () => {
             <div style={contentTitleStyle} onClick={() => navigate("/read")}>
               Nemo enim ipsam voluptatem quia voluptas sit asp
             </div> */}
-          
-        
-
-        
-
-      
     </div>
   );
 };

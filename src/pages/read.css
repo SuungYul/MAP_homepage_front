@@ -135,22 +135,21 @@
   letter-spacing: -0.015em;
 }
 
-.commentwritebutton{
+.commentwritebutton {
   margin-left: 48.5%;
   background-color: white;
-color: #18A0FB;
-padding: 0.5% 2%;
-border: 1px solid #18A0FB;
-border-radius: 6px;
-cursor: pointer;
-font-family: Montserrat;
-font-style: normal;
-font-weight: 700;
-font-size: 15px;
-line-height: 18px;
-align-items: center;
-text-align: center;
-letter-spacing: -0.015em;
-white-space: nowrap;
-
+  color: #18a0fb;
+  padding: 0.5% 2%;
+  border: 1px solid #18a0fb;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
 }
