@@ -6,22 +6,23 @@ const GalleryRead = () => {
   useAuth();
   return (
     <div style={{ minHeight: "100vh" }}>
-      <div className="nbcontainer">
-        <div className="notice">N O T I C E</div>
+      <div className="Header">
+        <div className="pageTitle">P H O T O</div>
       </div>
       <hr class="hr-solid" />
+      <div className="title">제목</div>
+
       <hr class="hr-solid2" />
+      <div className="photocontainer3">
+        <div className="photoimages1"></div>
+        <div className="photoimages2"></div>
+        <div className="photoimages3"></div>
+      </div>
       <hr class="hr-solid3" />
 
-      <div className="texts" id="addfile">
+      <div className="title" id="addfile">
         첨부파일
       </div>
-
-      <div className="title">제목</div>
-      <div className="photoimages1"></div>
-      <div className="photoimages2"></div>
-      <div className="photoimages3"></div>
-      <div className="filename">본문</div>
 
       <div className="commentcontainer">
         <div className="commentline"></div>

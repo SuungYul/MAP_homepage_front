@@ -1,101 +1,75 @@
-
 .hr-solid {
-top:450px;
-margin-left: 500px;
-width : 1500px;
-    border : 0px;
-    border-top: 1px solid black;
-
+  margin-top: 10%;
+  width: 70%;
+  border: 0px;
+  border-top: 1px solid black;
 }
 .hr-solid2 {
-    position: absolute;
-    margib-top: 50%;
-    margin-left: 500px;
-width : 1500px;
-    border : 0px;
-    border-top: 1px solid black;
-
-
+  width: 70%;
+  border: 0px;
+  border-top: 1px solid black;
 }
+
 .hr-solid3 {
-    position: absolute;
-    top: 1030px;
-    margin-left: 500px;
-width : 1500px;
-    border : 0px;
-    border-top: 1px solid black;
-
+  margin-top: 5%;
+  width: 70%;
+  border: 0px;
+  border-top: 1px solid black;
 }
 
+.title {
+  margin-right: 30%;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  letter-spacing: -0.015em;
 
-
-.title{
-    position: absolute;
-    top:420px;
-    margin-left: 500px;
-    
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 25px;
-line-height: 30px;
-/* identical to box height, or 120% */
-letter-spacing: -0.015em;
-
-color: #000000;
+  color: #000000;
 }
-.photoimages1{
-    position: absolute;
-    top: 600px;
-    left: 550px;
-    width:416px;    
-    height: 270px;
-    border:1px solid black;
-    background-image: url("../images/MAP_logo.png");
-    cursor: pointer;
-
+.photocontainer3 {
+  margin-top: 5%;
+  display: flex;
+  border: 1px solid black;
+  justify-content: space-evenly;
+  margin-left: 15%;
+  width: 70%;
 }
-.photoimages2{
-    position: absolute;
-    top: 600px;
-    left: 1000px;
-    width:416px;    
-    height: 270px;
-    border:1px solid black;
-    background-image: url("../images/MAP_logo.png");
-    cursor: pointer;
-
+.photoimages1 {
+  width: 416px;
+  height: 270px;
+  border: 1px solid black;
+  background-image: url("../images/MAP_logo.png");
+  cursor: pointer;
 }
-.photoimages3{
-    position: absolute;
-    top: 600px;
-    left: 1450px;
-    width:416px;    
-    height: 270px;
-    border:1px solid black;
-    background-image: url("../images/MAP_logo.png");
-    cursor: pointer;
-
+.photoimages2 {
+  width: 416px;
+  height: 270px;
+  border: 1px solid black;
+  background-image: url("../images/MAP_logo.png");
+  cursor: pointer;
 }
-.filename{
-    position: absolute;
-    top:1000px;
+.photoimages3 {
+  width: 416px;
+  height: 270px;
+  border: 1px solid black;
+  background-image: url("../images/MAP_logo.png");
+  cursor: pointer;
+}
+.filename {
+  margin-top: 15%;
+  margin-right: 30%;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  letter-spacing: -0.015em;
 
-    margin-left: 500px;
-    
-font-family: 'Montserrat';
-font-style: normal;
-font-weight: 400;
-font-size: 25px;
-line-height: 30px;
-/* identical to box height, or 120% */
-letter-spacing: -0.015em;
-
-color: #000000;
-
+  color: #000000;
 }
 
-#addfile{
-    
-    top: 1000px;
+#addfile {
+  top: 1000px;
 }

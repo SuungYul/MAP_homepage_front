@@ -9,36 +9,61 @@ const GalleryWrite = () => {
 
   return (
     <div style={{ minHeight: "100vh" }}>
-      <div className="nbcontainer">
-        <div className="notice">P H O T O</div>
-        <button className="writeButton" onClick={() => navigate("/gallery")}>
+      <div className="Header">
+        <div className="pageTitle">N O T I C E</div>
+        <button className="addButton" onClick={() => navigate("/gallerywrite")}>
           등록
         </button>
       </div>
 
-      <div className="texts" id="title">
-        제목
-      </div>
-      <div className="texts" id="content">
-        내용
-      </div>
-      <div className="texts" id="addfile">
-        첨부파일
-      </div>
-      <input
-        className="titleBox"
-        type="text"
-        placeholder="제목을 입력해주세요"
-      ></input>
-      <input
-        className="contentBox"
-        type="text"
-        placeholder="본문을 입력해주세요"
-      ></input>
-      <button className="addfileButton" onClick={() => navigate("/notice")}>
-        {" "}
-        업로드{" "}
-      </button>
+      <form className="form">
+        <div className="form-group">
+          <label className="formText" htmlFor="title">
+            제목
+          </label>
+          <input
+            className="titleBox"
+            type="text"
+            id="title"
+            placeholder="제목을 입력해주세요"
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="formText" htmlFor="content">
+            내용
+          </label>
+          <textarea
+            className="contentBox"
+            id="content"
+            placeholder="본문을 입력해주세요"
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="formText" htmlFor="addfile">
+            첨부파일
+          </label>
+          <input type="file" style={{ display: "none" }} />
+          <img className="addImgButton" alt="Upload" />
+          <div
+            className="textStyle"
+            style={{ marginTop: "10px", marginLeft: "20px" }}
+          >
+            <button
+              style={{
+                border: "none",
+                backgroundColor: "transparent",
+                color: "red",
+                fontSize: "20px",
+              }}
+            >
+              X
+            </button>
+          </div>
+          ) : null}
+        </div>
+      </form>
     </div>
   );
 };
