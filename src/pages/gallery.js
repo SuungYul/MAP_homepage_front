@@ -10,7 +10,7 @@ const Gallery = () => {
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
         <div className="pageTitle">P H O T O</div>
-        <button className="addButton" >
+        <button className="addButton" onClick={() => navigate("/gallerywrite")}>
           글쓰기
         </button>
       </div>
