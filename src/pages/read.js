@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./read.css";
 import axios from "axios";
@@ -9,6 +9,7 @@ const Read = () => {
   const commentRef = useRef();
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
+
   const submitComment = () => {
     axios
       .post(`${SERVER_URL}/comments/${id}`, commentRef.current.value, {
@@ -61,7 +62,16 @@ const Read = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [id]); // id가 바뀔 때마다 요청을 다시 보냄
+
+    const timeout = setTimeout(() => {
+      localStorage.removeItem("access_token");
+      navigate("/login");
+    }, 1800000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">

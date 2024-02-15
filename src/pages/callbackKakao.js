@@ -24,10 +24,8 @@ function CallbackKakao() {
         .get(serverUrl)
         .then((response) => {
           const accessToken = response.headers["access-token"];
-          const refreshToken = response.headers["refresh-token"];
 
           localStorage.setItem("access_token", accessToken);
-          localStorage.setItem("refresh_token", refreshToken);
           console.log(localStorage.getItem("access_token"));
           if (response.data.result.infoSet) {
             //추가 정보를 입력해야하는지 여부

@@ -1,16 +1,49 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import "./gallery.css";
 import { useAuth } from "../redux/useAuth";
+import axios from "axios";
+import { SERVER_URL } from "../config";
 
 const Gallery = () => {
   const navigate = useNavigate();
   useAuth();
+  const accessToken = localStorage.getItem("access_token");
+
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/photo`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        // console.log(response);
+        // const myData = {
+        //   studentId: response.data.result.studentId,
+        //   name: response.data.result.name,
+        //   nickname: response.data.result.nickname,
+        //   grade: response.data.result.grade,
+        // };
+        // setMyInfo(myData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    const timeout = setTimeout(() => {
+      localStorage.removeItem("access_token");
+      navigate("/login");
+    }, 1800000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
         <div className="pageTitle">P H O T O</div>
-        <button className="addButton" >
+        <button className="addButton" onClick={() => navigate("/gallerywrite")}>
           글쓰기
         </button>
       </div>

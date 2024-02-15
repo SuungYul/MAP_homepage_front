@@ -3,6 +3,7 @@
   height: 270px;
   border: 1px solid black;
   background-image: url("../images/MAP_logo.png");
+  background-size: cover;
   cursor: pointer;
 }
 
@@ -11,6 +12,8 @@
   height: 270px;
   border: 1px solid black;
   background-image: url("../images/MAP_logo.png");
+  background-size: cover;
+
   cursor: pointer;
 }
 
@@ -19,6 +22,8 @@
   height: 270px;
   border: 1px solid black;
   background-image: url("../images/MAP_logo.png");
+  background-size: cover;
+
   cursor: pointer;
 }
 
@@ -27,6 +32,8 @@
   height: 270px;
   border: 1px solid black;
   background-image: url("../images/MAP_logo.png");
+  background-size: cover;
+
   cursor: pointer;
 }
 
@@ -35,6 +42,8 @@
   height: 270px;
   border: 1px solid black;
   background-image: url("../images/MAP_logo.png");
+  background-size: cover;
+
   cursor: pointer;
 }
 
@@ -44,6 +53,7 @@
   border: 1px solid black;
   background-image: url("../images/MAP_logo.png");
   cursor: pointer;
+  background-size: cover;
 }
 
 .photocontainer1 {

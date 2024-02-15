@@ -54,6 +54,15 @@ const Notice = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    const timeout = setTimeout(() => {
+      localStorage.removeItem("access_token");
+      navigate("/login");
+    }, 1800000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   const noticeContainerStyle = {

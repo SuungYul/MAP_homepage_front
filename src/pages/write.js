@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./write.css";
 import plus from "../images/plus.png";
@@ -11,6 +11,7 @@ const Write = () => {
   const titleRef = useRef();
   const bodyRef = useRef();
   const [filename, setFilename] = useState();
+  const accessToken = localStorage.getItem("access_token");
 
   const handleUploadButtonClick = () => {
     fileInputRef.current.click();
@@ -21,6 +22,35 @@ const Write = () => {
     setFilename(event.target.files[0].name);
   };
 
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/write`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        // console.log(response);
+        // const myData = {
+        //   studentId: response.data.result.studentId,
+        //   name: response.data.result.name,
+        //   nickname: response.data.result.nickname,
+        //   grade: response.data.result.grade,
+        // };
+        // setMyInfo(myData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    const timeout = setTimeout(() => {
+      localStorage.removeItem("access_token");
+      navigate("/login");
+    }, 1800000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
   const FinishForm = () => {
     const accessToken = localStorage.getItem("access_token");
     if (titleRef.current.value === "" || bodyRef.current.value === "") {

@@ -1,16 +1,50 @@
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./gallerywrite.css";
 import { useAuth } from "../redux/useAuth";
+import axios from "axios";
+import { SERVER_URL } from "../config";
 
 const GalleryWrite = () => {
   useAuth();
   const navigate = useNavigate();
+  const accessToken = localStorage.getItem("access_token");
+
+  axios
+    .get(`${SERVER_URL}/photowirte`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then((response) => {
+      // console.log(response);
+      // const myData = {
+      //   studentId: response.data.result.studentId,
+      //   name: response.data.result.name,
+      //   nickname: response.data.result.nickname,
+      //   grade: response.data.result.grade,
+      // };
+      // setMyInfo(myData);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      localStorage.removeItem("access_token");
+      navigate("/login");
+    }, 1800000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
-        <div className="pageTitle">N O T I C E</div>
+        <div className="pageTitle">P H O T O</div>
         <button className="addButton" onClick={() => navigate("/gallerywrite")}>
           등록
         </button>
@@ -57,11 +91,8 @@ const GalleryWrite = () => {
                 color: "red",
                 fontSize: "20px",
               }}
-            >
-              X
-            </button>
+            ></button>
           </div>
-          ) : null}
         </div>
       </form>
     </div>
