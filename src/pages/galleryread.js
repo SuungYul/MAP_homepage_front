@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
 import "./galleryread.css";
 import { useAuth } from "../redux/useAuth";
 import axios from "axios";
@@ -17,16 +17,7 @@ const GalleryRead = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then((response) => {
-        // console.log(response);
-        // const myData = {
-        //   studentId: response.data.result.studentId,
-        //   name: response.data.result.name,
-        //   nickname: response.data.result.nickname,
-        //   grade: response.data.result.grade,
-        // };
-        // setMyInfo(myData);
-      })
+      .then((response) => {})
       .catch((error) => {
         console.log(error);
       });

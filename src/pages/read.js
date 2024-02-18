@@ -9,18 +9,41 @@ const Read = () => {
   const commentRef = useRef();
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
+  const [post, setPost] = useState(null); // 상태 설정
+  const [comments, setComments] = useState(null); // 상태 설정
 
   const submitComment = () => {
     axios
-      .post(`${SERVER_URL}/comments/${id}`, commentRef.current.value, {
-        // 댓글 작성
+      .post(
+        `${SERVER_URL}/comments/${id}`,
+        { comment: commentRef.current.value }, 
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json", // 여기를 수정했습니다.
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        fetchComments();
+        commentRef.current.value = ""; // 댓글이 성공적으로 등록된 후, 댓글 작성란을 비워줍니다.
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchComments = () => {
+    axios
+      .get(`${SERVER_URL}/comments/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "text/plain",
         },
       })
       .then((response) => {
-        console.log(response); //댓글 작성 완료
+        console.log(response);
+        setComments(response.data.result.commentDetailDtoList);
       })
       .catch((error) => {
         console.log(error);
@@ -40,28 +63,13 @@ const Read = () => {
       .then((response) => {
         console.log(response); //응답성공 여기서 꺼내쓰기
         // 응답을 상태에 저장하거나 화면에 표시
+        setPost(response.data.result); // 응답을 상태에 저장
       })
       .catch((error) => {
         console.log(error);
       });
 
-    axios
-      .get(`${SERVER_URL}/comments/`, {
-        //댓글 조회
-        params: {
-          postId: id,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        console.log(response); //응답성공 여기서 꺼내쓰기
-        // 응답을 상태에 저장하거나 화면에 표시
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    fetchComments();
 
     const timeout = setTimeout(() => {
       localStorage.removeItem("access_token");
@@ -72,6 +80,10 @@ const Read = () => {
       clearTimeout(timeout);
     };
   }, []);
+
+  if (post === null) {
+    return <div>Loading...</div>;
+  }
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
@@ -82,19 +94,24 @@ const Read = () => {
       </div>
 
       <div className="readcontentcontainer">
-        <div className="readTitle">제목</div>
+        <div className="readTitle">{post.title}</div>
         <div className="line1"></div>
-        <div className="readcontent">본문</div>
+        <div className="readcontent">{post.content}</div>
         <div className="line2"></div>
-        <div className="readfile">첨부파일</div>
+        <div className="readfile">{post.dtype}</div>
         <div className="line3"></div>
       </div>
-      <div className="commentcontainer">
-        <div className="commentline"></div>
-        <div className="commentname">윤동주 (2024.02.01. 18:01)</div>
-        <div className="commentcontent">dasnlkdnklasdnlkask </div>
-        <div className="commentline2"> </div>
-      </div>
+
+      {comments &&
+        comments.map((comment) => (
+          <div className="commentcontainer">
+            <div className="commentline"></div>
+            <div className="commentname">{comment.writer}</div>
+            <div className="commentcontent">{comment.content}</div>
+            <div className="commentline2"> </div>
+          </div>
+        ))}
+
       <div className="commentwritecontainer">
         <img className="profilephoto2" alt="프로필사진"></img>
         <input ref={commentRef} className="commentInput" type="text"></input>
@@ -109,5 +126,6 @@ const Read = () => {
     </div>
   );
 };
+
 export default Read;
 // 프로필 사진 추가 해야함
