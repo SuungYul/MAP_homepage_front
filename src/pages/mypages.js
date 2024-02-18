@@ -10,6 +10,7 @@ import profile from "../images/MAP_logo.png";
 const MyPages = () => {
   useAuth();
   const navigate = useNavigate();
+  const isAdmin = localStorage.getItem("isAdmin");
   const accessToken = localStorage.getItem("access_token");
   const [myInfo, setMyInfo] = useState({
     studentId: 1,
@@ -82,6 +83,7 @@ const MyPages = () => {
         },
       })
       .then((response) => {
+        console.log("preview");
         console.log(response);
         const myData = {
           studentId: response.data.result.studentId,
@@ -110,10 +112,19 @@ const MyPages = () => {
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
         <div className="pageTitle">M Y P A G E</div>
+        {isAdmin ? (
+          <button
+            className="addButton"
+            onClick={() => navigate("/masterpages")}
+          >
+            회원관리
+          </button>
+        ) : (
+          <button className="addButton" onClick={deleteUser}>
+            회원탈퇴
+          </button>
+        )}
 
-        <button className="addButton" onClick={deleteUser}>
-          회원탈퇴
-        </button>
         <div class="box">
           <img
             class="profile"

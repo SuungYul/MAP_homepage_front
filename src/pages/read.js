@@ -16,7 +16,7 @@ const Read = () => {
     axios
       .post(
         `${SERVER_URL}/comments/${id}`,
-        { comment: commentRef.current.value }, 
+        { comment: commentRef.current.value },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -39,6 +39,9 @@ const Read = () => {
       .get(`${SERVER_URL}/comments/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          page: "1",
         },
       })
       .then((response) => {

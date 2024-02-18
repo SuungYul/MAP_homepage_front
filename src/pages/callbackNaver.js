@@ -29,6 +29,7 @@ function CallbackNaver() {
       axios
         .get(serverUrl)
         .then((response) => {
+          console.log(response);
           const accessToken = response.headers["access-token"];
           const refreshToken = response.headers["refresh-token"];
 

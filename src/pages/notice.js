@@ -109,17 +109,26 @@ const Notice = () => {
         console.log(error);
       });
   };
-
   const fetchNotices = () => {
-    axios
-      .get(`${SERVER_URL}/posts/general`, {
+    Promise.all([
+      axios.get(`${SERVER_URL}/posts/notice`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setNotices(response.data.result.postResponseDTOList);
+      }),
+      axios.get(`${SERVER_URL}/posts/general`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    ])
+      .then(([noticeResponse, generalResponse]) => {
+        console.log(generalResponse, "~~~~~~~~~~~~~~~~~");
+        setNotices(
+          noticeResponse.data.result.concat(
+            generalResponse.data.result.postResponseDTOList
+          )
+        );
       })
       .catch((error) => {
         console.log(error);
@@ -130,62 +139,51 @@ const Notice = () => {
     const result = [];
     console.log(notices);
     notices.forEach((element, index) => {
-      console.log(element, index);
+      if (element.dtype !== "PHOTO") {
+        console.log(element, index);
 
-      result.push(
-        <div>
-          <div style={noticeContainerStyle}>
-            <div style={TitleStyle}> {element.dtype}</div>
-            <div
-              style={contentTitleStyle}
-              onClick={() => navigate(`/read/${element.postId}`)}
-            >
-              {element.title}
-            </div>
-            <div style={dataStyle1}>{element.views}</div>
-            <div style={dataStyle2}>{element.dtype}</div>
-            <div style={dataStyle3}>{element.role} </div>
-            <div
-              style={deletebutton}
-              onClick={() => deleteNotice(element.postId)}
-            >
-              삭제
-            </div>
-            <div
-              style={editbutton}
-              onClick={() =>
-                editNotice(
-                  element.postId,
-                  element.title,
-                  element.dtype,
-                  element.content
-                )
-              }
-            >
-              수정
+        result.push(
+          <div>
+            <div style={noticeContainerStyle}>
+              <div style={TitleStyle}> {element.notice ? "공지" : "일반"}</div>
+              <div
+                style={contentTitleStyle}
+                onClick={() => navigate(`/read/${element.postId}`)}
+              >
+                {element.title}
+              </div>
+              <div style={dataStyle1}>{element.views}</div>
+              <div style={dataStyle2}>{element.accessUrl ? "이미지" : "X"}</div>
+              <div style={dataStyle3}>{element.nickname} </div>
+              <div
+                style={deletebutton}
+                onClick={() => deleteNotice(element.postId)}
+              >
+                삭제
+              </div>
+              <div
+                style={editbutton}
+                onClick={() =>
+                  editNotice(
+                    element.postId,
+                    element.title,
+                    element.dtype,
+                    element.content
+                  )
+                }
+              >
+                수정
+              </div>
             </div>
           </div>
-        </div>
-      );
+        );
+      }
     });
     return result;
   };
 
   useEffect(() => {
-    axios
-      .get(`${SERVER_URL}/posts/general`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        console.log("response");
-        console.log(response.data);
-        setNotices(response.data.result.postResponseDTOList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    fetchNotices();
 
     const timeout = setTimeout(() => {
       localStorage.removeItem("access_token");

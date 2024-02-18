@@ -23,8 +23,10 @@ function CallbackKakao() {
       axios
         .get(serverUrl)
         .then((response) => {
+          console.log(response);
+          const isAdmin = response.data.result.role === "USER"; //admin으로 바꾸기
           const accessToken = response.headers["access-token"];
-
+          localStorage.setItem("isAdmin", isAdmin);
           localStorage.setItem("access_token", accessToken);
           console.log(localStorage.getItem("access_token"));
           if (response.data.result.infoSet) {
