@@ -1,16 +1,25 @@
 import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import "./galleryread.css";
-import { useAuth } from "../redux/useAuth";
+import { useAuth } from "../token/useAuth";
 import axios from "axios";
 import { SERVER_URL } from "../config";
+import IsAccessTokenValid from "../token/tokenValid";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const GalleryRead = () => {
   useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
 
   useEffect(() => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .get(`${SERVER_URL}/photoread`, {
         headers: {
@@ -21,14 +30,6 @@ const GalleryRead = () => {
       .catch((error) => {
         console.log(error);
       });
-    const timeout = setTimeout(() => {
-      localStorage.removeItem("access_token");
-      navigate("/login");
-    }, 1800000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
   }, []);
   return (
     <div style={{ minHeight: "100vh" }}>

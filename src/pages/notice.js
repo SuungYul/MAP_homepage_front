@@ -2,14 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Login from "./login";
 import Footer from "./footer";
-import { useAuth } from "../redux/useAuth";
+import { useAuth } from "../token/useAuth";
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import "./notice.css";
+import tokenSave from "../token/tokenSave";
+import IsAccessTokenValid from "../token/tokenValid";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const Notice = () => {
   useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
   const [notices, setNotices] = useState([]);
 
@@ -59,6 +64,12 @@ const Notice = () => {
       });
   };
   const deleteNotice = (id) => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+
+      navigate("/login");
+    }
     axios
       .delete(`${SERVER_URL}/posts/${id}`, {
         headers: {
@@ -66,6 +77,7 @@ const Notice = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
         if (response.data.isSuccess) {
           // 게시물이 성공적으로 삭제되면, 게시물 목록을 다시 불러옵니다.
           console.log(response.data.message);
@@ -81,6 +93,11 @@ const Notice = () => {
   };
 
   const editNotice = (id, title, dtype, content) => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .put(
         `${SERVER_URL}/posts/${id}`,
@@ -96,6 +113,7 @@ const Notice = () => {
         }
       )
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
         if (response.data.isSuccess) {
           // 게시물이 성공적으로 수정되면, 게시물 목록을 다시 불러옵니다.
           console.log(response.data.message);
@@ -110,6 +128,11 @@ const Notice = () => {
       });
   };
   const fetchNotices = () => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     Promise.all([
       axios.get(`${SERVER_URL}/posts/notice`, {
         headers: {
@@ -123,7 +146,8 @@ const Notice = () => {
       }),
     ])
       .then(([noticeResponse, generalResponse]) => {
-        console.log(generalResponse, "~~~~~~~~~~~~~~~~~");
+        tokenSave(generalResponse.headers["access-token"]);
+        console.log(noticeResponse, "~~~~~~~~~~~~~~~~~");
         setNotices(
           noticeResponse.data.result.concat(
             generalResponse.data.result.postResponseDTOList
@@ -184,15 +208,6 @@ const Notice = () => {
 
   useEffect(() => {
     fetchNotices();
-
-    const timeout = setTimeout(() => {
-      localStorage.removeItem("access_token");
-      navigate("/login");
-    }, 1800000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
   }, []);
 
   const deletebutton = {

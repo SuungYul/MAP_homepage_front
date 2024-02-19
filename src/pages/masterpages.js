@@ -1,16 +1,26 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import "./masterpages.css";
-import { useAuth } from "../redux/useAuth";
+
 import axios from "axios";
 import { SERVER_URL } from "../config";
+import { useAuth } from "../token/useAuth";
+import IsAccessTokenValid from "../token/tokenValid";
+import tokenSave from "../token/tokenSave";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const MasterPages = () => {
   useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
   useEffect(() => {
-    console.log(accessToken);
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .get(`${SERVER_URL}/admin/members`, {
         headers: {
@@ -21,6 +31,7 @@ const MasterPages = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
         console.log(response);
       })
       .catch((error) => {

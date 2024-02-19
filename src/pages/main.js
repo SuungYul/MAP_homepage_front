@@ -10,7 +10,7 @@ const Main = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    localStorage.removeItem("access_token");
+    localStorage.clear();
     dispatch(logOut());
   }, []);
 
@@ -51,7 +51,7 @@ const Main = () => {
     height: "90%",
     left: "50%",
     top: "10%",
-    };
+  };
 
   const scrollsection = {
     backgroundColor: "#000000",
@@ -95,34 +95,32 @@ const Main = () => {
     zIndex: 2,
   };
   const introbox = {
-    display:"flex",
-    position:"absolute",
-    top:"29%",
+    display: "flex",
+    position: "absolute",
+    top: "29%",
     left: "20%",
-    minWidth:"500px",
+    minWidth: "500px",
   };
-  
 
   return (
     <div style={fullscreensection}>
-      <div >
+      <div>
         <div style={introbox}>
-        <div style={introductionStyles[introductionIndex]}>
-          
-            <p>M J U</p> 
+          <div style={introductionStyles[introductionIndex]}>
+            <p>M J U</p>
             <p>Computer Engineering</p>
-            <p>S T U D Y</p> 
-            <p>- M A P <div style={ellipseStyle}></div></p>
-        </div>
+            <p>S T U D Y</p>
+            <p>
+              - M A P <div style={ellipseStyle}></div>
+            </p>
+          </div>
           <button style={signInButtonStyle} onClick={() => navigate("/login")}>
             Sign Up
           </button>
-          
         </div>
         <img src={myimage} style={photostyle}></img>
       </div>
 
-      
       <div style={scrollsection}>
         <div style={imageStyle}>
           <img src={altimage1} alt="맵 사진 1" style={altImageStyle} />

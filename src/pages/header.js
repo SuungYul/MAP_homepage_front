@@ -31,8 +31,7 @@ const Header = () => {
           <div
             className="menu"
             onClick={() => {
-              localStorage.removeItem("access_token");
-              localStorage.removeItem("prevPath");
+              localStorage.clear();
               dispatch(logOut());
               navigate("/");
             }}

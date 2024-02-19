@@ -4,7 +4,8 @@ import axios from "axios";
 import { SERVER_URL } from "../config";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logIn } from "../redux/actions";
+import { logIn, logOut } from "../redux/actions";
+import IsAccessTokenValid from "../token/tokenValid";
 
 const AddInfo = ({ setModalOpen }) => {
   const nicknameRef = useRef(); // 닉네임 입력 필드에 대한 참조 생성
@@ -22,7 +23,11 @@ const AddInfo = ({ setModalOpen }) => {
     const nickname = nicknameRef.current.value; // 닉네임 입력 필드의 값을 가져옴
     const number = numberRef.current.value; // 학번 입력 필드의 값을 가져옴
     const grade = gradeRef.current.value;
-
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .patch(
         `${SERVER_URL}/members/me`,

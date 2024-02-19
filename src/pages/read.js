@@ -3,16 +3,26 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./read.css";
 import axios from "axios";
 import { SERVER_URL } from "../config";
+import tokenSave from "../token/tokenSave";
+import IsAccessTokenValid from "../token/tokenValid";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const Read = () => {
   const { id } = useParams();
   const commentRef = useRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
   const [post, setPost] = useState(null); // 상태 설정
   const [comments, setComments] = useState(null); // 상태 설정
 
   const submitComment = () => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .post(
         `${SERVER_URL}/comments/${id}`,
@@ -25,6 +35,8 @@ const Read = () => {
         }
       )
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
         console.log(response);
         fetchComments();
         commentRef.current.value = ""; // 댓글이 성공적으로 등록된 후, 댓글 작성란을 비워줍니다.
@@ -35,6 +47,11 @@ const Read = () => {
   };
 
   const fetchComments = () => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .get(`${SERVER_URL}/comments/${id}`, {
         headers: {
@@ -45,6 +62,7 @@ const Read = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
         console.log(response);
         setComments(response.data.result.commentDetailDtoList);
       })
@@ -55,6 +73,11 @@ const Read = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .get(`${SERVER_URL}/posts/${id}`, {
         //게시글 내용 조회
@@ -64,6 +87,8 @@ const Read = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
         console.log(response); //응답성공 여기서 꺼내쓰기
         // 응답을 상태에 저장하거나 화면에 표시
         setPost(response.data.result); // 응답을 상태에 저장
@@ -73,15 +98,6 @@ const Read = () => {
       });
 
     fetchComments();
-
-    const timeout = setTimeout(() => {
-      localStorage.removeItem("access_token");
-      navigate("/login");
-    }, 1800000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
   }, []);
 
   if (post === null) {

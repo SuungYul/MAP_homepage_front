@@ -1,15 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react"; // useRef 추가
 import "./mypages.css";
-import { useAuth } from "../redux/useAuth";
+
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import bolt from "../images/bolt.png";
 import profile from "../images/MAP_logo.png";
+import { useAuth } from "../token/useAuth";
+import IsAccessTokenValid from "../token/tokenValid";
+import tokenSave from "../token/tokenSave";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const MyPages = () => {
   useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isAdmin = localStorage.getItem("isAdmin");
   const accessToken = localStorage.getItem("access_token");
   const [myInfo, setMyInfo] = useState({
@@ -33,7 +39,10 @@ const MyPages = () => {
     }
     const formData = new FormData();
     formData.append("file", selectedFile);
-
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      navigate("/login");
+    }
     axios
       .post(`${SERVER_URL}/upload`, formData, {
         headers: {
@@ -42,6 +51,8 @@ const MyPages = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
         // 업로드 성공 시, 프로필 사진 업데이트
         setMyInfo({
           ...myInfo,
@@ -61,6 +72,7 @@ const MyPages = () => {
 
   const deleteUser = () => {
     //회원탈퇴 처리
+    IsAccessTokenValid();
     axios
       .delete(`${SERVER_URL}/members/me`, {
         headers: {
@@ -76,6 +88,11 @@ const MyPages = () => {
   };
 
   useEffect(() => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .get(`${SERVER_URL}/members/me/preview`, {
         headers: {
@@ -83,6 +100,8 @@ const MyPages = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
         console.log("preview");
         console.log(response);
         const myData = {
@@ -97,15 +116,6 @@ const MyPages = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    const timeout = setTimeout(() => {
-      localStorage.removeItem("access_token");
-      navigate("/login");
-    }, 1800000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
   }, []);
 
   return (
