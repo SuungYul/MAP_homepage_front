@@ -58,57 +58,36 @@ const Notice = () => {
         console.log(error);
       });
   };
-  const deleteNotice = (id) => {
-    axios
-      .delete(`${SERVER_URL}/posts/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        if (response.data.isSuccess) {
-          // 게시물이 성공적으로 삭제되면, 게시물 목록을 다시 불러옵니다.
-          console.log(response.data.message);
-          fetchNotices();
-        } else {
-          // 삭제 요청이 실패하면, 오류 메시지를 출력합니다.
-          console.log(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
-  const editNotice = (id, title, dtype, content) => {
-    axios
-      .put(
-        `${SERVER_URL}/posts/${id}`,
-        {
-          title: title,
-          dtype: dtype,
-          content: content,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data.isSuccess) {
-          // 게시물이 성공적으로 수정되면, 게시물 목록을 다시 불러옵니다.
-          console.log(response.data.message);
-          fetchNotices();
-        } else {
-          // 수정 요청이 실패하면, 오류 메시지를 출력합니다.
-          console.log(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const editNotice = (id, title, dtype, content) => {
+  //   axios
+  //     .put(
+  //       `${SERVER_URL}/posts/${id}`,
+  //       {
+  //         title: title,
+  //         dtype: dtype,
+  //         content: content,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     )
+  //     .then((response) => {
+  //       if (response.data.isSuccess) {
+  //         // 게시물이 성공적으로 수정되면, 게시물 목록을 다시 불러옵니다.
+  //         console.log(response.data.message);
+  //         fetchNotices();
+  //       } else {
+  //         // 수정 요청이 실패하면, 오류 메시지를 출력합니다.
+  //         console.log(response.data.message);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
   const fetchNotices = () => {
     Promise.all([
       axios.get(`${SERVER_URL}/posts/notice`, {
@@ -155,25 +134,6 @@ const Notice = () => {
               <div style={dataStyle1}>{element.views}</div>
               <div style={dataStyle2}>{element.accessUrl ? "이미지" : "X"}</div>
               <div style={dataStyle3}>{element.nickname} </div>
-              <div
-                style={deletebutton}
-                onClick={() => deleteNotice(element.postId)}
-              >
-                삭제
-              </div>
-              <div
-                style={editbutton}
-                onClick={() =>
-                  editNotice(
-                    element.postId,
-                    element.title,
-                    element.dtype,
-                    element.content
-                  )
-                }
-              >
-                수정
-              </div>
             </div>
           </div>
         );
@@ -246,6 +206,7 @@ const Notice = () => {
     marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
     overflow: "hidden", // 내용이 너무 길 때 잘림
+    marginRight: "55%",
   };
   const TitleStyle = {
     fontFamily: "Montserrat",

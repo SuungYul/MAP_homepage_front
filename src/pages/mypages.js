@@ -10,14 +10,15 @@ import profile from "../images/MAP_logo.png";
 const MyPages = () => {
   useAuth();
   const navigate = useNavigate();
-  const isAdmin = localStorage.getItem("isAdmin");
   const accessToken = localStorage.getItem("access_token");
+  const isAdmin = localStorage.getItem("isAdmin");
+
   const [myInfo, setMyInfo] = useState({
     studentId: 1,
     name: "홍길동",
     nickname: "엄태성",
     grade: 1,
-    profileImgUrl: "images/MAP_logo.png",
+    profileImg: "images/MAP_logo.png",
   });
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(null); // 상태 변수와 설정 함수 추가
@@ -27,10 +28,6 @@ const MyPages = () => {
   };
 
   const uploadFile = () => {
-    if (!selectedFile) {
-      alert("jpg 또는 png 파일을 선택해주세요!");
-      return;
-    }
     const formData = new FormData();
     formData.append("file", selectedFile);
 
@@ -43,10 +40,7 @@ const MyPages = () => {
       })
       .then((response) => {
         // 업로드 성공 시, 프로필 사진 업데이트
-        setMyInfo({
-          ...myInfo,
-          profileImgUrl: response.data.result.profileImg,
-        }); // 수정된 부분
+        setMyInfo({ ...myInfo, profileImg: response.data.result.profileImg }); // 수정된 부분
       })
       .catch((error) => {
         // 업로드 실패 시, 에러 처리
@@ -60,21 +54,26 @@ const MyPages = () => {
   };
 
   const deleteUser = () => {
-    //회원탈퇴 처리
-    axios
-      .delete(`${SERVER_URL}/members/me`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    // 관리자인 경우 회원관리로 이동
 
+    if (isAdmin) {
+      navigate("../masterpages"); // 회원관리 페이지 경로로 변경해주세요.
+    } else {
+      // 일반 사용자인 경우 회원탈퇴 처리
+      axios
+        .delete(`${SERVER_URL}/members/me`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
   useEffect(() => {
     axios
       .get(`${SERVER_URL}/members/me/preview`, {
@@ -83,14 +82,13 @@ const MyPages = () => {
         },
       })
       .then((response) => {
-        console.log("preview");
         console.log(response);
         const myData = {
           studentId: response.data.result.studentId,
           name: response.data.result.name,
           nickname: response.data.result.nickname,
           grade: response.data.result.grade,
-          profileImgUrl: response.data.result.profileImg, // 수정된 부분
+          profileImg: response.data.result.profileImg, // 수정된 부분
         };
         setMyInfo(myData);
       })
@@ -112,23 +110,15 @@ const MyPages = () => {
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
         <div className="pageTitle">M Y P A G E</div>
-        {isAdmin ? (
-          <button
-            className="addButton"
-            onClick={() => navigate("/masterpages")}
-          >
-            회원관리
-          </button>
-        ) : (
-          <button className="addButton" onClick={deleteUser}>
-            회원탈퇴
-          </button>
-        )}
 
+        <button className="addButton" onClick={deleteUser}>
+          {isAdmin ? "회원관리" : "회원탈퇴"}{" "}
+          {/* 버튼 텍스트를 조건에 따라 변경 */}
+        </button>
         <div class="box">
           <img
             class="profile"
-            src={myInfo.profileImgUrl || profile} // profilePic 대신 profileImg 사용
+            src={myInfo.profileImg}
             alt="프로필사진"
             onClick={openFilePicker}
           ></img>
@@ -154,7 +144,15 @@ const MyPages = () => {
         </div>
         <div id="namedata">{myInfo.name}</div>
 
-        <div id="phonenumber">전화번호</div>
+        <div id="phonenumber">
+          전화번호
+          <img
+            className="bolt"
+            src={bolt}
+            alt="설정"
+            onClick={() => navigate("/")}
+          ></img>
+        </div>
         <div id="phonenumberdata">010-6659-2280</div>
       </div>
       <div>
@@ -176,12 +174,30 @@ const MyPages = () => {
       </div>
 
       <div>
-        <div id="birth">생년월일</div>
-        <div id="birthdata">2004.01.28</div>
+        <div>
+          <div id="birth">
+            생년월일
+            <img
+              className="bolt"
+              src={bolt}
+              alt="설정"
+              onClick={() => navigate("/")}
+            ></img>
+          </div>
+          <div id="birthdata">2004.01.28</div>
+        </div>
         <div id="mytitle">내가 쓴 글</div>
         <div id="mytitledata">1.djlkasdklmasklsadnk</div>
       </div>
-      <div id="email">이메일</div>
+      <div id="email">
+        이메일
+        <img
+          className="bolt"
+          src={bolt}
+          alt="설정"
+          onClick={() => navigate("/")}
+        ></img>
+      </div>
       <div id="emaildata">antdny2280@naver.com</div>
     </div>
   );

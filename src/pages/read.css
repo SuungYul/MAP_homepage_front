@@ -67,16 +67,16 @@
   margin-left: 15%;
 }
 .commentcontainer {
-  margin-top: 12%;
+  margin-top: 1%;
   display: flex;
   flex-direction: column;
   width: auto;
   overflow: auto;
 }
 .commentline {
-  width: 80%;
+  width: 70%;
   border: 0.5px solid #000000;
-  margin-left: 10%;
+  margin-left: 15%;
 }
 .commentname {
   margin-right: 40%;
@@ -100,9 +100,9 @@
 }
 .commentline2 {
   margin-top: 1%;
-  width: 80%;
+  width: 70%;
   border: 0.5px solid #000000;
-  margin-left: 10%;
+  margin-left: 15%;
 }
 .commentwritecontainer {
   margin-top: 5%;
@@ -152,4 +152,11 @@
   text-align: center;
   letter-spacing: -0.015em;
   white-space: nowrap;
+}
+.box2 {
+  width: 150px;
+  height: 150px;
+  border-radius: 70%;
+  overflow: hidden;
+  margin-left: 23%;
 }

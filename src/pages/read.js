@@ -9,48 +9,90 @@ const Read = () => {
   const commentRef = useRef();
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("access_token");
+  const id_ = localStorage.getItem("id_");
+  const isAdmin = localStorage.getItem("isAdmin");
+  const [myImage, setMyImage] = useState(null);
   const [post, setPost] = useState(null); // 상태 설정
   const [comments, setComments] = useState(null); // 상태 설정
 
-  const submitComment = () => {
+  const editNotice = (id) => {
+    if (isAdmin !== "true") {
+      if (id !== id_) {
+        alert("본인 또는 관리자만 삭제할 수 있습니다.");
+        return; // 함수 실행 중단
+      }
+      navigate(`/edit/${id}`);
+    }
+  };
+  const deleteNotice = (id) => {
+    if (isAdmin !== "true") {
+      if (id !== id_) {
+        alert("본인 또는 관리자만 삭제할 수 있습니다.");
+        return; // 함수 실행 중단
+      }
+    }
     axios
-      .post(
-        `${SERVER_URL}/comments/${id}`,
-        { comment: commentRef.current.value },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json", // 여기를 수정했습니다.
-          },
-        }
-      )
+      .delete(`${SERVER_URL}/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
       .then((response) => {
-        console.log(response);
-        fetchComments();
-        commentRef.current.value = ""; // 댓글이 성공적으로 등록된 후, 댓글 작성란을 비워줍니다.
+        if (response.data.isSuccess) {
+          console.log(response.data.message);
+          navigate("/notice");
+          //fetchNotices(); // 게시물이 성공적으로 삭제되면, 게시물 목록을 다시 불러옵니다.
+        } else {
+          console.log(response.data.message);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   };
+  const submitComment = async () => {
+    const requestBody = {
+      content: commentRef.current.value,
+    };
 
-  const fetchComments = () => {
-    axios
-      .get(`${SERVER_URL}/comments/${id}`, {
+    try {
+      const response = await axios.post(
+        `${SERVER_URL}/comments/${id}`,
+        requestBody,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          params: {
+            postId: id,
+          },
+        }
+      );
+      // 새로운 댓글을 상태에 추가
+      setComments((prevComments) => [...prevComments, response.data.result]);
+      commentRef.current.value = "";
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}/comments/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         params: {
+          postId: id,
           page: "1",
         },
-      })
-      .then((response) => {
-        console.log(response);
-        setComments(response.data.result.commentDetailDtoList);
-      })
-      .catch((error) => {
-        console.log(error);
       });
+      console.log(response);
+      setComments(response.data.result.commentDetailDtoList);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -72,7 +114,24 @@ const Read = () => {
         console.log(error);
       });
 
-    fetchComments();
+    axios
+      .get(`${SERVER_URL}/members/me/preview`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+
+        setMyImage(response.data.result.profileImg); // 수정된 부분);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    (async () => {
+      await fetchComments();
+    })();
 
     const timeout = setTimeout(() => {
       localStorage.removeItem("access_token");
@@ -82,7 +141,7 @@ const Read = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, []);
+  }, [id, accessToken, navigate]);
 
   if (post === null) {
     return <div>Loading...</div>;
@@ -93,6 +152,12 @@ const Read = () => {
         <div className="pageTitle">N O T I C E</div>
         <button className="addButton" onClick={() => navigate("/notice")}>
           목록으로
+        </button>
+        <button className="addButton" onClick={() => deleteNotice(id)}>
+          삭제
+        </button>
+        <button className="addButton" onClick={() => editNotice(id)}>
+          수정
         </button>
       </div>
 
@@ -116,7 +181,9 @@ const Read = () => {
         ))}
 
       <div className="commentwritecontainer">
-        <img className="profilephoto2" alt="프로필사진"></img>
+        <div className="box2">
+          <img className="profile" src={myImage} alt="프로필사진"></img>
+        </div>
         <input ref={commentRef} className="commentInput" type="text"></input>
       </div>
       <div className="NameUploadContainer">
@@ -131,4 +198,3 @@ const Read = () => {
 };
 
 export default Read;
-// 프로필 사진 추가 해야함
