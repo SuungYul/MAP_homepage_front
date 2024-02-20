@@ -1,15 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react"; // useRef 추가
 import "./mypages.css";
-import { useAuth } from "../redux/useAuth";
+
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import bolt from "../images/bolt.png";
-import profile from "../images/MAP_logo.png";
+import { useAuth } from "../token/useAuth";
+import IsAccessTokenValid from "../token/tokenValid";
+import tokenSave from "../token/tokenSave";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const MyPages = () => {
   useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
   const isAdmin = localStorage.getItem("isAdmin");
 
@@ -23,6 +28,28 @@ const MyPages = () => {
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(null); // 상태 변수와 설정 함수 추가
 
+  const editMyInfo = () => {
+    const requestBody = {
+      studentId: myInfo.studentId,
+      nickname: myInfo.nickname,
+      birth: myInfo.birth,
+      grade: myInfo.grade,
+    };
+
+    axios
+      .patch(`${SERVER_URL}/members/me`, requestBody, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
@@ -30,7 +57,10 @@ const MyPages = () => {
   const uploadFile = () => {
     const formData = new FormData();
     formData.append("file", selectedFile);
-
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      navigate("/login");
+    }
     axios
       .post(`${SERVER_URL}/upload`, formData, {
         headers: {
@@ -39,6 +69,8 @@ const MyPages = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
         // 업로드 성공 시, 프로필 사진 업데이트
         setMyInfo({ ...myInfo, profileImg: response.data.result.profileImg }); // 수정된 부분
       })
@@ -54,6 +86,20 @@ const MyPages = () => {
   };
 
   const deleteUser = () => {
+    //회원탈퇴 처리
+    IsAccessTokenValid();
+    axios
+      .delete(`${SERVER_URL}/members/me`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     // 관리자인 경우 회원관리로 이동
 
     if (isAdmin) {
@@ -75,6 +121,11 @@ const MyPages = () => {
     }
   };
   useEffect(() => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     axios
       .get(`${SERVER_URL}/members/me/preview`, {
         headers: {
@@ -82,6 +133,9 @@ const MyPages = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
+        console.log("preview");
         console.log(response);
         const myData = {
           studentId: response.data.result.studentId,
@@ -95,15 +149,6 @@ const MyPages = () => {
       .catch((error) => {
         console.log(error);
       });
-
-    const timeout = setTimeout(() => {
-      localStorage.removeItem("access_token");
-      navigate("/login");
-    }, 1800000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
   }, []);
 
   return (
@@ -115,7 +160,7 @@ const MyPages = () => {
           {isAdmin ? "회원관리" : "회원탈퇴"}{" "}
           {/* 버튼 텍스트를 조건에 따라 변경 */}
         </button>
-        <div class="box">
+        <div class="box4">
           <img
             class="profile"
             src={myInfo.profileImg}
@@ -167,9 +212,17 @@ const MyPages = () => {
         </div>
         <div id="fakenamedata">{myInfo.nickname}</div>
 
-        <div id="shcoolnumber">학번</div>
+        <div id="shcoolnumber">
+          학번/학년
+          <img
+            className="bolt"
+            src={bolt}
+            alt="설정"
+            onClick={() => editMyInfo()}
+          ></img>
+        </div>
         <div id="schoolnumberdata">
-          {myInfo.studentId} {myInfo.grade}
+          {myInfo.studentId} / {myInfo.grade}
         </div>
       </div>
 

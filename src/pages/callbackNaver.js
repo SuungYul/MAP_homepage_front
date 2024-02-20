@@ -5,6 +5,7 @@ import AddInfo from "./addInfo";
 import { useDispatch } from "react-redux";
 import { logIn, logOut } from "../redux/actions";
 import { SERVER_URL } from "../config";
+import tokenSave from "../token/tokenSave";
 
 function CallbackNaver() {
   const location = useLocation();
@@ -31,10 +32,7 @@ function CallbackNaver() {
         .then((response) => {
           console.log(response);
           const accessToken = response.headers["access-token"];
-          const refreshToken = response.headers["refresh-token"];
-
-          localStorage.setItem("access_token", accessToken);
-          localStorage.setItem("refresh_token", refreshToken);
+          tokenSave(accessToken);
           console.log(localStorage.getItem("access_token"));
           if (response.data.result.infoSet) {
             //추가 정보를 입력해야하는지 여부

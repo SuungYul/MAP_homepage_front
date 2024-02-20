@@ -1,46 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import React, { useRef, useState, useEffect } from "react";
 import "./gallerywrite.css";
-import { useAuth } from "../redux/useAuth";
+import { useAuth } from "../token/useAuth";
 import plus from "../images/plus.png";
 import axios from "axios";
 import { SERVER_URL } from "../config";
+import IsAccessTokenValid from "../token/tokenValid";
+import tokenSave from "../token/tokenSave";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const GalleryWrite = () => {
   useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
 
-  axios
-    .get(`${SERVER_URL}/photowirte`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    .then((response) => {
-      // console.log(response);
-      // const myData = {
-      //   studentId: response.data.result.studentId,
-      //   name: response.data.result.name,
-      //   nickname: response.data.result.nickname,
-      //   grade: response.data.result.grade,
-      // };
-      // setMyInfo(myData);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      localStorage.removeItem("access_token");
-      navigate("/login");
-    }, 1800000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
   const fileInputRef = useRef();
   const titleRef = useRef();
   const bodyRef = useRef();
@@ -53,7 +28,7 @@ const GalleryWrite = () => {
 
   const handleFileInputChange = (event) => {
     console.log(event.target.files);
-    setFile(event.target.files);
+    setFile(event.target.files[0]);
     setFilename(event.target.files[0].name);
   };
 
@@ -62,22 +37,30 @@ const GalleryWrite = () => {
     if (titleRef.current.value === "" || bodyRef.current.value === "") {
       alert("제목 또는 내용을 입력하세요");
     } else {
+      const formData = new FormData();
+
+      const postRequestDTO = {
+        title: titleRef.current.value,
+        dtype: "photo",
+        content: bodyRef.current.value,
+      };
+
+      formData.append("postRequestDTO", JSON.stringify(postRequestDTO));
+      formData.append("file", file);
+      if (!IsAccessTokenValid()) {
+        localStorage.clear();
+        dispatch(logOut());
+        navigate("/login");
+      }
       axios
-        .post(
-          `${SERVER_URL}/posts/withImage`,
-          {
-            file: file,
-            title: titleRef.current.value,
-            dtype: "photo",
-            content: bodyRef.current.value,
+        .post(`${SERVER_URL}/posts/withImage`, formData, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "multipart/form-data",
           },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
+        })
         .then((response) => {
+          tokenSave(response.headers["access-token"]);
           console.log(response);
           if (response.status === 200) {
             alert("등록되었습니다.");
@@ -93,7 +76,7 @@ const GalleryWrite = () => {
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
-        <div className="pageTitle">N O T I C E</div>
+        <div className="pageTitle">P H O T O</div>
         <button className="addButton" onClick={FinishForm}>
           등록
         </button>
@@ -154,7 +137,10 @@ const GalleryWrite = () => {
                   color: "red",
                   fontSize: "20px",
                 }}
-                onClick={() => setFilename(null)}
+                onClick={() => {
+                  setFile(null);
+                  setFilename(null);
+                }}
               >
                 X
               </button>

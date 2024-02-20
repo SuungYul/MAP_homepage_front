@@ -3,33 +3,48 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./read.css";
 import axios from "axios";
 import { SERVER_URL } from "../config";
+import tokenSave from "../token/tokenSave";
+import IsAccessTokenValid from "../token/tokenValid";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 const Read = () => {
   const { id } = useParams();
   const commentRef = useRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
   const id_ = localStorage.getItem("id_");
   const isAdmin = localStorage.getItem("isAdmin");
   const [myImage, setMyImage] = useState(null);
   const [post, setPost] = useState(null); // 상태 설정
-  const [comments, setComments] = useState(null); // 상태 설정
+  const [comments, setComments] = useState([]); // 상태 설정
 
   const editNotice = (id) => {
-    if (isAdmin !== "true") {
-      if (id !== id_) {
-        alert("본인 또는 관리자만 삭제할 수 있습니다.");
-        return; // 함수 실행 중단
-      }
-      navigate(`/edit/${id}`);
+    if (isAdmin !== "true" && id !== id_) {
+      alert("본인 또는 관리자만 삭제할 수 있습니다.");
+      return; // 함수 실행 중단
     }
+    axios
+      .put(`${SERVER_URL}/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          postId: id,
+        },
+      })
+      .then((response) => {
+        console.log(response.title);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   const deleteNotice = (id) => {
-    if (isAdmin !== "true") {
-      if (id !== id_) {
-        alert("본인 또는 관리자만 삭제할 수 있습니다.");
-        return; // 함수 실행 중단
-      }
+    if (isAdmin !== "true" && id !== id_) {
+      alert("본인 또는 관리자만 삭제할 수 있습니다.");
+      return; // 함수 실행 중단
     }
     axios
       .delete(`${SERVER_URL}/posts/${id}`, {
@@ -50,34 +65,62 @@ const Read = () => {
         console.log(error);
       });
   };
+  const commentdelete = (id, memberid) => {
+    if (isAdmin !== "true" && memberid !== id_) {
+      alert("본인 또는 관리자만 삭제할 수 있습니다.");
+      return; // 함수 실행 중단
+    }
+    axios
+      .delete(`${SERVER_URL}/comment/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          console.log(response.data.message);
+        } else {
+          console.log(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const submitComment = async () => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     const requestBody = {
       content: commentRef.current.value,
     };
-
-    try {
-      const response = await axios.post(
-        `${SERVER_URL}/comments/${id}`,
-        requestBody,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-          },
-          params: {
-            postId: id,
-          },
-        }
-      );
-      // 새로운 댓글을 상태에 추가
-      setComments((prevComments) => [...prevComments, response.data.result]);
-      commentRef.current.value = "";
-    } catch (error) {
-      console.log(error);
-    }
+    axios
+      .post(`${SERVER_URL}/comments/${id}`, requestBody, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        params: {
+          postId: id,
+        },
+      })
+      .then(() => {
+        fetchComments();
+        commentRef.current.value = "";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const fetchComments = async () => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
     try {
       const response = await axios.get(`${SERVER_URL}/comments/${id}`, {
         headers: {
@@ -88,6 +131,7 @@ const Read = () => {
           page: "1",
         },
       });
+      tokenSave(response.headers["access-token"]);
       console.log(response);
       setComments(response.data.result.commentDetailDtoList);
     } catch (error) {
@@ -97,6 +141,13 @@ const Read = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
+    fetchComments();
+
     axios
       .get(`${SERVER_URL}/posts/${id}`, {
         //게시글 내용 조회
@@ -106,6 +157,7 @@ const Read = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
         console.log(response); //응답성공 여기서 꺼내쓰기
         // 응답을 상태에 저장하거나 화면에 표시
         setPost(response.data.result); // 응답을 상태에 저장
@@ -129,10 +181,6 @@ const Read = () => {
         console.log(error);
       });
 
-    (async () => {
-      await fetchComments();
-    })();
-
     const timeout = setTimeout(() => {
       localStorage.removeItem("access_token");
       navigate("/login");
@@ -141,7 +189,7 @@ const Read = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [id, accessToken, navigate]);
+  }, [id, accessToken]);
 
   if (post === null) {
     return <div>Loading...</div>;
@@ -159,6 +207,20 @@ const Read = () => {
         <button className="addButton" onClick={() => editNotice(id)}>
           수정
         </button>
+        {isAdmin ? (
+          <button className="addButton" onClick={() => editNotice(id)}>
+            공지 지정
+          </button>
+        ) : (
+          ""
+        )}
+        {isAdmin ? (
+          <button className="addButton" onClick={() => editNotice(id)}>
+            공지 해제
+          </button>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className="readcontentcontainer">
@@ -171,11 +233,25 @@ const Read = () => {
       </div>
 
       {comments &&
+        comments.length > 0 &&
         comments.map((comment) => (
           <div className="commentcontainer">
             <div className="commentline"></div>
             <div className="commentname">{comment.writer}</div>
-            <div className="commentcontent">{comment.content}</div>
+            <div className="aliginBox">
+              <div className="box3">
+                <img className="profile" src={myImage} alt="프로필사진"></img>
+              </div>
+              <div className="commentcontent">{comment.content}</div>
+              <div
+                className="commentDelete"
+                onClick={() =>
+                  commentdelete(comment.commentId, comment.memberId)
+                }
+              >
+                삭제
+              </div>
+            </div>
             <div className="commentline2"> </div>
           </div>
         ))}
@@ -198,3 +274,7 @@ const Read = () => {
 };
 
 export default Read;
+
+//수정 안됨
+
+// 댓글 조회는 왜 또 안됨?????

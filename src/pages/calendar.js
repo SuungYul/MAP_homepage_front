@@ -4,7 +4,8 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./calendar.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../redux/useAuth";
+import { useAuth } from "../token/useAuth";
+
 const localizer = momentLocalizer(moment);
 const Calendar = () => {
   useAuth();
