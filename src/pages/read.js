@@ -41,6 +41,7 @@ const Read = () => {
         console.log(error);
       });
   };
+
   const deleteNotice = (id) => {
     if (isAdmin !== "true" && id !== id_) {
       alert("본인 또는 관리자만 삭제할 수 있습니다.");
@@ -65,6 +66,7 @@ const Read = () => {
         console.log(error);
       });
   };
+
   const commentdelete = (id, memberid) => {
     if (isAdmin !== "true" && memberid !== id_) {
       alert("본인 또는 관리자만 삭제할 수 있습니다.");
@@ -87,7 +89,8 @@ const Read = () => {
         console.log(error);
       });
   };
-  const submitComment = async () => {
+
+  const submitComment = () => {
     if (!IsAccessTokenValid()) {
       localStorage.clear();
       dispatch(logOut());
@@ -96,18 +99,17 @@ const Read = () => {
     const requestBody = {
       content: commentRef.current.value,
     };
+
     axios
       .post(`${SERVER_URL}/comments/${id}`, requestBody, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
         },
-        params: {
-          postId: id,
-        },
       })
-      .then(() => {
+      .then((response) => {
         fetchComments();
+        console.log(response);
         commentRef.current.value = "";
       })
       .catch((error) => {
@@ -115,28 +117,31 @@ const Read = () => {
       });
   };
 
-  const fetchComments = async () => {
+  const fetchComments = () => {
     if (!IsAccessTokenValid()) {
       localStorage.clear();
       dispatch(logOut());
       navigate("/login");
     }
-    try {
-      const response = await axios.get(`${SERVER_URL}/comments/${id}`, {
+    console.log(accessToken);
+    axios
+      .get(`${SERVER_URL}/comments/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         params: {
-          postId: id,
+          // postId: id,
           page: "1",
         },
+      })
+      .then((response) => {
+        tokenSave(response.headers["access-token"]);
+        console.log(response);
+        setComments(response.data.result.commentDetailDtoList);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      tokenSave(response.headers["access-token"]);
-      console.log(response);
-      setComments(response.data.result.commentDetailDtoList);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   useEffect(() => {
@@ -158,7 +163,7 @@ const Read = () => {
       })
       .then((response) => {
         tokenSave(response.headers["access-token"]);
-        console.log(response); //응답성공 여기서 꺼내쓰기
+        // console.log(response); //응답성공 여기서 꺼내쓰기
         // 응답을 상태에 저장하거나 화면에 표시
         setPost(response.data.result); // 응답을 상태에 저장
       })
@@ -173,23 +178,14 @@ const Read = () => {
         },
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
 
         setMyImage(response.data.result.profileImg); // 수정된 부분);
       })
       .catch((error) => {
         console.log(error);
       });
-
-    const timeout = setTimeout(() => {
-      localStorage.removeItem("access_token");
-      navigate("/login");
-    }, 1800000);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [id, accessToken]);
+  }, [id]);
 
   if (post === null) {
     return <div>Loading...</div>;
