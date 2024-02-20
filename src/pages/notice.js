@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Login from "./login";
 import Footer from "./footer";
 import { useAuth } from "../token/useAuth";
+
 import axios from "axios";
 import { SERVER_URL } from "../config";
 import "./notice.css";
@@ -18,115 +19,6 @@ const Notice = () => {
   const accessToken = localStorage.getItem("access_token");
   const [notices, setNotices] = useState([]);
 
-  const registerNotice = (postId) => {
-    axios
-      .put(
-        `${SERVER_URL}/posts/notice/${postId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data.isSuccess) {
-          console.log(response.data.message);
-          // 공지 등록 성공 시 필요한 작업을 수행합니다.
-        } else {
-          console.log(response.data.message);
-          // 공지 등록 실패 시 필요한 작업을 수행합니다.
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const unregisterNotice = (postId) => {
-    axios
-      .delete(`${SERVER_URL}/posts/notice/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        if (response.data.isSuccess) {
-          console.log(response.data.message);
-          // 공지 해제 성공 시 필요한 작업을 수행합니다.
-        } else {
-          console.log(response.data.message);
-          // 공지 해제 실패 시 필요한 작업을 수행합니다.
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const deleteNotice = (id) => {
-    if (!IsAccessTokenValid()) {
-      localStorage.clear();
-      dispatch(logOut());
-
-      navigate("/login");
-    }
-    axios
-      .delete(`${SERVER_URL}/posts/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        tokenSave(response.headers["access-token"]);
-        if (response.data.isSuccess) {
-          // 게시물이 성공적으로 삭제되면, 게시물 목록을 다시 불러옵니다.
-          console.log(response.data.message);
-          fetchNotices();
-        } else {
-          // 삭제 요청이 실패하면, 오류 메시지를 출력합니다.
-          console.log(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const editNotice = (id, title, dtype, content) => {
-    if (!IsAccessTokenValid()) {
-      localStorage.clear();
-      dispatch(logOut());
-      navigate("/login");
-    }
-    axios
-      .put(
-        `${SERVER_URL}/posts/${id}`,
-        {
-          title: title,
-          dtype: dtype,
-          content: content,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        tokenSave(response.headers["access-token"]);
-        if (response.data.isSuccess) {
-          // 게시물이 성공적으로 수정되면, 게시물 목록을 다시 불러옵니다.
-          console.log(response.data.message);
-          fetchNotices();
-        } else {
-          // 수정 요청이 실패하면, 오류 메시지를 출력합니다.
-          console.log(response.data.message);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const fetchNotices = () => {
     if (!IsAccessTokenValid()) {
       localStorage.clear();
@@ -147,12 +39,17 @@ const Notice = () => {
     ])
       .then(([noticeResponse, generalResponse]) => {
         tokenSave(generalResponse.headers["access-token"]);
-        console.log(noticeResponse, "~~~~~~~~~~~~~~~~~");
-        setNotices(
-          noticeResponse.data.result.concat(
-            generalResponse.data.result.postResponseDTOList
-          )
+
+        const combinedNotices = noticeResponse.data.result.concat(
+          generalResponse.data.result.postResponseDTOList
         );
+
+        // createdAt 기준으로 최신 순으로 정렬
+        const sortedNotices = combinedNotices.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        setNotices(sortedNotices);
       })
       .catch((error) => {
         console.log(error);
@@ -179,25 +76,6 @@ const Notice = () => {
               <div style={dataStyle1}>{element.views}</div>
               <div style={dataStyle2}>{element.accessUrl ? "이미지" : "X"}</div>
               <div style={dataStyle3}>{element.nickname} </div>
-              <div
-                style={deletebutton}
-                onClick={() => deleteNotice(element.postId)}
-              >
-                삭제
-              </div>
-              <div
-                style={editbutton}
-                onClick={() =>
-                  editNotice(
-                    element.postId,
-                    element.title,
-                    element.dtype,
-                    element.content
-                  )
-                }
-              >
-                수정
-              </div>
             </div>
           </div>
         );
@@ -261,6 +139,7 @@ const Notice = () => {
     marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
     overflow: "hidden", // 내용이 너무 길 때 잘림
+    marginRight: "55%",
   };
   const TitleStyle = {
     fontFamily: "Montserrat",
@@ -297,7 +176,7 @@ const Notice = () => {
     letterSpacing: "-0.015em",
     marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.]
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
-    marginLeft: "75%", // ����� ��진 추가
+    marginLeft: "77%", // ����� ��진 추가
 
     marginRight: "1px", // 오른쪽 마진 추가
   };
@@ -312,7 +191,7 @@ const Notice = () => {
     marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
     marginRight: "1px", // �� ��소의 아래��� �Righ: "2%", // �� ��소의 아래��� �
-    marginLeft: "85%", // ����� ��진 추가
+    marginLeft: "88%", // ����� ��진 추가
   };
 
   return (

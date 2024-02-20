@@ -154,12 +154,12 @@
 
   color: rgba(0, 0, 0, 0.8);
 }
-.box {
+.box4 {
   width: 150px;
   height: 150px;
   border-radius: 70%;
   overflow: hidden;
-  margin-left: 57%;
+  margin-left: 50%;
 }
 .profile {
   width: 100%;
