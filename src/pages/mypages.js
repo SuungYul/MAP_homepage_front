@@ -10,6 +10,7 @@ import IsAccessTokenValid from "../token/tokenValid";
 import tokenSave from "../token/tokenSave";
 import { useDispatch } from "react-redux";
 import { logOut } from "../redux/actions";
+import AddInfo from "./addInfo.js";
 
 const MyPages = () => {
   useAuth();
@@ -28,27 +29,9 @@ const MyPages = () => {
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(null); // 상태 변수와 설정 함수 추가
 
-  const editMyInfo = () => {
-    const requestBody = {
-      studentId: myInfo.studentId,
-      nickname: myInfo.nickname,
-      birth: myInfo.birth,
-      grade: myInfo.grade,
-    };
-
-    axios
-      .patch(`${SERVER_URL}/members/me`, requestBody, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const [addInfoOpen, setAddInfoOpen] = useState(false);
+  const handleEditButtonClick = () => {
+    setAddInfoOpen(true);
   };
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -176,28 +159,11 @@ const MyPages = () => {
           <button onClick={uploadFile}>Upload</button>
         </div>
       </div>
-
       <div>
-        <div id="name">
-          이름
-          <img
-            className="bolt"
-            src={bolt}
-            alt="설정"
-            onClick={() => navigate("/")}
-          ></img>
-        </div>
+        <div id="name">이름</div>
         <div id="namedata">{myInfo.name}</div>
 
-        <div id="phonenumber">
-          전화번호
-          <img
-            className="bolt"
-            src={bolt}
-            alt="설정"
-            onClick={() => navigate("/")}
-          ></img>
-        </div>
+        <div id="phonenumber">전화번호</div>
         <div id="phonenumberdata">010-6659-2280</div>
       </div>
       <div>
@@ -207,7 +173,7 @@ const MyPages = () => {
             className="bolt"
             src={bolt}
             alt="설정"
-            onClick={() => navigate("/")}
+            onClick={handleEditButtonClick}
           ></img>
         </div>
         <div id="fakenamedata">{myInfo.nickname}</div>
@@ -218,14 +184,13 @@ const MyPages = () => {
             className="bolt"
             src={bolt}
             alt="설정"
-            onClick={() => editMyInfo()}
+            onClick={handleEditButtonClick}
           ></img>
         </div>
         <div id="schoolnumberdata">
           {myInfo.studentId} / {myInfo.grade}
         </div>
       </div>
-
       <div>
         <div>
           <div id="birth">
@@ -234,7 +199,7 @@ const MyPages = () => {
               className="bolt"
               src={bolt}
               alt="설정"
-              onClick={() => navigate("/")}
+              onClick={handleEditButtonClick}
             ></img>
           </div>
           <div id="birthdata">2004.01.28</div>
@@ -242,16 +207,9 @@ const MyPages = () => {
         <div id="mytitle">내가 쓴 글</div>
         <div id="mytitledata">1.djlkasdklmasklsadnk</div>
       </div>
-      <div id="email">
-        이메일
-        <img
-          className="bolt"
-          src={bolt}
-          alt="설정"
-          onClick={() => navigate("/")}
-        ></img>
-      </div>
+      <div id="email">이메일</div>
       <div id="emaildata">antdny2280@naver.com</div>
+      {addInfoOpen && <AddInfo setModalOpen={setAddInfoOpen} />}{" "}
     </div>
   );
 };

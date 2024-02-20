@@ -34,7 +34,6 @@ const AddInfo = ({ setModalOpen }) => {
         {
           studentId: number,
           nickname: nickname,
-          birth: "0412",
           grade: grade,
         },
         {
@@ -46,7 +45,7 @@ const AddInfo = ({ setModalOpen }) => {
       .then((response) => {
         if (response.data.result.infoSet) {
           dispatch(logIn());
-          const location = localStorage.getItem("prevPath") || "/notice"; // 로컬 스토리지에서 location 불러오기
+          const location = localStorage.getItem("prevPath") || "/mypages"; // 로컬 스토리지에서 location 불러오기
           if (location) {
             navigate(location);
             localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제
@@ -68,10 +67,10 @@ const AddInfo = ({ setModalOpen }) => {
     <div className="info">
       <div className="info-modal">
         <div className="add-modal-content">
-          <h1>사용자 확인</h1>
+          <h1>사용자 변경</h1>
           <form className="forms" onSubmit={FinishForm}>
             <div className="nickname">
-              <span className="addTextStyle">닉네임</span>
+              <span className="addTextStyle0">닉네임</span>
               <input ref={nicknameRef} /> {/* 닉네임 입력 필드에 참조 연결 */}
             </div>
             <div className="number">
@@ -82,7 +81,7 @@ const AddInfo = ({ setModalOpen }) => {
             <div className="grade">
               <span className="addTextStyle">학년</span>
               <input className="inputNumber" ref={gradeRef} />{" "}
-              {/* 학번 입력 필드에 참조 연결 */}
+              {/* 학년 입력 필드에 참조 연결 */}
             </div>
             <input type="submit" className="finishBtn" value="완료" />
           </form>

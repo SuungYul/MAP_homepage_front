@@ -20,7 +20,7 @@
   height: 350px;
   background: #ffffff;
   border-radius: 10px;
-  padding: 30px;
+  padding: 20px;
   box-sizing: border-box;
   align-items: center;
 }
@@ -36,7 +36,27 @@
   letter-spacing: -0.6px;
 }
 
+.addTextStyle0 {
+  font-family: "Montserrat";
+  text-align: center;
+  font-size: 25px;
+  margin-left: 35px;
+}
 .addTextStyle {
+  font-family: "Montserrat";
+  text-align: center;
+  font-size: 25px;
+  margin-left: 33px;
+}
+
+.addTextStyle2 {
+  font-family: "Montserrat";
+  text-align: center;
+  font-size: 25px;
+  margin-left: -7px;
+}
+
+.addTextStyle3 {
   font-family: "Montserrat";
   text-align: center;
   font-size: 25px;
@@ -46,11 +66,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 30px;
 }
 
 .info .forms .nickname,
 .info .forms .number,
-.info .forms .grade {
+.info .forms .grade,
+.info .forms .email,
+.info .forms .birth {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -69,8 +92,10 @@
 
 .info .forms .nickname input,
 .info .forms .number input,
-.info .forms .grade input {
-  margin-left: 10px;
+.info .forms .grade input,
+.info .forms .birth input,
+.info .forms .email input {
+  margin-left: 20px;
   border: 1px solid #18a0fb;
   border-radius: 5px;
   width: 250px;
@@ -78,8 +103,8 @@
 }
 
 .finishBtn {
+  margin-top: 30px;
   width: 80px;
-  margin-top: 20px;
   margin-right: -350px;
   background-color: transparent;
   color: #18a0fb;
@@ -94,4 +119,13 @@
   line-height: 18px;
   text-align: center;
   letter-spacing: -0.015em;
+}
+
+.birth {
+  margin-left: 55px;
+  margin-right: auto;
+}
+.email {
+  margin-left: 70px;
+  margin-right: auto;
 }
