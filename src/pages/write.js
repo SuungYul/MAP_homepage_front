@@ -62,7 +62,7 @@ const Write = () => {
         dtype: "general",
         content: bodyRef.current.value,
       };
-
+      console.log("file", file);
       formData.append("postRequestDTO", JSON.stringify(postRequestDTO));
       formData.append("file", file);
       if (!IsAccessTokenValid()) {

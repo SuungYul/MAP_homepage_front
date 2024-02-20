@@ -28,7 +28,7 @@ const GalleryWrite = () => {
 
   const handleFileInputChange = (event) => {
     console.log(event.target.files);
-    setFile(event.target.files[0]);
+    setFile(event.target.files);
     setFilename(event.target.files[0].name);
   };
 
