@@ -11,6 +11,9 @@ export default function IsAccessTokenValid() {
 
   const savedTime = localStorage.getItem("savedTime");
   const isTokenValid = Date.now() - savedTime < 30 * 60 * 1000; // 토큰이 저장된 시간이 30분 미만이면 토큰이 유효하다고 가정합니다.
+  if (!isTokenValid) {
+    localStorage.clear();
+  }
   return isTokenValid;
   //   if (!isTokenValid) {
   //     logout();

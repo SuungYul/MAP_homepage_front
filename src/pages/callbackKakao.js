@@ -67,7 +67,15 @@ function CallbackKakao() {
       }}
     >
       로그인 처리 중...
-      {modalIsOpen && <AddInfo setModalOpen={setIsOpen} />}
+      {modalIsOpen && (
+        <AddInfo
+          setModalOpen={setIsOpen}
+          nickname={null}
+          grade={null}
+          stuId={null}
+          edit={false}
+        />
+      )}
     </div>
   );
 }
