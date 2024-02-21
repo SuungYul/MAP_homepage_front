@@ -62,3 +62,15 @@
   letter-spacing: -0.015em;
   white-space: nowrap; /* 텍스트가 넘칠 때 줄바꿈 방지 */
 }
+
+.fileStyle {
+  font-family: "Montserrat";
+  text-align: center;
+  flex-direction: column; /* 추가 */
+}
+.fileList {
+  display: flex;
+  flex-direction: column; /* 종방향 정렬 */
+  align-items: center; /* 중앙 정렬 */
+  gap: 10px; /* 파일 사이 간격 */
+}
