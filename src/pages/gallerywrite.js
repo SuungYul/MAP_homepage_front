@@ -19,17 +19,15 @@ const GalleryWrite = () => {
   const fileInputRef = useRef();
   const titleRef = useRef();
   const bodyRef = useRef();
-  const [filename, setFilename] = useState();
-  const [file, setFile] = useState();
+  const [files, setFiles] = useState([]);
 
   const handleUploadButtonClick = () => {
     fileInputRef.current.click();
   };
 
   const handleFileInputChange = (event) => {
-    console.log(event.target.files);
-    setFile(event.target.files);
-    setFilename(event.target.files[0].name);
+    const newFiles = Array.from(event.target.files);
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
   const FinishForm = () => {
@@ -44,14 +42,18 @@ const GalleryWrite = () => {
         dtype: "photo",
         content: bodyRef.current.value,
       };
+      const blob = new Blob([JSON.stringify(postRequestDTO)], {
+        type: "application/json",
+      });
+      formData.append("postRequestDTO", blob);
+      files.forEach((file) => formData.append("file", file));
 
-      formData.append("postRequestDTO", JSON.stringify(postRequestDTO));
-      formData.append("file", file);
       if (!IsAccessTokenValid()) {
         localStorage.clear();
         dispatch(logOut());
         navigate("/login");
       }
+
       axios
         .post(`${SERVER_URL}/posts/withImage`, formData, {
           headers: {
@@ -73,6 +75,14 @@ const GalleryWrite = () => {
     }
     console.log(titleRef.current.value);
   };
+
+  const handleRemoveFile = (indexToRemove, event) => {
+    event.preventDefault(); // 기본 동작 (페이지 새로고침) 방지
+
+    const updatedFiles = files.filter((file, index) => index !== indexToRemove);
+    setFiles(updatedFiles);
+  };
+
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
@@ -115,6 +125,8 @@ const GalleryWrite = () => {
           <input
             ref={fileInputRef}
             type="file"
+            multiple
+            accept="image/png" // 일단 png만
             style={{ display: "none" }}
             onChange={handleFileInputChange}
           />
@@ -124,31 +136,32 @@ const GalleryWrite = () => {
             alt="Upload"
             onClick={handleUploadButtonClick}
           />
-          {filename ? (
-            <div
-              className="textStyle"
-              style={{ marginTop: "10px", marginLeft: "20px" }}
-            >
-              {filename}{" "}
-              <button
-                style={{
-                  border: "none",
-                  backgroundColor: "transparent",
-                  color: "red",
-                  fontSize: "20px",
-                }}
-                onClick={() => {
-                  setFile(null);
-                  setFilename(null);
-                }}
+          <div className="fileList">
+            {files.map((file, index) => (
+              <div
+                className="fileStyle"
+                key={index}
+                style={{ marginTop: "10px" }}
               >
-                X
-              </button>
-            </div>
-          ) : null}
+                {file.name}{" "}
+                <button
+                  style={{
+                    border: "none",
+                    backgroundColor: "transparent",
+                    color: "red",
+                    fontSize: "20px",
+                  }}
+                  onClick={(event) => handleRemoveFile(index, event)}
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </form>
     </div>
   );
 };
+
 export default GalleryWrite;

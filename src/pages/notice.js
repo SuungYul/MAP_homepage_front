@@ -21,7 +21,6 @@ const Notice = () => {
 
   const fetchNotices = () => {
     if (!IsAccessTokenValid()) {
-      localStorage.clear();
       dispatch(logOut());
       navigate("/login");
     }

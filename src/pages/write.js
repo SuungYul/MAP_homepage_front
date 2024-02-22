@@ -63,7 +63,10 @@ const Write = () => {
         content: bodyRef.current.value,
       };
       console.log("file", file);
-      formData.append("postRequestDTO", JSON.stringify(postRequestDTO));
+      const blob = new Blob([JSON.stringify(postRequestDTO)], {
+        type: "application/json",
+      });
+      formData.append("postRequestDTO", blob);
       formData.append("file", file);
       if (!IsAccessTokenValid()) {
         localStorage.clear();

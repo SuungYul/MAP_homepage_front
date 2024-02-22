@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./addInfo.css";
 import axios from "axios";
 import { SERVER_URL } from "../config";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { logIn, logOut } from "../redux/actions";
 import IsAccessTokenValid from "../token/tokenValid";
 
-const AddInfo = ({ setModalOpen }) => {
+const AddInfo = ({ setModalOpen, nickname, stuId, grade, edit }) => {
   const nicknameRef = useRef(); // 닉네임 입력 필드에 대한 참조 생성
   const numberRef = useRef(); // 학번 입력 필드에 대한 참조 생성
   const gradeRef = useRef();
@@ -24,7 +24,6 @@ const AddInfo = ({ setModalOpen }) => {
     const number = numberRef.current.value; // 학번 입력 필드의 값을 가져옴
     const grade = gradeRef.current.value;
     if (!IsAccessTokenValid()) {
-      localStorage.clear();
       dispatch(logOut());
       navigate("/login");
     }
@@ -43,9 +42,13 @@ const AddInfo = ({ setModalOpen }) => {
         }
       )
       .then((response) => {
+        if (edit) {
+          window.location.replace("/mypages");
+          return;
+        }
         if (response.data.result.infoSet) {
           dispatch(logIn());
-          const location = localStorage.getItem("prevPath") || "/mypages"; // 로컬 스토리지에서 location 불러오기
+          const location = localStorage.getItem("prevPath") || "/notice"; // 로컬 스토리지에서 location 불러오기
           if (location) {
             navigate(location);
             localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제
@@ -63,12 +66,26 @@ const AddInfo = ({ setModalOpen }) => {
     closeModal();
     //서버에 제출 및 검증 후 notice페이지로 이동
   };
+  useEffect(() => {
+    if (edit) {
+      nicknameRef.current.value = nickname;
+      numberRef.current.value = stuId;
+      gradeRef.current.value = grade;
+    }
+  }, []);
 
   return (
     <div className="info">
-      <div className="info-modal">
-        <div className="add-modal-content">
-          <h1>사용자 변경</h1>
+      <div
+        className="info-modal"
+        onClick={() => {
+          if (edit) {
+            setModalOpen(false);
+          }
+        }}
+      >
+        <div className="add-modal-content" onClick={(e) => e.stopPropagation()}>
+          {edit ? <h1>사용자 변경</h1> : <h1>추가정보</h1>}
           <form className="forms" onSubmit={FinishForm}>
             <div className="nickname">
               <span className="addTextStyle0">닉네임</span>

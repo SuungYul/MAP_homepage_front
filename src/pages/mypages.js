@@ -41,7 +41,7 @@ const MyPages = () => {
     const formData = new FormData();
     formData.append("file", selectedFile);
     if (!IsAccessTokenValid()) {
-      localStorage.clear();
+      dispatch(logOut());
       navigate("/login");
     }
     axios
@@ -104,8 +104,8 @@ const MyPages = () => {
     }
   };
   useEffect(() => {
+    console.log(isAdmin);
     if (!IsAccessTokenValid()) {
-      localStorage.clear();
       dispatch(logOut());
       navigate("/login");
     }
@@ -201,7 +201,15 @@ const MyPages = () => {
       </div>
       <div id="email">이메일</div>
       <div id="emaildata">antdny2280@naver.com</div>
-      {addInfoOpen && <AddInfo setModalOpen={setAddInfoOpen} />}{" "}
+      {addInfoOpen && (
+        <AddInfo
+          setModalOpen={setAddInfoOpen}
+          nickname={myInfo.nickname}
+          stuId={myInfo.studentId}
+          grade={myInfo.grade}
+          edit={true}
+        />
+      )}
     </div>
   );
 };
