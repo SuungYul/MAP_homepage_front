@@ -193,15 +193,7 @@ const MyPages = () => {
       </div>
       <div>
         <div>
-          <div id="birth">
-            생년월일
-            <img
-              className="bolt"
-              src={bolt}
-              alt="설정"
-              onClick={handleEditButtonClick}
-            ></img>
-          </div>
+          <div id="birth">생년월일</div>
           <div id="birthdata">2004.01.28</div>
         </div>
         <div id="mytitle">내가 쓴 글</div>

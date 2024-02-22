@@ -57,6 +57,7 @@ const MasterPages = () => {
       .then((response) => {
         tokenSave(response.headers["access-token"]);
         console.log(response);
+        setMembers(response.data.result.memberDetailDTOList);
       })
       .catch((error) => {
         console.log(error);
