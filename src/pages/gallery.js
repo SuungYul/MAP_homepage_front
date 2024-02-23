@@ -20,12 +20,13 @@ const Gallery = () => {
       navigate("/login");
     }
     axios
-      .get(`${SERVER_URL}/photo`, {
+      .get(`${SERVER_URL}/posts/photo`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
+        console.log(response);
         // console.log(response);
         // const myData = {
         //   studentId: response.data.result.studentId,

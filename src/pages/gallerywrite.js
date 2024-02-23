@@ -66,7 +66,7 @@ const GalleryWrite = () => {
           console.log(response);
           if (response.status === 200) {
             alert("등록되었습니다.");
-            navigate("/notice");
+            navigate("/photo");
           }
         })
         .catch((error) => {
