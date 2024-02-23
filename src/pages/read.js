@@ -20,22 +20,42 @@ const Read = () => {
   const [post, setPost] = useState(null); // 상태 설정
   const [comments, setComments] = useState([]); // 상태 설정
 
+  const designationNotice = () => {
+    //해당 postid의 게시물의 역할을 공지로 변경해야함
+    // 공지는
+  };
+
+  const cancelNotice = () => {
+    //
+  };
+  const handleFileDownload = () => {
+    console.log("success");
+    window.open(`${SERVER_URL}/${post.accessUrl}`);
+  };
   const editNotice = (id) => {
     if (isAdmin !== "true" && id !== id_) {
       alert("본인 또는 관리자만 삭제할 수 있습니다.");
       return; // 함수 실행 중단
     }
     axios
-      .put(`${SERVER_URL}/posts/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      .put(
+        `${SERVER_URL}/posts/${id}`,
+        {
+          params: {
+            postId: id,
+          },
         },
-        params: {
-          postId: id,
-        },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response.title);
+        navigate("/write", {
+          state: { postTitle: post.title, postContent: post.content },
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -204,14 +224,14 @@ const Read = () => {
           수정
         </button>
         {isAdmin ? (
-          <button className="addButton" onClick={() => editNotice(id)}>
+          <button className="addButton" onClick={() => designationNotice(id)}>
             공지 지정
           </button>
         ) : (
           ""
         )}
         {isAdmin ? (
-          <button className="addButton" onClick={() => editNotice(id)}>
+          <button className="addButton" onClick={() => cancelNotice(id)}>
             공지 해제
           </button>
         ) : (
@@ -224,7 +244,10 @@ const Read = () => {
         <div className="line1"></div>
         <div className="readcontent">{post.content}</div>
         <div className="line2"></div>
-        <div className="readfile">{post.dtype}</div>
+        <div className="readfile">
+          첨부파일{" "}
+          <button onClick={() => handleFileDownload()}> 다운로드</button>
+        </div>
         <div className="line3"></div>
       </div>
 

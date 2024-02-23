@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./write.css";
 import plus from "../images/plus.png";
 import axios from "axios";
@@ -11,6 +11,7 @@ import { logOut } from "../redux/actions";
 
 const Write = () => {
   const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const fileInputRef = useRef();
   const titleRef = useRef();
@@ -18,6 +19,9 @@ const Write = () => {
   const [filename, setFilename] = useState();
   const [file, setFile] = useState();
   const accessToken = localStorage.getItem("access_token");
+  const { state } = useLocation();
+  const [title, setTitle] = useState(state ? state.postTitle : "");
+  const [content, setContent] = useState(state ? state.postContent : "");
 
   const handleUploadButtonClick = () => {
     fileInputRef.current.click();
@@ -95,6 +99,13 @@ const Write = () => {
     }
     console.log(titleRef.current.value);
   };
+
+  useEffect(() => {
+    if (state) {
+      titleRef.current.value = state.postTitle;
+      bodyRef.current.value = state.postContent;
+    }
+  }, [state]);
 
   return (
     <div style={{ minHeight: "100vh" }}>
