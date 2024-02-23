@@ -52,6 +52,7 @@ const AddInfo = ({ setModalOpen, nickname, stuId, grade, edit }) => {
           if (location) {
             navigate(location);
             localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제
+            window.location.reload();
           }
         } else {
           alert("에러 발생");
