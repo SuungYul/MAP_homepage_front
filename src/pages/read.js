@@ -73,7 +73,7 @@ const Read = () => {
       return; // 함수 실행 중단
     }
     axios
-      .delete(`${SERVER_URL}/comment/${id}`, {
+      .delete(`${SERVER_URL}/comments/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -84,6 +84,7 @@ const Read = () => {
         } else {
           console.log(response.data.message);
         }
+        fetchComments();
       })
       .catch((error) => {
         console.log(error);
@@ -131,7 +132,7 @@ const Read = () => {
         },
         params: {
           // postId: id,
-          page: "1",
+          page: "0",
         },
       })
       .then((response) => {
@@ -163,7 +164,7 @@ const Read = () => {
       })
       .then((response) => {
         tokenSave(response.headers["access-token"]);
-        // console.log(response); //응답성공 여기서 꺼내쓰기
+        console.log(response); //응답성공 여기서 꺼내쓰기
         // 응답을 상태에 저장하거나 화면에 표시
         setPost(response.data.result); // 응답을 상태에 저장
       })
