@@ -55,7 +55,7 @@ const GalleryWrite = () => {
       }
 
       axios
-        .post(`${SERVER_URL}/posts/withImage`, formData, {
+        .post(`${SERVER_URL}/posts/photo`, formData, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "multipart/form-data",

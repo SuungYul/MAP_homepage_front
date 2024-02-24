@@ -159,7 +159,7 @@ const Read = () => {
     fetchComments();
 
     axios
-      .get(`${SERVER_URL}/posts/${id}`, {
+      .get(`${SERVER_URL}/posts/general/${id}`, {
         //게시글 내용 조회
         // id를 URL에 포함해서 요청
         headers: {

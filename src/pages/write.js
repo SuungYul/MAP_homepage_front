@@ -85,7 +85,7 @@ const Write = () => {
     } else {
       // 새 게시물 작성인 경우
       axios
-        .post(`${SERVER_URL}/posts`, formData, {
+        .post(`${SERVER_URL}/posts/general`, formData, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "multipart/form-data",

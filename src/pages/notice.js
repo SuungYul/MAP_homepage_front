@@ -25,7 +25,7 @@ const Notice = () => {
       navigate("/login");
     }
     Promise.all([
-      axios.get(`${SERVER_URL}/posts/notice`, {
+      axios.get(`${SERVER_URL}/posts/general/notice`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
