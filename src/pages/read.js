@@ -22,7 +22,7 @@ const Read = () => {
 
   const designationNotice = () => {
     //해당 postid의 게시물의 역할을 공지로 변경해야함
-    // 공지는
+    // 공지 변경 후 노티스로 이동
   };
 
   const cancelNotice = () => {
@@ -37,29 +37,13 @@ const Read = () => {
       alert("본인 또는 관리자만 삭제할 수 있습니다.");
       return; // 함수 실행 중단
     }
-    axios
-      .put(
-        `${SERVER_URL}/posts/${id}`,
-        {
-          params: {
-            postId: id,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response.title);
-        navigate("/write", {
-          state: { postTitle: post.title, postContent: post.content },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    navigate("/write", {
+      state: {
+        postTitle: post.title,
+        postContent: post.content,
+        postId: id,
+      },
+    });
   };
 
   const deleteNotice = (id) => {

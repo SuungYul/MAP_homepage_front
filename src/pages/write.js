@@ -22,6 +22,7 @@ const Write = () => {
   const { state } = useLocation();
   const [title, setTitle] = useState(state ? state.postTitle : "");
   const [content, setContent] = useState(state ? state.postContent : "");
+  // const [id, setId] = useState(state ? state.postId : "");
 
   const handleUploadButtonClick = () => {
     fileInputRef.current.click();
@@ -33,50 +34,56 @@ const Write = () => {
     setFilename(event.target.files[0].name);
   };
 
-  useEffect(() => {
-    // axios
-    //   .get(`${SERVER_URL}/write`, {
-    //     headers: {
-    //       Authorization: `Bearer ${accessToken}`,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     // console.log(response);
-    //     // const myData = {
-    //     //   studentId: response.data.result.studentId,
-    //     //   name: response.data.result.name,
-    //     //   nickname: response.data.result.nickname,
-    //     //   grade: response.data.result.grade,
-    //     // };
-    //     // setMyInfo(myData);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-  }, []);
   const FinishForm = () => {
     const accessToken = localStorage.getItem("access_token");
     if (titleRef.current.value === "" || bodyRef.current.value === "") {
       alert("제목 또는 내용을 입력하세요");
-    } else {
-      const formData = new FormData();
+      return;
+    }
 
-      const postRequestDTO = {
-        title: titleRef.current.value,
-        dtype: "general",
-        content: bodyRef.current.value,
-      };
-      console.log("file", file);
-      const blob = new Blob([JSON.stringify(postRequestDTO)], {
-        type: "application/json",
-      });
-      formData.append("postRequestDTO", blob);
-      formData.append("file", file);
-      if (!IsAccessTokenValid()) {
-        localStorage.clear();
-        dispatch(logOut());
-        navigate("/login");
-      }
+    const formData = new FormData();
+
+    const postRequestDTO = {
+      title: titleRef.current.value,
+      dtype: "general",
+      content: bodyRef.current.value,
+    };
+
+    const blob = new Blob([JSON.stringify(postRequestDTO)], {
+      type: "application/json",
+    });
+
+    formData.append("postRequestDTO", blob);
+    formData.append("file", file);
+
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+      return;
+    }
+
+    if (state) {
+      // 수정인 경우
+      axios
+        .put(`${SERVER_URL}/posts/${state.postId}`, formData, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          tokenSave(response.headers["access-token"]);
+          if (response.status === 200) {
+            alert("수정되었습니다.");
+            navigate("/notice");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      // 새 게시물 작성인 경우
       axios
         .post(`${SERVER_URL}/posts`, formData, {
           headers: {
@@ -86,8 +93,6 @@ const Write = () => {
         })
         .then((response) => {
           tokenSave(response.headers["access-token"]);
-
-          console.log(response);
           if (response.status === 200) {
             alert("등록되었습니다.");
             navigate("/notice");
@@ -97,7 +102,6 @@ const Write = () => {
           console.log(error);
         });
     }
-    console.log(titleRef.current.value);
   };
 
   useEffect(() => {
@@ -112,7 +116,7 @@ const Write = () => {
       <div className="Header">
         <div className="pageTitle">N O T I C E</div>
         <button className="addButton" onClick={FinishForm}>
-          등록
+          {state ? "수정" : "등록"}
         </button>
       </div>
 
