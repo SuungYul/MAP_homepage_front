@@ -38,10 +38,11 @@ const Notice = () => {
     ])
       .then(([noticeResponse, generalResponse]) => {
         tokenSave(generalResponse.headers["access-token"]);
-
-        const combinedNotices = noticeResponse.data.result.concat(
-          generalResponse.data.result.postResponseDTOList
-        );
+        console.log(noticeResponse);
+        const combinedNotices =
+          noticeResponse.data.result.postResponseDTOList.concat(
+            generalResponse.data.result.postResponseDTOList
+          );
 
         // createdAt 기준으로 최신 순으로 정렬
         const sortedNotices = combinedNotices.sort((a, b) => {
@@ -72,9 +73,9 @@ const Notice = () => {
               >
                 {element.title}
               </div>
-              <div style={dataStyle1}>{element.views}</div>
+              <div style={dataStyle1}>{element.view}</div>
               <div style={dataStyle2}>{element.accessUrl ? "이미지" : "X"}</div>
-              <div style={dataStyle3}>{element.nickname} </div>
+              <div style={dataStyle3}>{element.writerName} </div>
             </div>
           </div>
         );
