@@ -27,6 +27,31 @@ const GalleryRead = () => {
   const commentRef = useRef(null);
   const [comments, setComments] = useState([]);
 
+  const deleteNotice = (id) => {
+    if (isAdmin !== "true" && id !== id_) {
+      alert("본인 또는 관리자만 삭제할 수 있습니다.");
+      return; // 함수 실행 중단
+    }
+    axios
+      .delete(`${SERVER_URL}/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          console.log(response.data.message);
+          navigate("/gallery");
+          //fetchNotices(); // 게시물이 성공적으로 삭제되면, 게시물 목록을 다시 불러옵니다.
+        } else {
+          console.log(response.data.message);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const commentdelete = (id, memberid) => {
     if (isAdmin !== "true" && memberid !== id_) {
       alert("본인 또는 관리자만 삭제할 수 있습니다.");
@@ -169,6 +194,9 @@ const GalleryRead = () => {
         <div className="pageTitle">P H O T O</div>
         <button className="addButton" onClick={() => navigate("/gallery")}>
           목록으로
+        </button>
+        <button className="addButton" onClick={() => deleteNotice(id)}>
+          삭제
         </button>
       </div>
 
