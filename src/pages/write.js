@@ -74,6 +74,8 @@ const Write = () => {
         })
         .then((response) => {
           tokenSave(response.headers["access-token"]);
+          console.log(response);
+          console.log(formData);
           if (response.status === 200) {
             alert("수정되었습니다.");
             navigate("/notice");
