@@ -20,9 +20,13 @@ const Read = () => {
   const [post, setPost] = useState(null); // 상태 설정
   const [comments, setComments] = useState([]); // 상태 설정
 
-  const designationNotice = () => {
+  const designationNotice = (id) => {
     //해당 postid의 게시물의 역할을 공지로 변경해야함
     // 공지 변경 후 노티스로 이동
+    if (isAdmin !== "true" && id !== id_) {
+      alert("본인 또는 관리자만 삭제할 수 있습니다.");
+      return; // 함수 실행 중단
+    }
   };
 
   const cancelNotice = () => {

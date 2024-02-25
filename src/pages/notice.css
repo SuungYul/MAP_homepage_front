@@ -1,7 +1,7 @@
 .menustyle {
   font-family: Montserrat;
   font-style: normal;
-  font-weight: 400; /* 400px가 아닌 400으로 수정 */
+  font-weight: 400;
   font-size: 25px;
   line-height: 30px;
   margin-left: 5%;
@@ -15,4 +15,5 @@
   margin-top: 6%;
   margin-left: 64%;
   width: 30%;
+  border-bottom: 1px solid #000000; /* 선 추가 */
 }

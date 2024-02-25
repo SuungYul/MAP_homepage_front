@@ -12,7 +12,23 @@ const GalleryRead = () => {
   useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { id } = useParams();
+  const [photos, setPhotos] = useState([]);
   const accessToken = localStorage.getItem("access_token");
+
+  const showPhotos = () => {
+    const result = [];
+    photos.forEach((element, index) => {
+      console.log(element, index);
+
+      result.push(
+        <div key={index} className="photoimages4">
+          <img src={element.imageUrl} alt="image" />
+        </div>
+      );
+    });
+    return result;
+  };
 
   useEffect(() => {
     if (!IsAccessTokenValid()) {
@@ -20,16 +36,22 @@ const GalleryRead = () => {
       navigate("/login");
     }
     axios
-      .get(`${SERVER_URL}/photoread`, {
+      .get(`${SERVER_URL}/posts/photo/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      .then((response) => {})
+      .then((response) => {
+        console.log(response);
+        setPhotos(
+          response.data.result.imageResponseListDTO.imageResponseDTOList
+        );
+      })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
@@ -40,11 +62,7 @@ const GalleryRead = () => {
       <div className="title">제목</div>
 
       <hr class="hr-solid2" />
-      <div className="photocontainer3">
-        <div className="photoimages1"></div>
-        <div className="photoimages2"></div>
-        <div className="photoimages3"></div>
-      </div>
+      <div className="photocontainer3">{showPhotos()}</div>
       <hr class="hr-solid3" />
 
       <div className="title" id="addfile">

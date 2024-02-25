@@ -44,9 +44,9 @@ const Notice = () => {
             generalResponse.data.result.postResponseDTOList
           );
 
-        // createdAt 기준으로 최신 순으로 정렬
+        // uploadedTime 기준으로 최신 순으로 정렬
         const sortedNotices = combinedNotices.sort((a, b) => {
-          return new Date(b.createdAt) - new Date(a.createdAt);
+          return new Date(b.uploadedTime) - new Date(a.uploadedTime);
         });
 
         setNotices(sortedNotices);
@@ -205,6 +205,9 @@ const Notice = () => {
       </div>
 
       <div className="menucontainer">
+        <div className="menustyle">공지등록</div>
+        <div className="menustyle">구분</div>
+        <div className="menustyle">제목</div>
         <div className="menustyle">조회</div>
         <div className="menustyle">첨부파일</div>
         <div className="menustyle">작성자</div>
