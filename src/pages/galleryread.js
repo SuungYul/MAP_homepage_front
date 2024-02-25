@@ -15,7 +15,95 @@ const GalleryRead = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const [photos, setPhotos] = useState([]);
+  const [myImage, setMyImage] = useState(null);
+
+  const [photoRead, setPhotoRead] = useState({
+    title: "",
+    content: "",
+  });
   const accessToken = localStorage.getItem("access_token");
+  const isAdmin = localStorage.getItem("isAdmin");
+  const id_ = localStorage.getItem("id");
+  const commentRef = useRef(null);
+  const [comments, setComments] = useState([]);
+
+  const commentdelete = (id, memberid) => {
+    if (isAdmin !== "true" && memberid !== id_) {
+      alert("본인 또는 관리자만 삭제할 수 있습니다.");
+      return; // 함수 실행 중단
+    }
+    axios
+      .delete(`${SERVER_URL}/comments/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.isSuccess) {
+          console.log(response.data.message);
+        } else {
+          console.log(response.data.message);
+        }
+        fetchComments();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const submitComment = () => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
+    const requestBody = {
+      content: commentRef.current.value,
+    };
+
+    axios
+      .post(`${SERVER_URL}/comments/${id}`, requestBody, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        fetchComments();
+        console.log(response);
+        commentRef.current.value = "";
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const fetchComments = () => {
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
+    console.log(accessToken);
+    axios
+      .get(`${SERVER_URL}/comments/${id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        params: {
+          // postId: id,
+          page: "0",
+        },
+      })
+      .then((response) => {
+        tokenSave(response.headers["access-token"]);
+        console.log(response);
+        setComments(response.data.result.commentDetailDtoList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const showPhotos = () => {
     const result = [];
@@ -36,6 +124,8 @@ const GalleryRead = () => {
       dispatch(logOut());
       navigate("/login");
     }
+    fetchComments();
+
     axios
       .get(`${SERVER_URL}/posts/photo/${id}`, {
         headers: {
@@ -49,6 +139,24 @@ const GalleryRead = () => {
         setPhotos(
           response.data.result.imageResponseListDTO.imageResponseDTOList
         );
+        setPhotoRead({
+          title: response.data.result.title,
+          content: response.data.result.content,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get(`${SERVER_URL}/members/me/preview`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        // console.log(response);
+
+        setMyImage(response.data.result.profileImg); // 수정된 부분);
       })
       .catch((error) => {
         console.log(error);
@@ -59,12 +167,16 @@ const GalleryRead = () => {
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
         <div className="pageTitle">P H O T O</div>
+        <button className="addButton" onClick={() => navigate("/gallery")}>
+          목록으로
+        </button>
       </div>
 
       <hr class="hr-solid" />
-      <div className="title">제목</div>
+      <div className="title">{photoRead.title}</div>
 
       <hr class="hr-solid2" />
+      <div className="photoReadContent">{photoRead.content}</div>
       <div className="photocontainer3">{showPhotos()}</div>
       <hr class="hr-solid3" />
 
@@ -72,19 +184,42 @@ const GalleryRead = () => {
         첨부파일
       </div>
 
-      <div className="commentcontainer">
-        <div className="commentline"></div>
-        <div className="commentname">윤동주 (2024.02.01. 18:01)</div>
-        <div className="commentcontent">dasnlkdnklasdnlkask </div>
-        <div className="commentline2"> </div>
-      </div>
+      {comments &&
+        comments.length > 0 &&
+        comments.map((comment) => (
+          <div className="commentcontainer">
+            <div className="commentline"></div>
+            <div className="commentname">{comment.writer}</div>
+            <div className="aliginBox">
+              <div className="box3">
+                <img className="profile" src={myImage} alt="프로필사진"></img>
+              </div>
+              <div className="commentcontent">{comment.content}</div>
+              <div
+                className="commentDelete"
+                onClick={() =>
+                  commentdelete(comment.commentId, comment.memberId)
+                }
+              >
+                삭제
+              </div>
+            </div>
+            <div className="commentline2"> </div>
+          </div>
+        ))}
+
       <div className="commentwritecontainer">
-        <img className="profilephoto2" alt="프로필사진"></img>
-        <input className="commentInput" type="text"></input>
+        <div className="box2">
+          <img className="profile" src={myImage} alt="프로필사진"></img>
+        </div>
+        <input ref={commentRef} className="commentInput" type="text"></input>
       </div>
       <div className="NameUploadContainer">
         <div className="commentname2">윤동주</div>
-        <button className="commentwritebutton"> 등록 </button>
+        <button className="commentwritebutton" onClick={submitComment}>
+          {" "}
+          등록{" "}
+        </button>
       </div>
     </div>
   );
