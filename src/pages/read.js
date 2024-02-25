@@ -20,14 +20,6 @@ const Read = () => {
   const [post, setPost] = useState(null); // 상태 설정
   const [comments, setComments] = useState([]); // 상태 설정
 
-  const designationNotice = () => {
-    //해당 postid의 게시물의 역할을 공지로 변경해야함
-    // 공지 변경 후 노티스로 이동
-  };
-
-  const cancelNotice = () => {
-    //
-  };
   const handleFileDownload = () => {
     console.log("success");
     window.open(`${SERVER_URL}/${post.accessUrl}`);
@@ -77,7 +69,7 @@ const Read = () => {
       return; // 함수 실행 중단
     }
     axios
-      .delete(`${SERVER_URL}/comment/${id}`, {
+      .delete(`${SERVER_URL}/comments/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -88,6 +80,7 @@ const Read = () => {
         } else {
           console.log(response.data.message);
         }
+        fetchComments();
       })
       .catch((error) => {
         console.log(error);
@@ -135,7 +128,7 @@ const Read = () => {
         },
         params: {
           // postId: id,
-          page: "1",
+          page: "0",
         },
       })
       .then((response) => {
@@ -158,7 +151,7 @@ const Read = () => {
     fetchComments();
 
     axios
-      .get(`${SERVER_URL}/posts/${id}`, {
+      .get(`${SERVER_URL}/posts/general/${id}`, {
         //게시글 내용 조회
         // id를 URL에 포함해서 요청
         headers: {
@@ -167,7 +160,7 @@ const Read = () => {
       })
       .then((response) => {
         tokenSave(response.headers["access-token"]);
-        // console.log(response); //응답성공 여기서 꺼내쓰기
+        console.log(response); //응답성공 여기서 꺼내쓰기
         // 응답을 상태에 저장하거나 화면에 표시
         setPost(response.data.result); // 응답을 상태에 저장
       })
@@ -207,20 +200,6 @@ const Read = () => {
         <button className="addButton" onClick={() => editNotice(id)}>
           수정
         </button>
-        {isAdmin ? (
-          <button className="addButton" onClick={() => designationNotice(id)}>
-            공지 지정
-          </button>
-        ) : (
-          ""
-        )}
-        {isAdmin ? (
-          <button className="addButton" onClick={() => cancelNotice(id)}>
-            공지 해제
-          </button>
-        ) : (
-          ""
-        )}
       </div>
 
       <div className="readcontentcontainer">

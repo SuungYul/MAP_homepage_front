@@ -32,7 +32,7 @@ const Router = () => {
           <Route path="/read/:id" element={<Read />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallerywrite" element={<GalleryWrite />} />
-          <Route path="/galleryread" element={<GalleryRead />} />
+          <Route path="/galleryread/:id" element={<GalleryRead />} />
           <Route path="/oauth2/login/naver" element={<CallbackNaver />} />
           <Route path="/oauth2/login/kakao" element={<CallbackKakao />} />
           <Route path="/mypages" element={<MyPages />} />

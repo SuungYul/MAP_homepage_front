@@ -55,7 +55,7 @@ const GalleryWrite = () => {
       }
 
       axios
-        .post(`${SERVER_URL}/posts/withImage`, formData, {
+        .post(`${SERVER_URL}/posts/photo`, formData, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "multipart/form-data",
@@ -66,7 +66,7 @@ const GalleryWrite = () => {
           console.log(response);
           if (response.status === 200) {
             alert("등록되었습니다.");
-            navigate("/notice");
+            navigate("/photo");
           }
         })
         .catch((error) => {

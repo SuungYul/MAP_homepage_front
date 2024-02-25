@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./gallery.css";
 import { useAuth } from "../token/useAuth";
 import axios from "axios";
@@ -11,33 +11,54 @@ import { logOut } from "../redux/actions";
 const Gallery = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [photos, setPhotos] = useState([]);
   useAuth();
   const accessToken = localStorage.getItem("access_token");
 
-  useEffect(() => {
+  const fetchPhotos = () => {
     if (!IsAccessTokenValid()) {
       dispatch(logOut());
       navigate("/login");
     }
     axios
-      .get(`${SERVER_URL}/photo`, {
+      .get(`${SERVER_URL}/posts/photo`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       })
       .then((response) => {
-        // console.log(response);
-        // const myData = {
-        //   studentId: response.data.result.studentId,
-        //   name: response.data.result.name,
-        //   nickname: response.data.result.nickname,
-        //   grade: response.data.result.grade,
-        // };
-        // setMyInfo(myData);
+        console.log(response);
+        const responsedPhoto = response.data.result.photoPostResponseDTOList;
+        const sortedPhotos = responsedPhoto.sort((a, b) => {
+          return new Date(b.uploadedTime) - new Date(a.uploadedTime);
+        });
+        setPhotos(sortedPhotos);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const showPhotos = () => {
+    const result = [];
+    photos.forEach((element, index) => {
+      console.log(element, index);
+
+      result.push(
+        <div
+          key={index}
+          className="photoimages4"
+          onClick={() => navigate(`/galleryread/${element.postId}`)}
+        >
+          <img src={element.thumbnail} alt="thumbnail" />
+        </div>
+      );
+    });
+    return result;
+  };
+
+  useEffect(() => {
+    fetchPhotos();
   }, []);
   return (
     <div style={{ minHeight: "100vh" }}>
@@ -47,35 +68,7 @@ const Gallery = () => {
           글쓰기
         </button>
       </div>
-      <div className="photocontainer1">
-        <div
-          className="photoimages4"
-          onClick={() => navigate("/galleryread")}
-        ></div>
-        <div
-          className="photoimages5"
-          onClick={() => navigate("/galleryread")}
-        ></div>
-        <div
-          className="photoimages6"
-          onClick={() => navigate("/galleryread")}
-        ></div>
-      </div>
-
-      <div className="photocontainer2">
-        <div
-          className="photoimages4"
-          onClick={() => navigate("/galleryread")}
-        ></div>
-        <div
-          className="photoimages5"
-          onClick={() => navigate("/galleryread")}
-        ></div>
-        <div
-          className="photoimages6"
-          onClick={() => navigate("/galleryread")}
-        ></div>
-      </div>
+      <div className="photocontainer1">{showPhotos()}</div>
     </div>
   );
 };

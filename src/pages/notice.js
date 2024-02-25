@@ -18,14 +18,20 @@ const Notice = () => {
   const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
   const [notices, setNotices] = useState([]);
+  const isAdmin = localStorage.getItem("isAdmin");
 
+  const designationNotice = (id) => {};
+
+  const cancelNotice = (id) => {
+    //
+  };
   const fetchNotices = () => {
     if (!IsAccessTokenValid()) {
       dispatch(logOut());
       navigate("/login");
     }
     Promise.all([
-      axios.get(`${SERVER_URL}/posts/notice`, {
+      axios.get(`${SERVER_URL}/posts/general/notice`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -38,14 +44,15 @@ const Notice = () => {
     ])
       .then(([noticeResponse, generalResponse]) => {
         tokenSave(generalResponse.headers["access-token"]);
+        console.log(noticeResponse);
+        const combinedNotices =
+          noticeResponse.data.result.postResponseDTOList.concat(
+            generalResponse.data.result.postResponseDTOList
+          );
 
-        const combinedNotices = noticeResponse.data.result.concat(
-          generalResponse.data.result.postResponseDTOList
-        );
-
-        // createdAt 기준으로 최신 순으로 정렬
+        // uploadedTime 기준으로 최신 순으로 정렬
         const sortedNotices = combinedNotices.sort((a, b) => {
-          return new Date(b.createdAt) - new Date(a.createdAt);
+          return new Date(b.uploadedTime) - new Date(a.uploadedTime);
         });
 
         setNotices(sortedNotices);
@@ -65,6 +72,26 @@ const Notice = () => {
         result.push(
           <div>
             <div style={noticeContainerStyle}>
+              {element.notice ? (
+                <button
+                  className="designationButton"
+                  onClick={() => designationNotice(element.postId)}
+                >
+                  +
+                </button>
+              ) : (
+                ""
+              )}
+              {element.notice ? (
+                <button
+                  className="cancelButton"
+                  onClick={() => cancelNotice(element.postId)}
+                >
+                  -
+                </button>
+              ) : (
+                ""
+              )}
               <div style={TitleStyle}> {element.notice ? "공지" : "일반"}</div>
               <div
                 style={contentTitleStyle}
@@ -72,9 +99,9 @@ const Notice = () => {
               >
                 {element.title}
               </div>
-              <div style={dataStyle1}>{element.views}</div>
-              <div style={dataStyle2}>{element.accessUrl ? "이미지" : "X"}</div>
-              <div style={dataStyle3}>{element.nickname} </div>
+              <div style={dataStyle1}>{element.view}</div>
+              <div style={dataStyle2}>{element.uploadedTime}</div>
+              <div style={dataStyle3}>{element.writerName} </div>
             </div>
           </div>
         );
@@ -204,9 +231,12 @@ const Notice = () => {
       </div>
 
       <div className="menucontainer">
-        <div className="menustyle">조회</div>
-        <div className="menustyle">첨부파일</div>
-        <div className="menustyle">작성자</div>
+        <div className="menustyle1">공지등록</div>
+        <div className="menustyle2">구분</div>
+        <div className="menustyle3">제목</div>
+        <div className="menustyle4">조회</div>
+        <div className="menustyle5">날짜</div>
+        <div className="menustyle6">작성자</div>
       </div>
 
       {showNotice()}
