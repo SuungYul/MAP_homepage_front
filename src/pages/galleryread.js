@@ -7,6 +7,7 @@ import { SERVER_URL } from "../config";
 import IsAccessTokenValid from "../token/tokenValid";
 import { useDispatch } from "react-redux";
 import { logOut } from "../redux/actions";
+import tokenSave from "../token/tokenSave";
 
 const GalleryRead = () => {
   useAuth();
@@ -42,6 +43,8 @@ const GalleryRead = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
         console.log(response);
         setPhotos(
           response.data.result.imageResponseListDTO.imageResponseDTOList

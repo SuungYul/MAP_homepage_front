@@ -32,6 +32,10 @@ const GalleryWrite = () => {
 
   const FinishForm = () => {
     const accessToken = localStorage.getItem("access_token");
+    if (files.length === 0) {
+      alert("사진을 첨부해주세요!");
+      return;
+    }
     if (titleRef.current.value === "" || bodyRef.current.value === "") {
       alert("제목 또는 내용을 입력하세요");
     } else {
