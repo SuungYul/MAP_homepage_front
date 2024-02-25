@@ -1,32 +1,3 @@
-.photoimages1 {
-  width: 420px;
-  height: 270px;
-  border: 1px solid black;
-  background-image: url("../images/MAP_logo.png");
-  background-size: cover;
-  cursor: pointer;
-}
-
-.photoimages2 {
-  width: 420px;
-  height: 270px;
-  border: 1px solid black;
-  background-image: url("../images/MAP_logo.png");
-  background-size: cover;
-
-  cursor: pointer;
-}
-
-.photoimages3 {
-  width: 420px;
-  height: 270px;
-  border: 1px solid black;
-  background-image: url("../images/MAP_logo.png");
-  background-size: cover;
-
-  cursor: pointer;
-}
-
 .photoimages4 {
   width: 420px;
   height: 270px;
@@ -36,34 +7,10 @@
   cursor: pointer;
 }
 
-.photoimages5 {
-  width: 420px;
-  height: 270px;
-  border: 1px solid black;
-  background-image: url("../images/MAP_logo.png");
-  background-size: cover;
-
-  cursor: pointer;
-}
-
-.photoimages6 {
-  width: 420px;
-  height: 270px;
-  border: 1px solid black;
-  background-image: url("../images/MAP_logo.png");
-  cursor: pointer;
-  background-size: cover;
-}
-
 .photocontainer1 {
   display: flex;
   justify-content: space-evenly;
   margin-top: 5%;
-}
-.photocontainer2 {
-  display: flex;
-  margin-top: 5%;
-  justify-content: space-evenly;
 }
 
 .photoimages4 img {

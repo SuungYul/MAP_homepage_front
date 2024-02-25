@@ -7,6 +7,7 @@ import { SERVER_URL } from "../config";
 import IsAccessTokenValid from "../token/tokenValid";
 import { useDispatch } from "react-redux";
 import { logOut } from "../redux/actions";
+import tokenSave from "../token/tokenSave";
 
 const Gallery = () => {
   const navigate = useNavigate();
@@ -27,6 +28,8 @@ const Gallery = () => {
         },
       })
       .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
         console.log(response);
         const responsedPhoto = response.data.result.photoPostResponseDTOList;
         const sortedPhotos = responsedPhoto.sort((a, b) => {
@@ -41,19 +44,41 @@ const Gallery = () => {
 
   const showPhotos = () => {
     const result = [];
-    photos.forEach((element, index) => {
-      console.log(element, index);
+    let row = [];
 
-      result.push(
-        <div
-          key={index}
-          className="photoimages4"
-          onClick={() => navigate(`/galleryread/${element.postId}`)}
-        >
-          <img src={element.thumbnail} alt="thumbnail" />
+    photos.forEach((element, index) => {
+      const date = new Date(element.uploadedTime);
+
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // 0부터 시작하기 때문에 1을 더해줍니다.
+      const day = date.getDate();
+
+      const formattedDate = `${year}-${month}-${day}`;
+      row.push(
+        <div>
+          <div
+            key={index}
+            className="photoimages4"
+            onClick={() => navigate(`/galleryread/${element.postId}`)}
+          >
+            <img src={element.thumbnail} alt="thumbnail" />
+          </div>
+          <p className="textStyle">{element.title}</p>
+          <p className="textStyle">{formattedDate}</p>
         </div>
       );
+
+      if (row.length === 3) {
+        result.push(<div className="photocontainer1">{row}</div>);
+        row = [];
+      }
+
+      // 마지막 row를 추가
+      if (index === photos.length - 1) {
+        result.push(<div className="photocontainer1">{row}</div>);
+      }
     });
+
     return result;
   };
 
@@ -68,7 +93,7 @@ const Gallery = () => {
           글쓰기
         </button>
       </div>
-      <div className="photocontainer1">{showPhotos()}</div>
+      {showPhotos()}
     </div>
   );
 };
