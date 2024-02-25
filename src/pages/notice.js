@@ -18,9 +18,29 @@ const Notice = () => {
   const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
   const [notices, setNotices] = useState([]);
+  const [generals, setGenerals] = useState([]);
   const isAdmin = localStorage.getItem("isAdmin");
 
-  const designationNotice = (id) => {};
+  const designationNotice = (id) => {
+    if (!IsAccessTokenValid()) {
+      dispatch(logOut());
+      navigate("/login");
+      return;
+    }
+    axios
+      .patch(`${SERVER_URL}/posts/general/${id}/notice`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        tokenSave(response.headers["access-token"]);
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const cancelNotice = (id) => {
     //
@@ -45,17 +65,20 @@ const Notice = () => {
       .then(([noticeResponse, generalResponse]) => {
         tokenSave(generalResponse.headers["access-token"]);
         console.log(noticeResponse);
-        const combinedNotices =
-          noticeResponse.data.result.postResponseDTOList.concat(
-            generalResponse.data.result.postResponseDTOList
-          );
 
         // uploadedTime 기준으로 최신 순으로 정렬
-        const sortedNotices = combinedNotices.sort((a, b) => {
-          return new Date(b.uploadedTime) - new Date(a.uploadedTime);
-        });
+        const sortedNotices =
+          noticeResponse.data.result.postResponseDTOList.sort((a, b) => {
+            return new Date(b.uploadedTime) - new Date(a.uploadedTime);
+          });
+
+        const sortedGenerals =
+          generalResponse.data.result.postResponseDTOList.sort((a, b) => {
+            return new Date(b.uploadedTime) - new Date(a.uploadedTime);
+          });
 
         setNotices(sortedNotices);
+        setGenerals(sortedGenerals);
       })
       .catch((error) => {
         console.log(error);
@@ -68,31 +91,17 @@ const Notice = () => {
     notices.forEach((element, index) => {
       if (element.dtype !== "PHOTO") {
         console.log(element, index);
+        const date = new Date(element.uploadedTime);
 
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // 0부터 시작하기 때문에 1을 더해줍니다.
+        const day = date.getDate();
+
+        const formattedDate = `${year}-${month}-${day}`;
         result.push(
           <div>
             <div style={noticeContainerStyle}>
-              {element.notice ? (
-                <button
-                  className="designationButton"
-                  onClick={() => designationNotice(element.postId)}
-                >
-                  +
-                </button>
-              ) : (
-                ""
-              )}
-              {element.notice ? (
-                <button
-                  className="cancelButton"
-                  onClick={() => cancelNotice(element.postId)}
-                >
-                  -
-                </button>
-              ) : (
-                ""
-              )}
-              <div style={TitleStyle}> {element.notice ? "공지" : "일반"}</div>
+              <div style={TitleStyle}>공지</div>
               <div
                 style={contentTitleStyle}
                 onClick={() => navigate(`/read/${element.postId}`)}
@@ -100,7 +109,7 @@ const Notice = () => {
                 {element.title}
               </div>
               <div style={dataStyle1}>{element.view}</div>
-              <div style={dataStyle2}>{element.uploadedTime}</div>
+              <div style={dataStyle2}>{formattedDate}</div>
               <div style={dataStyle3}>{element.writerName} </div>
             </div>
           </div>
@@ -110,6 +119,57 @@ const Notice = () => {
     return result;
   };
 
+  const showGeneral = () => {
+    const result = [];
+    // console.log(notices);
+    generals.forEach((element, index) => {
+      console.log(element, index);
+      const date = new Date(element.uploadedTime);
+
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // 0부터 시작하기 때문에 1을 더해줍니다.
+      const day = date.getDate();
+
+      const formattedDate = `${year}-${month}-${day}`;
+      result.push(
+        <div>
+          <div style={noticeContainerStyle}>
+            {isAdmin && (
+              <div>
+                {element.notice ? (
+                  <button
+                    className="cancelButton"
+                    onClick={() => designationNotice(element.postId)}
+                  >
+                    -
+                  </button>
+                ) : (
+                  <button
+                    className="designationButton"
+                    onClick={() => designationNotice(element.postId)}
+                  >
+                    +
+                  </button>
+                )}
+              </div>
+            )}
+
+            <div style={TitleStyle}>일반</div>
+            <div
+              style={contentTitleStyle}
+              onClick={() => navigate(`/read/${element.postId}`)}
+            >
+              {element.title}
+            </div>
+            <div style={dataStyle1}>{element.view}</div>
+            <div style={dataStyle2}>{formattedDate}</div>
+            <div style={dataStyle3}>{element.writerName} </div>
+          </div>
+        </div>
+      );
+    });
+    return result;
+  };
   useEffect(() => {
     fetchNotices();
   }, []);
@@ -231,7 +291,7 @@ const Notice = () => {
       </div>
 
       <div className="menucontainer">
-        <div className="menustyle1">공지등록</div>
+        {isAdmin && <div className="menustyle1">공지등록</div>}
         <div className="menustyle2">구분</div>
         <div className="menustyle3">제목</div>
         <div className="menustyle4">조회</div>
@@ -240,6 +300,7 @@ const Notice = () => {
       </div>
 
       {showNotice()}
+      {showGeneral()}
     </div>
   );
 };
