@@ -275,7 +275,12 @@ const Notice = () => {
       </div>
 
       <div className="menucontainer">
-        {isAdmin && <div className="menustyle1">공지등록</div>}
+        <div
+          className="menustyle1"
+          style={{ visibility: isAdmin ? "visible" : "hidden" }}
+        >
+          공지등록
+        </div>
         <div className="menustyle2">구분</div>
         <div className="menustyle3">제목</div>
         <div className="menustyle4">조회</div>
