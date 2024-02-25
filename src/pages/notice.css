@@ -24,7 +24,7 @@
   font-weight: 400;
   font-size: 25px;
   line-height: 30px;
-  margin-left: 10%;
+  margin-left: 16%;
   letter-spacing: -0.015em;
   color: #000000;
 }
@@ -34,7 +34,7 @@
   font-weight: 400;
   font-size: 25px;
   line-height: 30px;
-  margin-left: 45%;
+  margin-left: 39%;
   letter-spacing: -0.015em;
   color: #000000;
 }
@@ -65,8 +65,8 @@
 }
 
 .designationButton {
-  margin-top: 6%;
+  margin-top: 100px;
 }
 .cancelButton {
-  margin-top: 6%;
+  margin-top: 100px;
 }
