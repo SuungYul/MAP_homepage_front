@@ -27,14 +27,20 @@ const Notice = () => {
       navigate("/login");
       return;
     }
+    console.log(accessToken);
     axios
-      .patch(`${SERVER_URL}/posts/general/${id}/notice`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .patch(
+        `${SERVER_URL}/posts/general/${id}/notice`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         tokenSave(response.headers["access-token"]);
+        fetchNotices();
         console.log(response);
       })
       .catch((error) => {
