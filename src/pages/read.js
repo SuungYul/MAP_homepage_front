@@ -19,6 +19,8 @@ const Read = () => {
   const [myImage, setMyImage] = useState(null);
   const [post, setPost] = useState(null); // 상태 설정
   const [comments, setComments] = useState([]); // 상태 설정
+  const [page, setPage] = useState(0);
+  const [lastPage, setLastPage] = useState();
 
   const handleFileDownload = () => {
     //사진이면 그냥 게시판에 띄워버려 아니면 다운로드하도록
@@ -106,6 +108,7 @@ const Read = () => {
         },
       })
       .then((response) => {
+        fetchContent();
         fetchComments();
         console.log(response);
         commentRef.current.value = "";
@@ -116,41 +119,42 @@ const Read = () => {
   };
 
   const fetchComments = () => {
+    //댓글 조회 api
     if (!IsAccessTokenValid()) {
       localStorage.clear();
       dispatch(logOut());
       navigate("/login");
     }
     console.log(accessToken);
-    axios
-      .get(`${SERVER_URL}/comments/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        params: {
-          // postId: id,
-          page: "0",
-        },
-      })
-      .then((response) => {
-        tokenSave(response.headers["access-token"]);
-        console.log(response);
-        setComments(response.data.result.commentDetailDtoList);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    page >= 0 &&
+      axios
+        .get(`${SERVER_URL}/comments/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          params: {
+            // postId: id,
+            page: page,
+          },
+        })
+        .then((response) => {
+          tokenSave(response.headers["access-token"]);
+          console.log("댓글", response);
+          setComments(response.data.result.commentDetailDtoList);
+          setLastPage(response.data.result.totalPage - 1);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
   };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  const fetchContent = () => {
+    //본문 조회 api
     if (!IsAccessTokenValid()) {
       localStorage.clear();
       dispatch(logOut());
       navigate("/login");
     }
-    fetchComments();
-
     axios
       .get(`${SERVER_URL}/posts/general/${id}`, {
         //게시글 내용 조회
@@ -161,13 +165,45 @@ const Read = () => {
       })
       .then((response) => {
         tokenSave(response.headers["access-token"]);
-        console.log(response); //응답성공 여기서 꺼내쓰기
+        console.log("본문", response); //응답성공 여기서 꺼내쓰기
         // 응답을 상태에 저장하거나 화면에 표시
         setPost(response.data.result); // 응답을 상태에 저장
+        setLastPage(response.data.result.totalComment - 1);
+        setPage(response.data.result.totalComment - 1); //댓글 조회는 인덱스 0부터 시작해서 1빼서 가져옴
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const commentPaging = () => {
+    const result = [];
+    for (let i = 0; i <= lastPage; i++) {
+      result.push(
+        <a
+          onClick={() => setPage(i)}
+          style={{
+            fontWeight: i === page ? "bold" : "normal",
+            cursor: "pointer",
+            marginLeft: "20px",
+          }}
+        >
+          {i + 1}
+        </a>
+      );
+    }
+    return result;
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
+    fetchContent();
+    fetchComments();
 
     axios
       .get(`${SERVER_URL}/members/me/preview`, {
@@ -184,6 +220,10 @@ const Read = () => {
         console.log(error);
       });
   }, [id]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [page]);
 
   if (post === null) {
     return <div>Loading...</div>;
@@ -222,8 +262,7 @@ const Read = () => {
         <div className="line3"></div>
       </div>
 
-      {comments &&
-        comments.length > 0 &&
+      {comments && comments.length > 0 ? (
         comments.map((comment) => (
           <div className="commentcontainer">
             <div className="commentline"></div>
@@ -244,8 +283,27 @@ const Read = () => {
             </div>
             <div className="commentline2"> </div>
           </div>
-        ))}
-
+        ))
+      ) : (
+        <div className="commentcontainer">
+          <p className="textStyle">댓글이 없습니다</p>{" "}
+        </div>
+      )}
+      {page >= 0 && (
+        <div className="pageingBox">
+          {page != 0 && (
+            <button className="pageingButton" onClick={() => setPage(page - 1)}>
+              이전
+            </button>
+          )}
+          {commentPaging()}
+          {page != lastPage && (
+            <button className="pageingButton" onClick={() => setPage(page + 1)}>
+              다음
+            </button>
+          )}
+        </div>
+      )}
       <div className="commentwritecontainer">
         <div className="box2">
           <img className="profile" src={myImage} alt="프로필사진"></img>
