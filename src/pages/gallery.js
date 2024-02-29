@@ -13,6 +13,10 @@ const Gallery = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [photos, setPhotos] = useState([]);
+  const [page, setPage] = useState(1); // 페이지 상태를 추적하는 state 변수를 추가합니다.
+  const [totalElements, setTotalElements] = useState(0);
+  const [allPhotos, setAllPhotos] = useState([]);
+
   useAuth();
   const accessToken = localStorage.getItem("access_token");
 
@@ -26,6 +30,9 @@ const Gallery = () => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+        params: {
+          page: page,
+        },
       })
       .then((response) => {
         tokenSave(response.headers["access-token"]);
@@ -36,21 +43,26 @@ const Gallery = () => {
           return new Date(b.uploadedTime) - new Date(a.uploadedTime);
         });
         setPhotos(sortedPhotos);
+        setAllPhotos(responsedPhoto);
+
+        setTotalElements(response.data.result.totalElements); // 전체 사진 수를 상태로 저장합니다.
       })
       .catch((error) => {
         console.log(error);
       });
   };
-
   const showPhotos = () => {
+    const startIndex = (page - 1) * 6;
+    const selectedPhotos = allPhotos.slice(startIndex, startIndex + 6);
+
     const result = [];
     let row = [];
 
-    photos.forEach((element, index) => {
+    selectedPhotos.forEach((element, index) => {
       const date = new Date(element.uploadedTime);
 
       const year = date.getFullYear();
-      const month = date.getMonth() + 1; // 0부터 시작하기 때문에 1을 더해줍니다.
+      const month = date.getMonth() + 1;
       const day = date.getDate();
 
       const formattedDate = `${year}-${month}-${day}`;
@@ -73,8 +85,7 @@ const Gallery = () => {
         row = [];
       }
 
-      // 마지막 row를 추가
-      if (index === photos.length - 1) {
+      if (index === selectedPhotos.length - 1) {
         result.push(<div className="photocontainer1">{row}</div>);
       }
     });
@@ -94,6 +105,21 @@ const Gallery = () => {
         </button>
       </div>
       {showPhotos()}
+      <div className="pageingBox">
+        <button
+          className="pageingButton"
+          onClick={() => setPage((page) => page - 1)}
+        >
+          이전
+        </button>{" "}
+        <a> {page} </a>
+        <button
+          className="pageingButton"
+          onClick={() => setPage((page) => page + 1)}
+        >
+          다음
+        </button>{" "}
+      </div>
     </div>
   );
 };

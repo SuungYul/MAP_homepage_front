@@ -20,7 +20,19 @@ const Notice = () => {
   const [notices, setNotices] = useState([]);
   const [generals, setGenerals] = useState([]);
   const isAdmin = localStorage.getItem("isAdmin");
+  const [page, setPage] = useState(1);
+  const [result, setResult] = useState(null);
+  const [allPost, setAllPost] = useState([]);
+  const [pages, setPages] = useState([]);
 
+  const pasing = () => {
+    const numberOfPages = Math.ceil(allPost / 6);
+    let tempPages = [];
+    for (let i = 1; i <= numberOfPages; i++) {
+      tempPages.push(i);
+    }
+    setPages(tempPages);
+  };
   const designationNotice = (id) => {
     if (!IsAccessTokenValid()) {
       dispatch(logOut());
@@ -55,6 +67,7 @@ const Notice = () => {
     if (!IsAccessTokenValid()) {
       dispatch(logOut());
       navigate("/login");
+      return;
     }
     Promise.all([
       axios.get(`${SERVER_URL}/posts/general/notice`, {
@@ -66,11 +79,16 @@ const Notice = () => {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+        params: {
+          page: page,
+        },
       }),
     ])
       .then(([noticeResponse, generalResponse]) => {
         tokenSave(generalResponse.headers["access-token"]);
+
         console.log(noticeResponse);
+        setResult(generalResponse.data.result);
 
         // uploadedTime 기준으로 최신 순으로 정렬
         const sortedNotices =
@@ -85,6 +103,7 @@ const Notice = () => {
 
         setNotices(sortedNotices);
         setGenerals(sortedGenerals);
+        setAllPost(sortedGenerals);
       })
       .catch((error) => {
         console.log(error);
@@ -93,6 +112,7 @@ const Notice = () => {
 
   const showNotice = () => {
     const result = [];
+
     console.log(notices);
     notices.forEach((element, index) => {
       if (element.dtype !== "PHOTO") {
@@ -136,7 +156,10 @@ const Notice = () => {
   const showGeneral = () => {
     const result = [];
     // console.log(notices);
-    generals.forEach((element, index) => {
+    const startIndex = (page - 1) * 6;
+    const selectedPost = allPost.slice(startIndex, startIndex + 6);
+
+    selectedPost.forEach((element, index) => {
       console.log(element, index);
       const date = new Date(element.uploadedTime);
 
@@ -145,6 +168,7 @@ const Notice = () => {
       const day = date.getDate();
 
       const formattedDate = `${year}-${month}-${day}`;
+
       result.push(
         <div>
           <div style={noticeContainerStyle}>
@@ -185,7 +209,12 @@ const Notice = () => {
     return result;
   };
   useEffect(() => {
-    fetchNotices();
+    const fetchDataAndPaging = async () => {
+      await fetchNotices(); // fetchNotices가 완료될 때까지 기다림
+      pasing(); // 그 후 pasing 실행
+    };
+
+    fetchDataAndPaging();
   }, []);
 
   const noticeContainerStyle = {
@@ -290,6 +319,15 @@ const Notice = () => {
 
       {showNotice()}
       {showGeneral()}
+      <div className="pageingBox">
+        <button className="pageingButton" onClick={() => setPage(page - 1)}>
+          이전
+        </button>
+        <a> {page} </a>
+        <button className="pageingButton" onClick={() => setPage(page + 1)}>
+          다음
+        </button>
+      </div>
     </div>
   );
 };
