@@ -20,33 +20,11 @@ const Read = () => {
   const [post, setPost] = useState(null); // 상태 설정
   const [comments, setComments] = useState([]); // 상태 설정
 
-  const handleFileDownload = async () => {
-    try {
-      const url = post.attachedFileResponseDTO.fileUrl;
-      const result = await axios.get(url, {
-        responseType: "blob", // Blob 형태로 응답을 받습니다.
-      });
-
-      // Blob 객체 생성 후, 다운로드 링크를 생성합니다.
-      const blob = new Blob([result.data], {
-        type: result.headers["content-type"],
-      });
-      const downloadUrl = URL.createObjectURL(blob);
-
-      // 가상의 a 태그를 생성하고 클릭 이벤트를 발생시킵니다.
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.setAttribute("download", "file");
-      document.body.appendChild(link);
-      link.click();
-
-      // 가상의 a 태그를 제거합니다.
-      document.body.removeChild(link);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleFileDownload = () => {
+    //사진이면 그냥 게시판에 띄워버려 아니면 다운로드하도록
+    const url = post.attachedFileResponseDTO.fileUrl;
+    window.open(url, "_blank");
   };
-
   const editNotice = (id) => {
     if (isAdmin !== "true" && id !== id_) {
       alert("본인 또는 관리자만 삭제할 수 있습니다.");
