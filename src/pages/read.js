@@ -297,8 +297,15 @@ const Read = () => {
             </button>
           )}
           {commentPaging()}
-          {page != lastPage && (
-            <button className="pageingButton" onClick={() => setPage(page + 1)}>
+          {(page === 0 || page != lastPage) && (
+            <button
+              className="pageingButton"
+              onClick={() =>
+                page === lastPage
+                  ? alert("마지막 페이지입니다")
+                  : setPage(page + 1)
+              }
+            >
               다음
             </button>
           )}

@@ -60,9 +60,6 @@ const Notice = () => {
       });
   };
 
-  const cancelNotice = (id) => {
-    //
-  };
   const fetchNotices = () => {
     if (!IsAccessTokenValid()) {
       dispatch(logOut());
