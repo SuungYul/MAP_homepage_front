@@ -23,9 +23,12 @@ const Read = () => {
   const [lastPage, setLastPage] = useState();
 
   const handleFileDownload = () => {
-    //사진이면 그냥 게시판에 띄워버려 아니면 다운로드하도록
     const url = post.attachedFileResponseDTO.fileUrl;
-    window.open(url, "_blank");
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = post.attachedFileResponseDTO.originalName; // 파일 이름 지정
+    console.log(`${link + ""}`);
+    link.click();
   };
   const editNotice = (id) => {
     if (isAdmin !== "true" && id !== id_) {
@@ -235,10 +238,18 @@ const Read = () => {
         <button className="addButton" onClick={() => navigate("/notice")}>
           목록으로
         </button>
-        <button className="addButton" onClick={() => deleteNotice(id)}>
+        <button
+          className="addButton"
+          style={{ marginLeft: "10px" }}
+          onClick={() => deleteNotice(id)}
+        >
           삭제
         </button>
-        <button className="addButton" onClick={() => editNotice(id)}>
+        <button
+          className="addButton"
+          style={{ marginLeft: "10px" }}
+          onClick={() => editNotice(id)}
+        >
           수정
         </button>
       </div>
@@ -249,16 +260,19 @@ const Read = () => {
         <div className="readcontent">{post.content}</div>
         <div className="line2"></div>
         <div className="readfile">
-          첨부파일{" "}
           <span>
             {post.attachedFileResponseDTO
               ? post.attachedFileResponseDTO.originalName
-              : "없음"}
+              : "첨부파일 없음"}
           </span>
           {post.attachedFileResponseDTO && (
-            <button onClick={() => handleFileDownload()}> 다운로드</button>
+            // <button onClick={() => handleFileDownload()}> 다운로드</button>
+            <button class="btnDownload" onClick={() => handleFileDownload()}>
+              Download
+            </button>
           )}
         </div>
+
         <div className="line3"></div>
       </div>
 

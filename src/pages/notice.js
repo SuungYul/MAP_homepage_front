@@ -100,6 +100,7 @@ const Notice = () => {
 
         setNotices(sortedNotices);
         setGenerals(sortedGenerals);
+        console.log("general", sortedGenerals);
         setAllPost(sortedGenerals);
       })
       .catch((error) => {
