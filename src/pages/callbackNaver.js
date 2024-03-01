@@ -54,6 +54,8 @@ function CallbackNaver() {
         .catch((error) => {
           // 에러 처리
           console.log(error);
+          alert("에러 발생 관리자에게 문의하세요");
+          navigate("/");
         });
     }
   }, [location]);
