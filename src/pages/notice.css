@@ -63,13 +63,43 @@
   display: flex;
   margin-top: 6%;
 }
+.cancelButton,
+.designationButton {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  font-size: 20px;
+  text-align: center;
+  margin: 0 5px;
+}
+
+.cancelButton {
+  margin-top: 100px;
+  background-color: #fff;
+  color: #000;
+}
 
 .designationButton {
   margin-top: 100px;
+  margin-left: 13%;
+  background-color: #000;
+  color: #fff;
 }
-.cancelButton {
-  margin-top: 100px;
+
+.cancelButton:hover,
+.designationButton:hover {
+  background-color: #ccc;
 }
+
+/* 추가 스타일 */
+
+.cancelButton:active,
+.designationButton:active {
+  background-color: #ddd;
+}
+
 .pageingBox {
   margin-top: 100px;
 }

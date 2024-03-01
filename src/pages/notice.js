@@ -79,7 +79,7 @@ const Notice = () => {
 
         console.log(noticeResponse);
         setResult(generalResponse.data.result);
-        setPages(generalResponse.data.result.totalPage - 1);
+        setPages(generalResponse.data.result.totalPage);
 
         // uploadedTime 기준으로 최신 순으로 정렬
         const sortedNotices =
@@ -140,6 +140,7 @@ const Notice = () => {
             <div style={noticeContainerStyle}>
               {isAdmin && (
                 <button
+                  style={{ marginLeft: "5%" }}
                   className="cancelButton"
                   onClick={() => designationNotice(element.postId)}
                 >
@@ -167,10 +168,7 @@ const Notice = () => {
   const showGeneral = () => {
     const result = [];
     // console.log(notices);
-    const startIndex = (page - 1) * 6;
-    const selectedPost = allPost.slice(startIndex, startIndex + 6);
-
-    selectedPost.forEach((element, index) => {
+    allPost.forEach((element, index) => {
       console.log(element, index);
       const date = new Date(element.uploadedTime);
 
@@ -184,7 +182,7 @@ const Notice = () => {
         <div>
           <div style={noticeContainerStyle}>
             {isAdmin && (
-              <div>
+              <div style={{ marginLeft: "5%" }}>
                 {element.notice ? (
                   <button
                     className="cancelButton"
@@ -227,6 +225,10 @@ const Notice = () => {
     fetchDataAndPaging();
   }, []);
 
+  useEffect(() => {
+    fetchNotices();
+  }, [page]);
+
   const noticeContainerStyle = {
     display: "flex", // 가로 정렬
     alignItems: "center", // 세로 가운데
@@ -234,7 +236,6 @@ const Notice = () => {
     flexShrink: 0, // 공간이 부족하면 줄어들지 않음
     flexBasis: "auto", // 기본 크기 설정
   };
-
   const contentTitleStyle = {
     cursor: "pointer",
     fontFamily: "Montserrat",
@@ -247,7 +248,7 @@ const Notice = () => {
     marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
     overflow: "hidden", // 내용이 너무 길 때 잘림
-    marginLeft: "30%",
+    marginLeft: isAdmin ? "25%" : "30%",
   };
   const TitleStyle = {
     position: "absolute",
@@ -330,9 +331,9 @@ const Notice = () => {
       {showNotice()}
       {showGeneral()}
       <div className="pageingBox">
-        {page >= 0 && (
+        {page >= 1 && (
           <div className="pageingBox">
-            {page != 0 && (
+            {page != 1 && (
               <button
                 className="pageingButton"
                 onClick={() => setPage(page - 1)}
@@ -341,7 +342,7 @@ const Notice = () => {
               </button>
             )}
             {postPaging()}
-            {(page === 0 || page != lastPage) && (
+            {(page === 1 || page != lastPage) && (
               <button
                 className="pageingButton"
                 onClick={() =>

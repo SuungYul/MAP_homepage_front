@@ -61,6 +61,8 @@ const AddInfo = ({ setModalOpen, nickname, stuId, grade, edit }) => {
       })
       .catch((error) => {
         console.log(error);
+        alert("에러 발생 관리자에게 문의하세요");
+        navigate("/");
       });
 
     closeModal();

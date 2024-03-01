@@ -125,9 +125,9 @@ const Gallery = () => {
       </div>
       {showPhotos()}
       <div className="pageingBox">
-        {page >= 0 && (
+        {page >= 1 && (
           <div className="pageingBox">
-            {page != 0 && (
+            {page != 1 && (
               <button
                 className="pageingButton"
                 onClick={() => setPage(page - 1)}
@@ -136,7 +136,7 @@ const Gallery = () => {
               </button>
             )}
             {postPaging()}
-            {(page === 0 || page != lastPage) && (
+            {(page === 1 || page != lastPage) && (
               <button
                 className="pageingButton"
                 onClick={() =>

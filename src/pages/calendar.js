@@ -23,7 +23,9 @@ const Calendar = () => {
     <div className="Calendar">
       <div className="Header">
         <div className="pageTitle">C A L E N D A R</div>
-        <button className="addButton">일정추가</button>
+        <button className="addButton" onClick={() => alert("개발 중 입니다!")}>
+          일정추가
+        </button>
       </div>
       <div>
         <MyCalendar
