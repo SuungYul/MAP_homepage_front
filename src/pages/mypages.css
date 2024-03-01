@@ -172,3 +172,21 @@
   height: 30px;
   object-fit: cover;
 }
+
+.goFeedBack {
+  margin-left: 20px;
+  width: 120px;
+  background-color: transparent;
+  color: #18a0fb;
+  padding: 10px 15px;
+  border: 1px solid #18a0fb;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  letter-spacing: -0.015em;
+}

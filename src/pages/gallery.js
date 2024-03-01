@@ -40,10 +40,8 @@ const Gallery = () => {
 
         console.log(response);
         const responsedPhoto = response.data.result.photoPostResponseDTOList;
-        const sortedPhotos = responsedPhoto.sort((a, b) => {
-          return new Date(b.uploadedTime) - new Date(a.uploadedTime);
-        });
-        setPhotos(sortedPhotos);
+
+        setPhotos(responsedPhoto);
         setAllPhotos(responsedPhoto);
         setLastPage(response.data.result.totalPage);
         setTotalElements(response.data.result.totalElements); // 전체 사진 수를 상태로 저장합니다.
@@ -71,13 +69,10 @@ const Gallery = () => {
     return result;
   };
   const showPhotos = () => {
-    const startIndex = (page - 1) * 6;
-    const selectedPhotos = allPhotos.slice(startIndex, startIndex + 6);
-
     const result = [];
     let row = [];
 
-    selectedPhotos.forEach((element, index) => {
+    allPhotos.forEach((element, index) => {
       const date = new Date(element.uploadedTime);
 
       const year = date.getFullYear();
@@ -104,7 +99,7 @@ const Gallery = () => {
         row = [];
       }
 
-      if (index === selectedPhotos.length - 1) {
+      if (index === allPhotos.length - 1) {
         result.push(<div className="photocontainer1">{row}</div>);
       }
     });
@@ -114,7 +109,7 @@ const Gallery = () => {
 
   useEffect(() => {
     fetchPhotos();
-  }, []);
+  }, [page]);
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">

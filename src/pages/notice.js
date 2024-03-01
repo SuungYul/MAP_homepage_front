@@ -81,21 +81,9 @@ const Notice = () => {
         setResult(generalResponse.data.result);
         setPages(generalResponse.data.result.totalPage);
 
-        // uploadedTime 기준으로 최신 순으로 정렬
-        const sortedNotices =
-          noticeResponse.data.result.postResponseDTOList.sort((a, b) => {
-            return new Date(b.uploadedTime) - new Date(a.uploadedTime);
-          });
-
-        const sortedGenerals =
-          generalResponse.data.result.postResponseDTOList.sort((a, b) => {
-            return new Date(b.uploadedTime) - new Date(a.uploadedTime);
-          });
-
-        setNotices(sortedNotices);
-        setGenerals(sortedGenerals);
-        console.log("general", sortedGenerals);
-        setAllPost(sortedGenerals);
+        setNotices(noticeResponse.data.result.postResponseDTOList);
+        setGenerals(generalResponse.data.result.postResponseDTOList);
+        setAllPost(generalResponse.data.result.postResponseDTOList);
         setLastPage(generalResponse.data.result.totalPage);
       })
       .catch((error) => {

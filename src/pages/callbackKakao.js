@@ -8,7 +8,6 @@ import { SERVER_URL } from "../config";
 import tokenSave from "../token/tokenSave";
 
 function CallbackKakao() {
-  const loc = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -24,14 +23,12 @@ function CallbackKakao() {
       axios
         .get(serverUrl)
         .then((response) => {
-          console.log(response);
           const isAdmin = response.data.result.role === "ADMIN"; //admin으로 바꾸기
           const id_ = response.data.result.id;
           const accessToken = response.headers["access-token"];
           localStorage.setItem("isAdmin", isAdmin);
           localStorage.setItem("access_token", accessToken);
           localStorage.setItem("id_", id_);
-          console.log(localStorage.getItem("access_token"));
           tokenSave(accessToken);
           if (response.data.result.infoSet) {
             //추가 정보를 입력해야하는지 여부
@@ -44,11 +41,6 @@ function CallbackKakao() {
           } else {
             openModal();
           }
-
-          // if (location) {
-          //   navigate(location);
-          //   dispatch(setLocation(null));
-          // }
         })
         .catch((error) => {
           console.log(error);

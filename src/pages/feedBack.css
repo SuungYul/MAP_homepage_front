@@ -1,0 +1,99 @@
+.info {
+  position: fixed;
+}
+
+.info-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-modal-content {
+  position: relative;
+  width: 500px;
+  height: 450px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  align-items: center;
+}
+
+.add-modal-content h1 {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 24px;
+  color: #000000;
+  margin-bottom: 50px;
+  letter-spacing: -0.6px;
+}
+
+.addTextStyle5 {
+  font-family: "Montserrat";
+  text-align: center;
+  font-size: 25px;
+  /* margin-left: 35px; */
+}
+
+.forms {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+}
+.feedback {
+  display: flex; /* flexbox 사용 */
+  align-items: flex-start;
+  text-align: left;
+
+  margin-bottom: 10px;
+}
+
+.feedback span {
+  /* "내용" 글자 스타일 */
+  font-family: "Montserrat";
+
+  /* text-align: center; */
+  font-size: 25px;
+  margin-right: 20px; /* 입력창 오른쪽 여백 설정 */
+}
+
+.inputFeedBack {
+  /* 입력창 스타일 */
+  border: 1px solid #18a0fb;
+  border-radius: 5px;
+  width: 250px;
+  height: 200px;
+  text-align: start;
+  padding: 10px 10px;
+  white-space: pre-wrap;
+  font-family: "Montserrat";
+  font-size: 15px;
+}
+
+.finishBtn {
+  margin-top: 30px;
+  width: 80px;
+  margin-right: -350px;
+  background-color: transparent;
+  color: #18a0fb;
+  padding: 8px 15px;
+  border: 1px solid #18a0fb;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  letter-spacing: -0.015em;
+}

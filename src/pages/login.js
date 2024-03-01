@@ -5,6 +5,8 @@ import kakao from "../images/kakao.png";
 import google from "../images/google.png";
 import naver from "../images/naver.png";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/actions";
 
 function redirectToNaverLogin() {
   const clientId = "vozrxRMxgtKeDqpZvkfO"; // 네이버 개발자 센터에서 받은 클라이언트 ID
@@ -49,9 +51,15 @@ function test() {
 }
 
 const Login = ({ setModalOpen }) => {
+  const dispatch = useDispatch();
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  useEffect(() => {
+    // localStorage.clear();
+    dispatch(logOut());
+  }, []);
 
   return (
     <div className="login">

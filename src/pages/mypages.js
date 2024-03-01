@@ -70,21 +70,10 @@ const MyPages = () => {
 
   const deleteUser = () => {
     //회원탈퇴 처리
-    IsAccessTokenValid();
-    axios
-      .delete(`${SERVER_URL}/members/me`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // 관리자인 경우 회원관리로 이동
-
+    if (!IsAccessTokenValid()) {
+      dispatch(logOut());
+      navigate("/login");
+    }
     if (isAdmin) {
       navigate("../masterpages"); // 회원관리 페이지 경로로 변경해주세요.
     } else {
@@ -103,6 +92,7 @@ const MyPages = () => {
         });
     }
   };
+
   useEffect(() => {
     console.log(isAdmin);
     if (!IsAccessTokenValid()) {
@@ -143,6 +133,17 @@ const MyPages = () => {
           {isAdmin ? "회원관리" : "회원탈퇴"}{" "}
           {/* 버튼 텍스트를 조건에 따라 변경 */}
         </button>
+        {isAdmin && (
+          <button
+            className="goFeedBack"
+            onClick={() => {
+              navigate("/masterpages/feedback");
+            }}
+          >
+            {"피드백조회"}
+          </button>
+        )}
+
         <div class="box4">
           <img
             class="profile"

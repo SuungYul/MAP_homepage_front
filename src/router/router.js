@@ -17,6 +17,7 @@ import Login from "../pages/login";
 import { useState } from "react";
 import { Provider } from "react-redux";
 import store from "../redux/store";
+import GetFeedBack from "../pages/getFeedBack";
 
 const Router = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -37,6 +38,7 @@ const Router = () => {
           <Route path="/oauth2/login/kakao" element={<CallbackKakao />} />
           <Route path="/mypages" element={<MyPages />} />
           <Route path="/masterpages" element={<MasterPages />} />
+          <Route path="/masterpages/feedback" element={<GetFeedBack />} />
           <Route
             path="/login"
             element={<Login setModalOpen={setModalOpen} />}

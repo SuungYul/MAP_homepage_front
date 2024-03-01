@@ -4,14 +4,15 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   margin-top: 200px;
 }
 
 .flexWrapperOne {
-  width: 100%;
+  margin-left: 43%;
+  /* width: 100%; */
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   margin-bottom: 42px;
 }
@@ -20,7 +21,8 @@
 .mapMju {
   display: flex;
   align-items: center;
-  margin-right: 135px;
+  cursor: pointer;
+  /* margin-right: 135px; */
 }
 
 .mapRemovebgPreview2 {
@@ -41,12 +43,13 @@
 }
 
 .links {
+  margin-left: 20%;
   display: flex;
   justify-content: space-between;
-  width: 520px;
+  /* width: 520px; */
 }
 
-.helpDesk,
+.feedBack,
 .community,
 .resources {
   height: 24px;
@@ -58,6 +61,7 @@
   font-weight: bold;
   font-size: 15px;
   line-height: 24px;
+  cursor: pointer;
 }
 
 .rectangle {
