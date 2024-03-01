@@ -95,7 +95,7 @@
   margin-left: 15%;
 }
 .commentname {
-  margin-right: 40%;
+  /* margin-right: 40%; */
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
@@ -105,15 +105,25 @@
 
   color: #000000;
 }
+.aliginBox {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
 .commentcontent {
-  position: absolute;
+  /* flex-grow: 1; */
+  width: 200px;
+  overflow: visible;
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
-  font-size: 10px;
-  line-height: 30px;
+  font-size: 15px;
   letter-spacing: -0.015em;
+  height: auto;
+  min-height: 50px;
+  padding: 0% 13%;
 }
+
 .commentline2 {
   margin-top: 1%;
   width: 70%;
@@ -182,12 +192,10 @@
   height: 50px;
   border-radius: 70%;
   overflow: hidden;
-  margin-right: 38.5%;
+  /* margin-left: 29%; */
+  /* margin-right: 3%; */
 }
-.aliginBox {
-  display: flex;
-  justify-content: center;
-}
+
 .commentDelete {
   margin-top: 35px;
   color: #18a0fb;
@@ -199,4 +207,20 @@
   line-height: 18px;
   text-align: center;
   letter-spacing: -0.015em;
+}
+
+.commenttime {
+  color: gray;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 30px;
+  letter-spacing: -0.015em;
+  margin-left: 10px;
+}
+
+.nameAndTime {
+  display: flex;
+  margin-left: 29%;
 }

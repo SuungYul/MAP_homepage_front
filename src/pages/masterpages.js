@@ -14,6 +14,7 @@ const MasterPages = () => {
   useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const id_ = localStorage.getItem("id_");
   const accessToken = localStorage.getItem("access_token");
   const [members, setMembers] = useState([
     {
@@ -26,18 +27,81 @@ const MasterPages = () => {
   ]);
 
   const handleBan = (userId) => {
-    console.log(`User ${userId} is banned.`);
     // 여기에 유저 추방 로직을 추가해주세요.
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
+    axios
+      .delete(
+        `${SERVER_URL}/admin/members/${userId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        tokenSave(response.headers["access-token"]);
+        alert(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleGrantAdmin = (userId) => {
-    console.log(`Admin rights granted to user ${userId}.`);
     // 여기에 관리자 권한 부여 로직을 추가해주세요.
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
+    axios
+      .patch(
+        `${SERVER_URL}/admin/members/${userId}/role/admin`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        tokenSave(response.headers["access-token"]);
+        alert(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleRevokeAdmin = (userId) => {
-    console.log(`Admin rights revoked from user ${userId}.`);
     // 여기에 관리자 권한 삭제 로직을 추가해주세요.
+    if (!IsAccessTokenValid()) {
+      localStorage.clear();
+      dispatch(logOut());
+      navigate("/login");
+    }
+    axios
+      .patch(
+        `${SERVER_URL}/admin/members/${userId}/role/user`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response) => {
+        tokenSave(response.headers["access-token"]);
+        alert(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   useEffect(() => {
     if (!IsAccessTokenValid()) {
@@ -56,7 +120,6 @@ const MasterPages = () => {
       })
       .then((response) => {
         tokenSave(response.headers["access-token"]);
-        console.log(response);
         setMembers(response.data.result.memberDetailDTOList);
       })
       .catch((error) => {
@@ -69,27 +132,30 @@ const MasterPages = () => {
         <div className="pageTitle">MASTER P A G E</div>
       </div>
       <div className="member-list">
-        {members.map((member, index) => (
-          <div key={index} className="member-item">
-            <p>
-              <strong>이름:</strong> {member.name} |<strong>학년:</strong>{" "}
-              {member.grade} |<strong>학번:</strong> {member.studentId} |
-              <strong>생년월일:</strong> {member.birth} |
-              <strong>이메일:</strong> {member.email}
-            </p>
-            <div className="button-container">
-              <button onClick={() => handleBan(member.studentId)}>
-                유저 추방
-              </button>
-              <button onClick={() => handleGrantAdmin(member.studentId)}>
-                관리자 권한 부여
-              </button>
-              <button onClick={() => handleRevokeAdmin(member.studentId)}>
-                관리자 권한 삭제
-              </button>
-            </div>
-          </div>
-        ))}
+        {members.map(
+          (member, index) =>
+            member.id != id_ && (
+              <div key={index} className="member-item">
+                <p>
+                  <strong>이름:</strong> {member.name} |<strong>학년:</strong>{" "}
+                  {member.grade} |<strong>학번:</strong> {member.studentId} |
+                  <strong>생년월일:</strong> {member.birth} |
+                  <strong>이메일:</strong> {member.email}
+                </p>
+                <div className="button-container">
+                  <button onClick={() => handleBan(member.id)}>
+                    유저 추방
+                  </button>
+                  <button onClick={() => handleGrantAdmin(member.id)}>
+                    관리자 권한 부여
+                  </button>
+                  <button onClick={() => handleRevokeAdmin(member.id)}>
+                    관리자 권한 삭제
+                  </button>
+                </div>
+              </div>
+            )
+        )}
       </div>
     </div>
   );

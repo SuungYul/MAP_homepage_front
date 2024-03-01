@@ -17,7 +17,7 @@ const MyPages = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
-  const isAdmin = localStorage.getItem("isAdmin");
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
 
   const [myInfo, setMyInfo] = useState({
     studentId: 1,
@@ -25,6 +25,13 @@ const MyPages = () => {
     nickname: "엄태성",
     grade: 1,
     profileImg: "images/MAP_logo.png",
+  });
+  const [myDetail, setDetail] = useState({
+    email: "loading",
+    createdAt: "loading",
+    socialType: "loading",
+    birth: "loading",
+    phoneNumber: "loading",
   });
   const fileInputRef = useRef();
   const [selectedFile, setSelectedFile] = useState(null); // 상태 변수와 설정 함수 추가
@@ -78,15 +85,14 @@ const MyPages = () => {
       navigate("../masterpages"); // 회원관리 페이지 경로로 변경해주세요.
     } else {
       // 일반 사용자인 경우 회원탈퇴 처리
+      alert("개발중입니다");
       axios
         .delete(`${SERVER_URL}/members/me`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         })
-        .then((response) => {
-          console.log(response);
-        })
+        .then((response) => {})
         .catch((error) => {
           console.log(error);
         });
@@ -94,10 +100,10 @@ const MyPages = () => {
   };
 
   useEffect(() => {
-    console.log(isAdmin);
     if (!IsAccessTokenValid()) {
       dispatch(logOut());
       navigate("/login");
+      return;
     }
     axios
       .get(`${SERVER_URL}/members/me/preview`, {
@@ -108,8 +114,6 @@ const MyPages = () => {
       .then((response) => {
         tokenSave(response.headers["access-token"]);
 
-        console.log("preview");
-        console.log(response);
         const myData = {
           studentId: response.data.result.studentId,
           name: response.data.result.name,
@@ -122,6 +126,22 @@ const MyPages = () => {
       .catch((error) => {
         console.log(error);
       });
+
+    axios
+      .get(`${SERVER_URL}/members/me/detail`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        tokenSave(response.headers["access-token"]);
+
+        setDetail(response.data.result);
+        // setMyInfo(myData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -130,7 +150,7 @@ const MyPages = () => {
         <div className="pageTitle">M Y P A G E</div>
 
         <button className="addButton" onClick={deleteUser}>
-          {isAdmin ? "회원관리" : "회원탈퇴"}{" "}
+          {isAdmin ? "회원관리" : "회원탈퇴"}
           {/* 버튼 텍스트를 조건에 따라 변경 */}
         </button>
         {isAdmin && (
@@ -149,7 +169,7 @@ const MyPages = () => {
             class="profile"
             src={myInfo.profileImg}
             alt="프로필사진"
-            onClick={openFilePicker}
+            // onClick={openFilePicker}
           ></img>
           <input
             type="file"
@@ -165,7 +185,7 @@ const MyPages = () => {
         <div id="namedata">{myInfo.name}</div>
 
         <div id="phonenumber">전화번호</div>
-        <div id="phonenumberdata">010-6659-2280</div>
+        <div id="phonenumberdata">{myDetail.phoneNumber}</div>
       </div>
       <div>
         <div id="fakename">
@@ -193,15 +213,19 @@ const MyPages = () => {
         </div>
       </div>
       <div>
+        <div id="email">이메일</div>
+        <div id="emaildata">{myDetail.email}</div>
+        <div id="mytitle">가입날짜</div>
+        <div id="mytitledata">
+          {myDetail.createdAt &&
+            new Date(myDetail.createdAt).toLocaleString("ko-KR")}
+        </div>
         <div>
           <div id="birth">생년월일</div>
-          <div id="birthdata">2004.01.28</div>
+          <div id="birthdata">{myDetail.birth}</div>
         </div>
-        <div id="mytitle">내가 쓴 글</div>
-        <div id="mytitledata">1.djlkasdklmasklsadnk</div>
       </div>
-      <div id="email">이메일</div>
-      <div id="emaildata">antdny2280@naver.com</div>
+
       {addInfoOpen && (
         <AddInfo
           setModalOpen={setAddInfoOpen}

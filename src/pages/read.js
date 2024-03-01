@@ -14,8 +14,9 @@ const Read = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const accessToken = localStorage.getItem("access_token");
+  const myName = localStorage.getItem("myName");
   const id_ = localStorage.getItem("id_");
-  const isAdmin = localStorage.getItem("isAdmin");
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
   const [myImage, setMyImage] = useState(null);
   const [post, setPost] = useState(null); // 상태 설정
   const [comments, setComments] = useState([]); // 상태 설정
@@ -27,11 +28,10 @@ const Read = () => {
     const link = document.createElement("a");
     link.href = url;
     link.download = post.attachedFileResponseDTO.originalName; // 파일 이름 지정
-    console.log(`${link + ""}`);
     link.click();
   };
   const editNotice = (id) => {
-    if (isAdmin !== "true" && id !== id_) {
+    if (!isAdmin && id !== id_) {
       alert("본인 또는 관리자만 삭제할 수 있습니다.");
       return; // 함수 실행 중단
     }
@@ -57,11 +57,8 @@ const Read = () => {
       })
       .then((response) => {
         if (response.data.isSuccess) {
-          console.log(response.data.message);
-          navigate("/notice");
+          navigate("/board");
           //fetchNotices(); // 게시물이 성공적으로 삭제되면, 게시물 목록을 다시 불러옵니다.
-        } else {
-          console.log(response.data.message);
         }
       })
       .catch((error) => {
@@ -70,7 +67,7 @@ const Read = () => {
   };
 
   const commentdelete = (id, memberid) => {
-    if (isAdmin !== "true" && memberid !== id_) {
+    if (!isAdmin && memberid !== id_) {
       alert("본인 또는 관리자만 삭제할 수 있습니다.");
       return; // 함수 실행 중단
     }
@@ -82,9 +79,6 @@ const Read = () => {
       })
       .then((response) => {
         if (response.data.isSuccess) {
-          console.log(response.data.message);
-        } else {
-          console.log(response.data.message);
         }
         fetchComments();
       })
@@ -113,7 +107,6 @@ const Read = () => {
       .then((response) => {
         fetchContent();
         fetchComments();
-        console.log(response);
         commentRef.current.value = "";
       })
       .catch((error) => {
@@ -128,7 +121,6 @@ const Read = () => {
       dispatch(logOut());
       navigate("/login");
     }
-    console.log(accessToken);
     page >= 0 &&
       axios
         .get(`${SERVER_URL}/comments/${id}`, {
@@ -142,7 +134,6 @@ const Read = () => {
         })
         .then((response) => {
           tokenSave(response.headers["access-token"]);
-          console.log("댓글", response);
           setComments(response.data.result.commentDetailDtoList);
           setLastPage(response.data.result.totalPage - 1);
         })
@@ -172,7 +163,7 @@ const Read = () => {
         // 응답을 상태에 저장하거나 화면에 표시
         setPost(response.data.result); // 응답을 상태에 저장
         setLastPage(response.data.result.totalComment - 1);
-        setPage(response.data.result.totalComment - 1); //댓글 조회는 인덱스 0부터 시작해서 1빼서 가져옴
+        // setPage(response.data.result.totalComment - 1); //댓글 조회는 인덱스 0부터 시작해서 1빼서 가져옴
       })
       .catch((error) => {
         console.log(error);
@@ -234,24 +225,28 @@ const Read = () => {
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
-        <div className="pageTitle">N O T I C E</div>
-        <button className="addButton" onClick={() => navigate("/notice")}>
+        <div className="pageTitle">B O A R D</div>
+        <button className="addButton" onClick={() => navigate("/board")}>
           목록으로
         </button>
-        <button
-          className="addButton"
-          style={{ marginLeft: "10px" }}
-          onClick={() => deleteNotice(id)}
-        >
-          삭제
-        </button>
-        <button
-          className="addButton"
-          style={{ marginLeft: "10px" }}
-          onClick={() => editNotice(id)}
-        >
-          수정
-        </button>
+        {(isAdmin || id_ === post.writerId) && (
+          <>
+            <button
+              className="addButton"
+              style={{ marginLeft: "10px" }}
+              onClick={() => deleteNotice(id)}
+            >
+              삭제
+            </button>
+            <button
+              className="addButton"
+              style={{ marginLeft: "10px" }}
+              onClick={() => editNotice(id)}
+            >
+              수정
+            </button>
+          </>
+        )}
       </div>
 
       <div className="readcontentcontainer">
@@ -280,20 +275,33 @@ const Read = () => {
         comments.map((comment) => (
           <div className="commentcontainer">
             <div className="commentline"></div>
-            <div className="commentname">{comment.writer}</div>
+            <div className="nameAndTime">
+              <div className="commentname">{comment.writer}</div>
+              <div className="commenttime">
+                {comment.createdAt &&
+                  new Date(comment.createdAt).toLocaleString("ko-KR")}
+              </div>
+            </div>
+
             <div className="aliginBox">
               <div className="box3">
-                <img className="profile" src={myImage} alt="프로필사진"></img>
+                <img
+                  className="profile"
+                  src={comment.writerProfileURI}
+                  alt="프로필사진"
+                ></img>
               </div>
               <div className="commentcontent">{comment.content}</div>
-              <div
-                className="commentDelete"
-                onClick={() =>
-                  commentdelete(comment.commentId, comment.memberId)
-                }
-              >
-                삭제
-              </div>
+              {(isAdmin || id_ === post.writerId) && (
+                <div
+                  className="commentDelete"
+                  onClick={() =>
+                    commentdelete(comment.commentId, comment.memberId)
+                  }
+                >
+                  삭제
+                </div>
+              )}
             </div>
             <div className="commentline2"> </div>
           </div>
@@ -329,10 +337,10 @@ const Read = () => {
         <div className="box2">
           <img className="profile" src={myImage} alt="프로필사진"></img>
         </div>
-        <input ref={commentRef} className="commentInput" type="text"></input>
+        <textarea ref={commentRef} className="commentInput" type="text" />
       </div>
       <div className="NameUploadContainer">
-        <div className="commentname2">윤동주</div>
+        <div className="commentname2">{myName}</div>
         <button className="commentwritebutton" onClick={submitComment}>
           {" "}
           등록{" "}

@@ -42,9 +42,7 @@ function test() {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-    .then((response) => {
-      console.log(response);
-    })
+    .then((response) => {})
     .catch((error) => {
       console.log(error);
     });
@@ -71,15 +69,15 @@ const Login = ({ setModalOpen }) => {
               <img src={kakao} />
               <p className="textStyle">카카오로 시작하기</p>
             </div>
-            <div className="google">
+            {/* <div className="google">
               <img src={google} />
               <p className="textStyle">구글로 시작하기(미구현)</p>
-            </div>
+            </div> */}
             <div className="naver" onClick={redirectToNaverLogin}>
               <img src={naver} />
               <p className="textStyle">네이버로 시작하기</p>
             </div>
-            <button onClick={test}>servertest</button>
+            {/* <button onClick={test}>servertest</button> */}
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ const Footer = () => {
           className="footerLogo"
           onClick={() => {
             localStorage.getItem("access_token")
-              ? navigate("/notice")
+              ? navigate("/board")
               : navigate("/");
           }}
         >
@@ -35,13 +35,20 @@ const Footer = () => {
           >
             Feed Back
           </p>
-          <p className="community">Community</p>
-          <p className="resources">Resources</p>
+          <p className="community" onClick={() => alert("개발중입니다")}>
+            Community
+          </p>
+          <p className="resources" onClick={() => alert("개발중입니다")}>
+            Resources
+          </p>
         </div>
       </div>
       <div className="rectangle" />
       <p className="map2023MjuComputerEnginnering">
         MAP, 2024. MJU computer enginnering
+      </p>
+      <p className="map2023MjuComputerEnginnering">
+        문의 : 회장(010-8932-0490)
       </p>
       {modalOpen && <FeedBack setModalOpen={setModalOpen} />}
     </div>

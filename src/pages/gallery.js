@@ -38,7 +38,6 @@ const Gallery = () => {
       .then((response) => {
         tokenSave(response.headers["access-token"]);
 
-        console.log(response);
         const responsedPhoto = response.data.result.photoPostResponseDTOList;
 
         setPhotos(responsedPhoto);
@@ -85,7 +84,7 @@ const Gallery = () => {
           <div
             key={index}
             className="photoimages4"
-            onClick={() => navigate(`/galleryread/${element.postId}`)}
+            onClick={() => navigate(`/photoread/${element.postId}`)}
           >
             <img src={element.thumbnail} alt="thumbnail" />
           </div>
@@ -114,13 +113,21 @@ const Gallery = () => {
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
         <div className="pageTitle">P H O T O</div>
-        <button className="addButton" onClick={() => navigate("/gallerywrite")}>
+        <button className="addButton" onClick={() => navigate("/photowrite")}>
           글쓰기
         </button>
       </div>
-      {showPhotos()}
+
+      {allPhotos.length !== 0 ? (
+        showPhotos()
+      ) : (
+        <div>
+          <p>게시글이 없습니다</p>
+          <p>글쓰기 버튼을 눌러 게시글을 작성하세요</p>
+        </div>
+      )}
       <div className="pageingBox">
-        {page >= 1 && (
+        {lastPage >= 1 && (
           <div className="pageingBox">
             {page != 1 && (
               <button

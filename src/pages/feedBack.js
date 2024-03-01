@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logIn, logOut } from "../redux/actions";
 import IsAccessTokenValid from "../token/tokenValid";
+import tokenSave from "../token/tokenSave";
 
 const FeedBack = ({ setModalOpen }) => {
   const feedBackRef = useRef(); // 닉네임 입력 필드에 대한 참조 생성
@@ -37,7 +38,7 @@ const FeedBack = ({ setModalOpen }) => {
         }
       )
       .then((response) => {
-        console.log(response);
+        tokenSave(response.headers["access-token"]);
         alert(response.data.result);
       })
       .catch((error) => {
@@ -56,7 +57,10 @@ const FeedBack = ({ setModalOpen }) => {
           setModalOpen(false);
         }}
       >
-        <div className="add-modal-content" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="add-modal-content-feedback"
+          onClick={(e) => e.stopPropagation()}
+        >
           <h1>피드백</h1>
           <form className="forms" onSubmit={FinishForm}>
             <div className="feedback">

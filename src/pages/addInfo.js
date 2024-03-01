@@ -48,7 +48,7 @@ const AddInfo = ({ setModalOpen, nickname, stuId, grade, edit }) => {
         }
         if (response.data.result.infoSet) {
           dispatch(logIn());
-          const location = localStorage.getItem("prevPath") || "/notice"; // 로컬 스토리지에서 location 불러오기
+          const location = localStorage.getItem("prevPath") || "/board"; // 로컬 스토리지에서 location 불러오기
           if (location) {
             navigate(location);
             localStorage.removeItem("location"); // 페이지 이동 후에는 저장된 위치 삭제

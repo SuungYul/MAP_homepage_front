@@ -27,13 +27,13 @@ const Router = () => {
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/notice" element={<Notice />} />
+          <Route path="/board" element={<Notice />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/write" element={<Write />} />
           <Route path="/read/:id" element={<Read />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/gallerywrite" element={<GalleryWrite />} />
-          <Route path="/galleryread/:id" element={<GalleryRead />} />
+          <Route path="/photo" element={<Gallery />} />
+          <Route path="/photowrite" element={<GalleryWrite />} />
+          <Route path="/photoread/:id" element={<GalleryRead />} />
           <Route path="/oauth2/login/naver" element={<CallbackNaver />} />
           <Route path="/oauth2/login/kakao" element={<CallbackKakao />} />
           <Route path="/mypages" element={<MyPages />} />

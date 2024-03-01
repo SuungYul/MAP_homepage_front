@@ -31,7 +31,6 @@ const GetFeedBack = () => {
       })
       .then((response) => {
         tokenSave(response.headers["access-token"]);
-        console.log(response);
         setFeedBacks(response.data.result);
       })
       .catch((error) => {

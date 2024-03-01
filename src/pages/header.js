@@ -19,7 +19,7 @@ const Header = () => {
           className="text"
           onClick={() => {
             localStorage.getItem("access_token")
-              ? navigate("/notice")
+              ? navigate("/board")
               : navigate("/");
           }}
         >
@@ -43,13 +43,13 @@ const Header = () => {
             Login
           </div>
         )}
-        <div className="menu" onClick={() => navigate("/notice")}>
-          Notice
+        <div className="menu" onClick={() => navigate("/board")}>
+          Board
         </div>
         <div className="menu" onClick={() => navigate("/calendar")}>
           Calendar
         </div>
-        <div className="menu" onClick={() => navigate("/gallery")}>
+        <div className="menu" onClick={() => navigate("/photo")}>
           Photo
         </div>
         <div className="menu" onClick={() => navigate("/mypages")}>

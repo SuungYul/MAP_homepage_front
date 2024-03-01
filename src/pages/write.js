@@ -29,7 +29,6 @@ const Write = () => {
   };
 
   const handleFileInputChange = (event) => {
-    console.log(event.target.files);
     setFile(event.target.files[0]);
     setFilename(event.target.files[0].name);
   };
@@ -74,11 +73,9 @@ const Write = () => {
         })
         .then((response) => {
           tokenSave(response.headers["access-token"]);
-          console.log(response);
-          console.log(formData);
           if (response.status === 200) {
             alert("수정되었습니다.");
-            navigate("/notice");
+            navigate("/board");
           }
         })
         .catch((error) => {
@@ -97,7 +94,7 @@ const Write = () => {
           tokenSave(response.headers["access-token"]);
           if (response.status === 200) {
             alert("등록되었습니다.");
-            navigate("/notice");
+            navigate("/board");
           }
         })
         .catch((error) => {
@@ -116,7 +113,7 @@ const Write = () => {
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
-        <div className="pageTitle">N O T I C E</div>
+        <div className="pageTitle">B O A R D</div>
         <button className="addButton" onClick={FinishForm}>
           {state ? "수정" : "등록"}
         </button>

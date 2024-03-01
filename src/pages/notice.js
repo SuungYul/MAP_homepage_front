@@ -19,7 +19,7 @@ const Notice = () => {
   const accessToken = localStorage.getItem("access_token");
   const [notices, setNotices] = useState([]);
   const [generals, setGenerals] = useState([]);
-  const isAdmin = localStorage.getItem("isAdmin");
+  const isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
   const [page, setPage] = useState(1);
   const [result, setResult] = useState(null);
   const [allPost, setAllPost] = useState([]);
@@ -32,7 +32,6 @@ const Notice = () => {
       navigate("/login");
       return;
     }
-    console.log(accessToken);
     axios
       .patch(
         `${SERVER_URL}/posts/general/${id}/notice`,
@@ -46,7 +45,6 @@ const Notice = () => {
       .then((response) => {
         tokenSave(response.headers["access-token"]);
         fetchNotices();
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -77,7 +75,6 @@ const Notice = () => {
       .then(([noticeResponse, generalResponse]) => {
         tokenSave(generalResponse.headers["access-token"]);
 
-        console.log(noticeResponse);
         setResult(generalResponse.data.result);
         setPages(generalResponse.data.result.totalPage);
 
@@ -112,10 +109,8 @@ const Notice = () => {
   const showNotice = () => {
     const result = [];
 
-    console.log(notices);
     notices.forEach((element, index) => {
       if (element.dtype !== "PHOTO") {
-        console.log(element, index);
         const date = new Date(element.uploadedTime);
 
         const year = date.getFullYear();
@@ -156,8 +151,8 @@ const Notice = () => {
   const showGeneral = () => {
     const result = [];
     // console.log(notices);
+
     allPost.forEach((element, index) => {
-      console.log(element, index);
       const date = new Date(element.uploadedTime);
 
       const year = date.getFullYear();
@@ -203,6 +198,7 @@ const Notice = () => {
         </div>
       );
     });
+
     return result;
   };
   useEffect(() => {
@@ -295,56 +291,65 @@ const Notice = () => {
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="Header">
-        <div className="pageTitle">N O T I C E</div>
+        <div className="pageTitle">B O A R D</div>
 
         <button className="addButton" onClick={() => navigate("/write")}>
           글쓰기
         </button>
       </div>
 
-      <div className="menucontainer">
-        <div
-          className="menustyle1"
-          style={{ visibility: isAdmin ? "visible" : "hidden" }}
-        >
-          공지등록
-        </div>
-        <div className="menustyle2">구분</div>
-        <div className="menustyle3">제목</div>
-        <div className="menustyle4">조회</div>
-        <div className="menustyle5">날짜</div>
-        <div className="menustyle6">작성자</div>
-      </div>
+      {allPost.length != 0 ? (
+        <div>
+          <div className="menucontainer">
+            <div
+              className="menustyle1"
+              style={{ visibility: isAdmin ? "visible" : "hidden" }}
+            >
+              공지등록
+            </div>
+            <div className="menustyle2">구분</div>
+            <div className="menustyle3">제목</div>
+            <div className="menustyle4">조회</div>
+            <div className="menustyle5">날짜</div>
+            <div className="menustyle6">작성자</div>
+          </div>
 
-      {showNotice()}
-      {showGeneral()}
-      <div className="pageingBox">
-        {page >= 1 && (
+          {showNotice()}
+          {showGeneral()}
           <div className="pageingBox">
-            {page != 1 && (
-              <button
-                className="pageingButton"
-                onClick={() => setPage(page - 1)}
-              >
-                이전
-              </button>
-            )}
-            {postPaging()}
-            {(page === 1 || page != lastPage) && (
-              <button
-                className="pageingButton"
-                onClick={() =>
-                  page === lastPage
-                    ? alert("마지막 페이지입니다")
-                    : setPage(page + 1)
-                }
-              >
-                다음
-              </button>
+            {lastPage >= 1 && (
+              <div className="pageingBox">
+                {page != 1 && (
+                  <button
+                    className="pageingButton"
+                    onClick={() => setPage(page - 1)}
+                  >
+                    이전
+                  </button>
+                )}
+                {postPaging()}
+                {(page === 1 || page != lastPage) && (
+                  <button
+                    className="pageingButton"
+                    onClick={() =>
+                      page === lastPage
+                        ? alert("마지막 페이지입니다")
+                        : setPage(page + 1)
+                    }
+                  >
+                    다음
+                  </button>
+                )}
+              </div>
             )}
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div>
+          <p>게시글이 없습니다</p>
+          <p>글쓰기 버튼을 눌러 게시글을 작성하세요</p>
+        </div>
+      )}
     </div>
   );
 };

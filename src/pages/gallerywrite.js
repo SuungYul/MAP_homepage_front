@@ -67,17 +67,15 @@ const GalleryWrite = () => {
         })
         .then((response) => {
           tokenSave(response.headers["access-token"]);
-          console.log(response);
           if (response.status === 200) {
             alert("등록되었습니다.");
-            navigate("/gallery");
+            navigate("/photo");
           }
         })
         .catch((error) => {
           console.log(error);
         });
     }
-    console.log(titleRef.current.value);
   };
 
   const handleRemoveFile = (indexToRemove, event) => {

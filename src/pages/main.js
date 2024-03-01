@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import myimage from "../MAP_image.png";
-import altimage1 from "../altimage1.jpg";
-import altimage2 from "../altimage2.jpg";
-import altimage3 from "../altimage3.jpg";
+import altimage1 from "../images/map1.jpg";
+import altimage2 from "../images/map2.png";
+import altimage3 from "../images/map3.jpg";
+import altimage4 from "../images/map4.png";
+import altimage5 from "../images/map5.png";
+import altimage6 from "../images/map6.png";
 import { useDispatch } from "react-redux";
 import { logIn, logOut } from "../redux/actions";
 const Main = () => {
@@ -17,7 +20,7 @@ const Main = () => {
   const [introductionIndex, setIntroductionIndex] = useState(0);
 
   const fullscreensection = {
-    height: "150vh",
+    height: "200vh",
     width: "auto",
     backgroundColor: "#000000",
   };
@@ -60,7 +63,16 @@ const Main = () => {
 
   const imageStyle = {
     position: "absolute",
-    bottom: "-40%",
+    bottom: "-50%",
+    display: "flex",
+    justifyContent: "space-evenly",
+    padding: "0px",
+    width: "100%",
+  };
+
+  const imageStyle2 = {
+    position: "absolute",
+    bottom: "-100%",
     display: "flex",
     justifyContent: "space-evenly",
     padding: "0px",
@@ -69,6 +81,7 @@ const Main = () => {
 
   const altImageStyle = {
     width: "30%", // 조절 가능한 이미지 크기
+    height: "400px",
   };
 
   const signInButtonStyle = {
@@ -126,6 +139,11 @@ const Main = () => {
           <img src={altimage1} alt="맵 사진 1" style={altImageStyle} />
           <img src={altimage2} alt="맵 사진 2" style={altImageStyle} />
           <img src={altimage3} alt="맵 사진 3" style={altImageStyle} />
+        </div>
+        <div style={imageStyle2}>
+          <img src={altimage4} alt="맵 사진 1" style={altImageStyle} />
+          <img src={altimage5} alt="맵 사진 2" style={altImageStyle} />
+          <img src={altimage6} alt="맵 사진 3" style={altImageStyle} />
         </div>
       </div>
     </div>
