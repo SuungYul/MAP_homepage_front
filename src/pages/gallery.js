@@ -16,6 +16,7 @@ const Gallery = () => {
   const [page, setPage] = useState(1); // 페이지 상태를 추적하는 state 변수를 추가합니다.
   const [totalElements, setTotalElements] = useState(0);
   const [allPhotos, setAllPhotos] = useState([]);
+  const [lastPage, setLastPage] = useState();
 
   useAuth();
   const accessToken = localStorage.getItem("access_token");
@@ -44,12 +45,30 @@ const Gallery = () => {
         });
         setPhotos(sortedPhotos);
         setAllPhotos(responsedPhoto);
-
+        setLastPage(response.data.result.totalPage);
         setTotalElements(response.data.result.totalElements); // 전체 사진 수를 상태로 저장합니다.
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+  const postPaging = () => {
+    const result = [];
+    for (let i = 1; i <= lastPage; i++) {
+      result.push(
+        <a
+          onClick={() => setPage(i)}
+          style={{
+            fontWeight: i === page ? "bold" : "normal",
+            cursor: "pointer",
+            marginLeft: "20px",
+          }}
+        >
+          {i}
+        </a>
+      );
+    }
+    return result;
   };
   const showPhotos = () => {
     const startIndex = (page - 1) * 6;
@@ -106,19 +125,31 @@ const Gallery = () => {
       </div>
       {showPhotos()}
       <div className="pageingBox">
-        <button
-          className="pageingButton"
-          onClick={() => setPage((page) => page - 1)}
-        >
-          이전
-        </button>{" "}
-        <a> {page} </a>
-        <button
-          className="pageingButton"
-          onClick={() => setPage((page) => page + 1)}
-        >
-          다음
-        </button>{" "}
+        {page >= 0 && (
+          <div className="pageingBox">
+            {page != 0 && (
+              <button
+                className="pageingButton"
+                onClick={() => setPage(page - 1)}
+              >
+                이전
+              </button>
+            )}
+            {postPaging()}
+            {(page === 0 || page != lastPage) && (
+              <button
+                className="pageingButton"
+                onClick={() =>
+                  page === lastPage
+                    ? alert("마지막 페이지입니다")
+                    : setPage(page + 1)
+                }
+              >
+                다음
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

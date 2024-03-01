@@ -24,15 +24,8 @@ const Notice = () => {
   const [result, setResult] = useState(null);
   const [allPost, setAllPost] = useState([]);
   const [pages, setPages] = useState([]);
+  const [lastPage, setLastPage] = useState();
 
-  const pasing = () => {
-    const numberOfPages = Math.ceil(allPost / 6);
-    let tempPages = [];
-    for (let i = 1; i <= numberOfPages; i++) {
-      tempPages.push(i);
-    }
-    setPages(tempPages);
-  };
   const designationNotice = (id) => {
     if (!IsAccessTokenValid()) {
       dispatch(logOut());
@@ -86,6 +79,7 @@ const Notice = () => {
 
         console.log(noticeResponse);
         setResult(generalResponse.data.result);
+        setPages(generalResponse.data.result.totalPage - 1);
 
         // uploadedTime 기준으로 최신 순으로 정렬
         const sortedNotices =
@@ -102,10 +96,29 @@ const Notice = () => {
         setGenerals(sortedGenerals);
         console.log("general", sortedGenerals);
         setAllPost(sortedGenerals);
+        setLastPage(generalResponse.data.result.totalPage);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+  const postPaging = () => {
+    const result = [];
+    for (let i = 1; i <= lastPage; i++) {
+      result.push(
+        <a
+          onClick={() => setPage(i)}
+          style={{
+            fontWeight: i === page ? "bold" : "normal",
+            cursor: "pointer",
+            marginLeft: "20px",
+          }}
+        >
+          {i}
+        </a>
+      );
+    }
+    return result;
   };
 
   const showNotice = () => {
@@ -208,8 +221,7 @@ const Notice = () => {
   };
   useEffect(() => {
     const fetchDataAndPaging = async () => {
-      await fetchNotices(); // fetchNotices가 완료될 때까지 기다림
-      pasing(); // 그 후 pasing 실행
+      fetchNotices(); // fetchNotices가 완료될 때까지 기다림
     };
 
     fetchDataAndPaging();
@@ -318,13 +330,31 @@ const Notice = () => {
       {showNotice()}
       {showGeneral()}
       <div className="pageingBox">
-        <button className="pageingButton" onClick={() => setPage(page - 1)}>
-          이전
-        </button>
-        <a> {page} </a>
-        <button className="pageingButton" onClick={() => setPage(page + 1)}>
-          다음
-        </button>
+        {page >= 0 && (
+          <div className="pageingBox">
+            {page != 0 && (
+              <button
+                className="pageingButton"
+                onClick={() => setPage(page - 1)}
+              >
+                이전
+              </button>
+            )}
+            {postPaging()}
+            {(page === 0 || page != lastPage) && (
+              <button
+                className="pageingButton"
+                onClick={() =>
+                  page === lastPage
+                    ? alert("마지막 페이지입니다")
+                    : setPage(page + 1)
+                }
+              >
+                다음
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
