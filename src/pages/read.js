@@ -87,8 +87,10 @@ const Read = () => {
       });
   };
 
-  const submitComment = () => {
+  const submitComment = (e) => {
+    e.preventDefault();
     if (!IsAccessTokenValid()) {
+      
       localStorage.clear();
       dispatch(logOut());
       navigate("/login");
@@ -105,7 +107,7 @@ const Read = () => {
         },
       })
       .then((response) => {
-        fetchContent();
+        //fetchContent(); 조회수 때문에 본문은 갱신하지 않는걸로
         fetchComments();
         commentRef.current.value = "";
       })
@@ -251,13 +253,11 @@ const Read = () => {
 
       <div className="readcontentcontainer">
         <div className="readTitle">{post.title}</div>
-        <div className="line1"></div>
         <div className="readcontent">{post.content}</div>
-        <div className="line2"></div>
         <div className="readfile">
           <span>
             {post.attachedFileResponseDTO
-              ? post.attachedFileResponseDTO.originalName
+              ? "📁 " +post.attachedFileResponseDTO.originalName
               : "첨부파일 없음"}
           </span>
           {post.attachedFileResponseDTO && (
@@ -267,29 +267,30 @@ const Read = () => {
             </button>
           )}
         </div>
-
-        <div className="line3"></div>
       </div>
 
       {comments && comments.length > 0 ? (
         comments.map((comment) => (
           <div className="commentcontainer">
-            <div className="commentline"></div>
-            <div className="nameAndTime">
+      
+
+            <div className="aliginBox">
+              <div className="writer-info">
+                <div className="box3">
+                  <img
+                    id = "comment-profile"
+                    className="profile"
+                    src={comment.writerProfileURI}
+                    alt="프로필사진"
+                  ></img>
+                </div>
+                <div className="nameAndTime">
               <div className="commentname">{comment.writer}</div>
               <div className="commenttime">
                 {comment.createdAt &&
                   new Date(comment.createdAt).toLocaleString("ko-KR")}
               </div>
             </div>
-
-            <div className="aliginBox">
-              <div className="box3">
-                <img
-                  className="profile"
-                  src={comment.writerProfileURI}
-                  alt="프로필사진"
-                ></img>
               </div>
               <div className="commentcontent">{comment.content}</div>
               {(isAdmin || id_ === post.writerId) && (
@@ -303,7 +304,6 @@ const Read = () => {
                 </div>
               )}
             </div>
-            <div className="commentline2"> </div>
           </div>
         ))
       ) : (

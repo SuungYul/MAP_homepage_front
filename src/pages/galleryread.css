@@ -1,40 +1,25 @@
-.hr-solid {
-  margin-top: 10%;
-  width: 70%;
-  border: 0px;
-  border-top: 1px solid black;
-}
-.hr-solid2 {
-  width: 70%;
-  border: 0px;
-  border-top: 1px solid black;
-}
 
-.hr-solid3 {
-  margin-top: 5%;
-  width: 70%;
-  border: 0px;
-  border-top: 1px solid black;
-}
 
 .title {
-  margin-right: 30%;
+  padding: 25px 30px;
   font-family: "Montserrat";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   font-size: 25px;
   line-height: 30px;
+  border-top: 2px solid black;
+  border-bottom: 1px solid gray;
   letter-spacing: -0.015em;
 
   color: #000000;
 }
 .photocontainer3 {
-  margin-top: 5%;
   display: flex;
-  border: 1px solid black;
-  justify-content: space-evenly;
-  margin-left: 15%;
-  width: 70%;
+  flex-direction: column;
+  width: auto;
+  overflow: auto;
+  margin-left: 20vh;
+  margin-right: 20vh;
 }
 
 .filename {
@@ -51,12 +36,16 @@
 }
 
 .photoReadContent {
-  margin-top: 5%;
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
-  font-size: 25px;
-  line-height: 30px;
-  letter-spacing: -0.015em;
-  color: #000000;
+  font-size: 16px; /* 텍스트 크기를 적절하게 줄여서 행의 길이를 짧게 함 */
+  line-height: 1.5; /* 행간을 늘려서 텍스트가 밀집되지 않게 함 */
+  letter-spacing: 0.05em; /* 글자 간격을 약간 늘려서 텍스트를 읽기 쉽게 함 */
+  padding: 20px;
+  border-bottom: 1px solid gray;
+  margin-bottom: 20px;
+  color: #333333; /* 텍스트 색상을 약간 연하게 하여 배경과의 대비를 높임 */
+  white-space: pre-wrap;
+  text-align: left;
 }

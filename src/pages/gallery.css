@@ -5,6 +5,7 @@
   /* background-image: url("../images/MAP_logo.png"); */
   background-size: cover;
   cursor: pointer;
+  margin: 10px;
 }
 
 .photocontainer1 {

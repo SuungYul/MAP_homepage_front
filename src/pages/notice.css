@@ -13,16 +13,16 @@
   margin-left: 3%;
 }
 #구분 {
-  margin-left: 4%;
+  margin-left: 3%;
 }
 #제목 {
-  margin-left: 16%;
+  margin-left: 17%;
 }
 #조회 {
-  margin-left: 39%;
+  margin-left: 41%;
 }
 #날짜 {
-  margin-left: 5%;
+  margin-left: 3%;
 }
 #작성자 {
   margin-left: 5%;
@@ -47,13 +47,11 @@
 }
 
 .cancelButton {
-  margin-top: 100px;
   background-color: #fff;
   color: #000;
 }
 
 .designationButton {
-  margin-top: 100px;
   margin-left: 13%;
   background-color: #000;
   color: #fff;

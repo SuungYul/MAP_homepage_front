@@ -246,35 +246,37 @@ const GalleryRead = () => {
         )}
       </div>
 
-      <hr class="hr-solid" />
       <div className="title">{photoRead.title}</div>
 
-      <hr class="hr-solid2" />
-      <div className="photoReadContent">{photoRead.content}</div>
-      <div className="photocontainer3">{showPhotos()}</div>
-      <hr class="hr-solid3" />
-
+      <div className="photocontainer3">
+        {showPhotos()}
+        <div className="photoReadContent">{photoRead.content}</div>
+      </div>
       {comments && comments.length > 0 ? (
         comments.map((comment) => (
           <div className="commentcontainer">
-            <div className="commentline"></div>
-            <div className="nameAndTime">
+            
+
+            <div className="aliginBox">
+              <div className="writer-info">
+                <div className="box3">
+                  <img
+                    id = "comment-profile"
+                    className="profile"
+                    src={comment.writerProfileURI}
+                    alt="프로필사진"
+                  ></img>
+                </div>
+                <div className="nameAndTime">
               <div className="commentname">{comment.writer}</div>
               <div className="commenttime">
                 {comment.createdAt &&
                   new Date(comment.createdAt).toLocaleString("ko-KR")}
               </div>
             </div>
-            <div className="aliginBox">
-              <div className="box3">
-                <img
-                  className="profile"
-                  src={comment.writerProfileURI}
-                  alt="프로필사진"
-                ></img>
               </div>
               <div className="commentcontent">{comment.content}</div>
-              {(isAdmin || id_ === photoRead.writerId) && (
+              {(isAdmin || id_ === comment.writerId) && (
                 <div
                   className="commentDelete"
                   onClick={() =>
@@ -285,7 +287,6 @@ const GalleryRead = () => {
                 </div>
               )}
             </div>
-            <div className="commentline2"> </div>
           </div>
         ))
       ) : (

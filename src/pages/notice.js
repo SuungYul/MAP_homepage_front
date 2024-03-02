@@ -163,7 +163,7 @@ const Notice = () => {
 
       result.push(
         <div>
-          <div style={noticeContainerStyle}>
+          <div style={generalContainerStyle}>
             {isAdmin && (
               <div style={{ marginLeft: "5%" }}>
                 {element.notice ? (
@@ -213,7 +213,7 @@ const Notice = () => {
     fetchNotices();
   }, [page]);
 
-  const noticeContainerStyle = {
+  const generalContainerStyle = {
     // flexGrow: 0, // 공간이 남으면 추가로 차지하지 않음
     // flexShrink: 0, // 공간이 부족하면 줄어들지 않음
     // flexBasis: "auto", // 기본 크기 설정
@@ -223,6 +223,10 @@ const Notice = () => {
     flexBasis: "auto", // 기본 크기 설정
     paddingTop: 20,
     paddingBottom: 20,
+  };
+  const noticeContainerStyle = {
+   ...generalContainerStyle,
+   backgroundColor: '#f0f0f0',
   };
   const contentTitleStyle = {
     cursor: "pointer",
@@ -245,7 +249,7 @@ const Notice = () => {
     fontSize: "25px",
     lineHeight: "30px",
     letterSpacing: "-0.015em",
-    marginLeft: "13%",
+    marginLeft: "10%",
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
   };
   const dataStyle1 = {
@@ -308,8 +312,8 @@ const Notice = () => {
             </div>
             <div id = "구분"className="menustyle">구분</div>
             <div id = "제목"className="menustyle">제목</div>
-            <div id = "조회"className="menustyle">조회</div>
-            <div id = "날짜"className="menustyle">날짜</div>
+            <div id = "조회"className="menustyle">조회수</div>
+            <div id = "날짜"className="menustyle">작성일</div>
             <div id = "작성자"className="menustyle">작성자</div>
           </div>
 
