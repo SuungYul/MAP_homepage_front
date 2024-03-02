@@ -1,67 +1,38 @@
+.menustyle{
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  letter-spacing: -0.015em;
+  color: #000000;
+  white-space: nowrap;
+}
+
 .menustyle1 {
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 30px;
   margin-left: 3%;
-  letter-spacing: -0.015em;
-  color: #000000;
 }
-.menustyle2 {
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 30px;
+#구분 {
   margin-left: 4%;
-  letter-spacing: -0.015em;
-  color: #000000;
 }
-.menustyle3 {
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 30px;
+#제목 {
   margin-left: 16%;
-  letter-spacing: -0.015em;
-  color: #000000;
 }
-.menustyle4 {
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 30px;
+#조회 {
   margin-left: 39%;
-  letter-spacing: -0.015em;
-  color: #000000;
 }
-.menustyle5 {
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 30px;
+#날짜 {
   margin-left: 5%;
-  letter-spacing: -0.015em;
-  color: #000000;
 }
-.menustyle6 {
-  font-family: Montserrat;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 25px;
-  line-height: 30px;
+#작성자 {
   margin-left: 5%;
-  letter-spacing: -0.015em;
-  color: #000000;
 }
 
 .menucontainer {
   display: flex;
   margin-top: 6%;
+  border-bottom: 1px solid black;
+  padding-bottom: 20px;
 }
 .cancelButton,
 .designationButton {

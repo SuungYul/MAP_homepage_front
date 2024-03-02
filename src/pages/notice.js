@@ -214,11 +214,15 @@ const Notice = () => {
   }, [page]);
 
   const noticeContainerStyle = {
-    display: "flex", // 가로 정렬
+    // flexGrow: 0, // 공간이 남으면 추가로 차지하지 않음
+    // flexShrink: 0, // 공간이 부족하면 줄어들지 않음
+    // flexBasis: "auto", // 기본 크기 설정
+    borderBottom: "1px solid black",
+    display: "flex", 
     alignItems: "center", // 세로 가운데
-    flexGrow: 0, // 공간이 남으면 추가로 차지하지 않음
-    flexShrink: 0, // 공간이 부족하면 줄어들지 않음
     flexBasis: "auto", // 기본 크기 설정
+    paddingTop: 20,
+    paddingBottom: 20,
   };
   const contentTitleStyle = {
     cursor: "pointer",
@@ -229,7 +233,6 @@ const Notice = () => {
     lineHeight: "30px",
     letterSpacing: "-0.015em",
     color: "rgba(34, 72, 158, 0.8)",
-    marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
     overflow: "hidden", // 내용이 너무 길 때 잘림
     marginLeft: isAdmin ? "25%" : "30%",
@@ -242,7 +245,6 @@ const Notice = () => {
     fontSize: "25px",
     lineHeight: "30px",
     letterSpacing: "-0.015em",
-    marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     marginLeft: "13%",
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
   };
@@ -254,7 +256,6 @@ const Notice = () => {
     fontSize: "25px",
     lineHeight: "30px",
     letterSpacing: "-0.015em",
-    marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     marginRight: "1px", // 오른쪽 마진 추가
     marginLeft: "74%", // ����� ��진 추가
 
@@ -268,7 +269,6 @@ const Notice = () => {
     fontSize: "25px",
     lineHeight: "30px",
     letterSpacing: "-0.015em",
-    marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.]
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
     marginLeft: "79%", // ����� ��진 추가
 
@@ -282,7 +282,6 @@ const Notice = () => {
     fontSize: "25px",
     lineHeight: "30px",
     letterSpacing: "-0.015em",
-    marginTop: "100px", // 각 요소의 아래쪽 간격을 20px로 설정합니다.
     whiteSpace: "nowrap", // 텍스트가 넘칠 때 줄바꿈 방지
     marginRight: "1px", // �� ��소의 아래��� �Righ: "2%", // �� ��소의 아래��� �
     marginLeft: "90%", // ����� ��진 추가
@@ -307,11 +306,11 @@ const Notice = () => {
             >
               공지등록
             </div>
-            <div className="menustyle2">구분</div>
-            <div className="menustyle3">제목</div>
-            <div className="menustyle4">조회</div>
-            <div className="menustyle5">날짜</div>
-            <div className="menustyle6">작성자</div>
+            <div id = "구분"className="menustyle">구분</div>
+            <div id = "제목"className="menustyle">제목</div>
+            <div id = "조회"className="menustyle">조회</div>
+            <div id = "날짜"className="menustyle">날짜</div>
+            <div id = "작성자"className="menustyle">작성자</div>
           </div>
 
           {showNotice()}
